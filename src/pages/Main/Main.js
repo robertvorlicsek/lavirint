@@ -6,6 +6,7 @@ const Main = () => {
     <div className='main-page'>
       <div className='main-pic-container'>
         <img src={ZKK3} alt='Main Pic' className='main-pic' />
+        <div>test</div>
       </div>
     </div>
   );
