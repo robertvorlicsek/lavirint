@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import { Route, Switch, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+// import Loader from './pages/Loader/Loader';
+import Header from './pages/Header/Header';
+import Main from './pages/Main/Main';
+import Editions from './pages/Editions/Editions';
+import Comics from './pages/Comics/Comics';
+import { ComicsProvider } from './contexts/comicsContext';
 import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ComicsProvider>
+      <div className='app'>
+        {/* <Loader /> */}
+        <Header />
+        <AnimatePresence exitBeforeEnter onExitComplete={() => {}}>
+          <Switch>
+            <Route path='/' exact>
+              <Main />
+            </Route>
+            <Route path='/editions' exact>
+              <Editions />
+            </Route>
+            <Route path='/editions/:id' exact>
+              <Comics />
+            </Route>
+          </Switch>
+        </AnimatePresence>
+      </div>
+    </ComicsProvider>
   );
-}
+};
 
 export default App;
