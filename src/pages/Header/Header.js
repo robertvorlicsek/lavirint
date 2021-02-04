@@ -5,7 +5,7 @@ import './Header.css';
 const Header = () => {
   return (
     <div className='header-main'>
-      <Menu />
+      {/* <Menu /> */}
       <HeaderLogo />
     </div>
   );
