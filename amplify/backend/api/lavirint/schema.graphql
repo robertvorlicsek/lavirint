@@ -1,0 +1,8 @@
+type Comic @model {
+  id: ID!
+  editionId: String!
+  title: String!
+  nr: String!
+  logo: String
+  img: String!
+}
