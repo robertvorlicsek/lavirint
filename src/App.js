@@ -6,6 +6,7 @@ import Main from './pages/Main/Main';
 import Editions from './pages/Editions/Editions';
 import Comics from './pages/Comics/Comics';
 import { ComicsProvider } from './contexts/comicsContext';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import './App.css';
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
       <div className='app'>
         {/* <Loader /> */}
         <Header />
+
         <AnimatePresence exitBeforeEnter onExitComplete={() => {}}>
           <Switch>
             <Route path='/' exact>
@@ -32,4 +34,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withAuthenticator(App);
