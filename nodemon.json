@@ -1,0 +1,7 @@
+{
+    "env": {
+        "DB_USER": "plavi",
+        "DB_PASSWORD": "zeMqKtQNgysQ6RtD",
+        "DB_NAME": "lavirintDB"
+    }
+}
