@@ -3,12 +3,11 @@
   justify-content: center;
   align-content: center;
   align-items: center;
-  height: 94vh;
+  height: 100vh;
 }
 
 .main-pic-container {
   display: grid;
-  height: 100%;
 }
 
 .main-pic {

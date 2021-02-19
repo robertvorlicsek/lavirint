@@ -13,7 +13,7 @@ const comicSchema = new Schema({
     required: true,
   },
   nr: {
-    type: String,
+    type: Number,
     required: true,
   },
   img: {
@@ -21,6 +21,12 @@ const comicSchema = new Schema({
     required: true,
   },
   logo: {
+    type: String,
+  },
+  cloudinaryLogoId: {
+    type: String,
+  },
+  cloudinaryImgId: {
     type: String,
   },
 });

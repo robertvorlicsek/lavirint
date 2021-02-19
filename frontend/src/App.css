@@ -15,8 +15,14 @@ body {
 
 .app {
   font-family: 'Boogaloo', cursive;
-  height: 100vh;
+  line-height: 1.2;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
+}
+
+.main-styles {
   display: flex;
   flex-direction: column;
   background: linear-gradient(

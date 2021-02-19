@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 // import Loader from './pages/Loader/Loader';
-import Header from './pages/Header/Header';
+import NavMenu from './pages/NavMenu/NavMenu';
+import HeaderLogo from './pages/Logo/Logo';
 import Main from './pages/Main/Main';
 import Editions from './pages/Editions/Editions';
 import Comics from './pages/Comics/Comics';
@@ -21,23 +22,31 @@ const App = () => {
   }, [getComics]);
   return (
     <div className='app'>
-      {/* <Loader /> */}
-      <Header />
       <AnimatePresence exitBeforeEnter onExitComplete={() => {}}>
-        <Switch>
-          <Route path='/editions/series/:editionId' exact>
-            <Comics />
-          </Route>
-          <Route path='/editions/newcomic' exact>
-            <NewComic />
-          </Route>
-          <Route path='/editions' exact>
-            <Editions />
-          </Route>
-          <Route path='/' exact>
-            <Main />
-          </Route>
-        </Switch>
+        <div id='outer-container'>
+          {/* <Loader /> */}
+          <NavMenu
+            pageWrapId={'page-wrap'}
+            outerContainerId={'outer-container'}
+          />
+          <main id='page-wrap' className='main-styles'>
+            <HeaderLogo />
+            <Switch>
+              <Route path='/editions/comic/titles' exact>
+                <Comics />
+              </Route>
+              <Route path='/editions/newcomic' exact>
+                <NewComic />
+              </Route>
+              <Route path='/editions' exact>
+                <Editions />
+              </Route>
+              <Route path='/' exact>
+                <Main />
+              </Route>
+            </Switch>
+          </main>
+        </div>
       </AnimatePresence>
     </div>
   );

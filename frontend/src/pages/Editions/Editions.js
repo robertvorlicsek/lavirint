@@ -1,30 +1,53 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useComicsContext } from '../../contexts/comicsContext';
+import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import './Editions.css';
 
 const Editions = () => {
-  const { comicsList, getEditionId } = useComicsContext();
+  const { comicsList, getEditionId, getComics } = useComicsContext();
+  const [uniqueEditions, setUniqueEditions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    getComics();
+  }, [getComics, setIsLoading]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    let timeout = setTimeout(() => setIsLoading(false), 300);
+    const filtered = comicsList.filter(
+      (v, i, a) => a.findIndex(t => t.logo === v.logo) === i
+    );
+
+    setUniqueEditions(filtered);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [comicsList, setIsLoading]);
 
   return (
     <div className='editions-container'>
-      {comicsList.map(
+      {isLoading && <LoadingOverlay />}
+      {uniqueEditions.map(
         (comic, i) =>
           comic.logo && (
             <Link
               key={comic.id}
               className='edition-link'
-              to={`/editions/series/${comic.editionId}`}
+              to={`/editions/comic/titles`}
               onClick={() => getEditionId(comic.editionId)}
             >
               <div className='edition-container' key={i}>
-                <div className='edition-image-container'>
+                <div className='edition-logo-container'>
                   <img
                     src={comic.logo}
                     alt={comic.title}
-                    className='edition-image'
+                    className='edition-logo'
                   />
                 </div>
-                <div className='edition-image-description'>{comic.title}</div>
+                <div className='edition-logo-description'>{comic.title}</div>
               </div>
             </Link>
           )
