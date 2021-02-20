@@ -11,9 +11,12 @@ const NewComic = () => {
     handleSubmit,
     formState,
     // watch, errors
-  } = useForm();
+  } = useForm({
+    mode: 'onChange',
+  });
   const { comicsList, addComic } = useComicsContext();
   const [label, setLabel] = useState(undefined);
+  const [nr, setNr] = useState(undefined);
   const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
   const [radioInput, setRadioInput] = useState(false);
   const [picture, setPicture] = useState([]);
@@ -43,9 +46,10 @@ const NewComic = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log('touched', formState.touched);
-  // }, [formState]);
+  useEffect(() => {
+    console.log('touched', formState.touched);
+    console.log('pic', picture);
+  }, [formState, picture]);
 
   useEffect(() => {
     const filtered = comicsList.filter(
@@ -122,6 +126,7 @@ const NewComic = () => {
             <input
               type='number'
               name='nr'
+              onChange={e => setNr(e.target.value)}
               className='new-comic-input comic-form-hover'
               ref={register({
                 required: true,
@@ -139,7 +144,13 @@ const NewComic = () => {
             />
           </label>
           <button
-            disabled={!formState.isDirty || !formState.isValid}
+            // disabled={!formState.isDirty || !formState.isValid}
+            disabled={
+              formState.isSubmitting ||
+              (radioInput && logo.length === 0) ||
+              picture.length === 0 ||
+              !nr
+            }
             type='submit'
             value='Submit'
             className='new-comic-submit'

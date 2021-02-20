@@ -5,7 +5,7 @@ import './ImageUploader.css';
 const ImageUploader = ({ setPicture, setLogo, register, name, radioInput }) => {
   const [image, setImage] = useState([]);
   const maxNumber = 1;
-  const onImageChange = (imageList, addUpdateIndex) => {
+  const onChange = (imageList, addUpdateIndex) => {
     setImage(imageList);
   };
 
@@ -22,7 +22,7 @@ const ImageUploader = ({ setPicture, setLogo, register, name, radioInput }) => {
       <ImageUploading
         multiple
         value={image}
-        onChange={onImageChange}
+        onChange={onChange}
         maxNumber={maxNumber}
         dataURLKey='data_url'
       >
@@ -54,7 +54,6 @@ const ImageUploader = ({ setPicture, setLogo, register, name, radioInput }) => {
                       ? register({ required: true })
                       : register
                   }
-                  // onSubmit={e => e.preventDefault()}
                   name={name}
                   style={
                     isDragging
