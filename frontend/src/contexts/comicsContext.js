@@ -136,13 +136,13 @@ export const ComicsProvider = ({ children }) => {
           }
         );
         await response.json();
+        history.push(`/editions`);
       } catch (err) {
         console.log(err);
       }
     };
     deleteComic();
     dispatch({ type: 'REMOVE', payload: id });
-    history.push(`/editions`);
   };
 
   return (

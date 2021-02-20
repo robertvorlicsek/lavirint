@@ -54,7 +54,7 @@ const ImageUploader = ({ setPicture, setLogo, register, name, radioInput }) => {
                       ? register({ required: true })
                       : register
                   }
-                  onSubmit={e => e.preventDefault()}
+                  // onSubmit={e => e.preventDefault()}
                   name={name}
                   style={
                     isDragging

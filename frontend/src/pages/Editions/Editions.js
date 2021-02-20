@@ -34,12 +34,12 @@ const Editions = () => {
         (comic, i) =>
           comic.logo && (
             <Link
-              key={comic.id}
+              key={i}
               className='edition-link'
               to={`/editions/comic/titles`}
               onClick={() => getEditionId(comic.editionId)}
             >
-              <div className='edition-container' key={i}>
+              <div className='edition-container'>
                 <div className='edition-logo-container'>
                   <img
                     src={comic.logo}
