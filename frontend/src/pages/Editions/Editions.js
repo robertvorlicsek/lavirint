@@ -5,27 +5,37 @@ import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import './Editions.css';
 
 const Editions = () => {
-  const { comicsList, getEditionId, getComics } = useComicsContext();
+  const {
+    comicsList,
+    getEditionId,
+    getComics,
+    message,
+    emptyMessage,
+  } = useComicsContext();
   const [uniqueEditions, setUniqueEditions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
+    // !message && setIsLoading(true);
     getComics();
-  }, [getComics, setIsLoading]);
+  }, [getComics, setIsLoading, message]);
 
   useEffect(() => {
+    let time;
+    message ? (time = 3000) : (time = 300);
     setIsLoading(true);
-    let timeout = setTimeout(() => setIsLoading(false), 300);
+    let timeout = setTimeout(() => {
+      emptyMessage();
+      setIsLoading(false);
+    }, time);
     const filtered = comicsList.filter(
       (v, i, a) => a.findIndex(t => t.logo === v.logo) === i
     );
-
     setUniqueEditions(filtered);
     return () => {
       clearTimeout(timeout);
     };
-  }, [comicsList, setIsLoading]);
+  }, [comicsList, setIsLoading, message, emptyMessage]);
 
   return (
     <div className='editions-container'>

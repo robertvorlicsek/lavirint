@@ -34,3 +34,9 @@
     backdrop-filter: blur(0px);
   }
 }
+
+.message-text {
+  font-family: sans-serif;
+  font-size: 2rem;
+  color: #fff;
+}

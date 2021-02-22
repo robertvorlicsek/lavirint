@@ -14,7 +14,7 @@ const NewComic = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const { comicsList, addComic } = useComicsContext();
+  const { comicsList, addComic, emptyMessage } = useComicsContext();
   const [label, setLabel] = useState(undefined);
   const [nr, setNr] = useState(undefined);
   const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
@@ -28,6 +28,7 @@ const NewComic = () => {
   };
 
   const onSubmit = data => {
+    emptyMessage();
     setIsLoading(true);
     if (logo.length === 0 && data.editionId && picture.length === 1) {
       const existingTitle = comicsList.filter(
@@ -60,7 +61,7 @@ const NewComic = () => {
 
   return (
     <Fragment>
-      {isLoading && <LoadingOverlay />}
+      {isLoading && <LoadingOverlay mess />}
       <div className='new-comic-form-container'>
         <h1 className='new-comic-form-title'>Upload novog stripa</h1>
         <form className='new-comic-form' onSubmit={handleSubmit(onSubmit)}>

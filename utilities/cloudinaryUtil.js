@@ -10,7 +10,10 @@ cloudinary.config({
 const cloudinaryUpload = path => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(path, (err, image) => {
-      if (err) return reject(err);
+      if (err) {
+        fs.unlinkSync(path);
+        return reject(err);
+      }
       console.log('file uploaded to Cloudinary');
       // remove file from server
       fs.unlinkSync(path);

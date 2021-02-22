@@ -1,9 +1,21 @@
-import { createContext, useContext, useReducer, useCallback } from 'react';
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useCallback,
+  useRef,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 const ComicsContext = createContext();
 export const useComicsContext = () => useContext(ComicsContext);
 
-const initalState = { comicsList: [], editionId: '', editionList: [] };
+const initalState = {
+  comicsList: [],
+  editionId: '',
+  editionList: [],
+  errorMessage: '',
+  message: '',
+};
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -35,6 +47,21 @@ const reducer = (state, { type, payload }) => {
         ...state,
         comicsList: newComic,
       };
+    case 'MESSAGE':
+      return {
+        ...state,
+        message: payload,
+      };
+    case 'EMPTY_MESSAGE':
+      return {
+        ...state,
+        message: '',
+      };
+    case 'ERROR_MESSAGE':
+      return {
+        ...state,
+        error: payload,
+      };
     case 'EMPTY':
       return { comicsList: [] };
     default:
@@ -44,35 +71,42 @@ const reducer = (state, { type, payload }) => {
 
 // Cart context for the provider
 export const ComicsProvider = ({ children }) => {
+  const activeHttpRequests = useRef([]);
   const [state, dispatch] = useReducer(reducer, initalState);
   const history = useHistory();
 
-  const getComics = useCallback(() => {
-    const fetchComics = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/editions');
-        const data = await response.json();
-        dispatch({ type: 'GET', payload: data });
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchComics();
+  const getComics = useCallback(async () => {
+    const httpAbortCtrl = new AbortController();
+    activeHttpRequests.current.push(httpAbortCtrl);
+    try {
+      const response = await fetch('http://localhost:5000/api/editions');
+      const data = await response.json();
+      activeHttpRequests.current = activeHttpRequests.current.filter(
+        reqCtrl => reqCtrl !== httpAbortCtrl
+      );
+      dispatch({ type: 'GET', payload: data });
+    } catch (err) {
+      console.log(err.message);
+      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+    }
   }, []);
 
-  const getComicsByEditionId = useCallback(() => {
-    const fetchEdition = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/editions/comic/${state.editionId}`
-        );
-        const data = await response.json();
-        dispatch({ type: 'GET_COMICS_BY_EDITION_ID', payload: data });
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchEdition();
+  const getComicsByEditionId = useCallback(async () => {
+    const httpAbortCtrl = new AbortController();
+    activeHttpRequests.current.push(httpAbortCtrl);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/editions/comic/${state.editionId}`
+      );
+      const data = await response.json();
+      activeHttpRequests.current = activeHttpRequests.current.filter(
+        reqCtrl => reqCtrl !== httpAbortCtrl
+      );
+      dispatch({ type: 'GET_COMICS_BY_EDITION_ID', payload: data });
+    } catch (err) {
+      console.log(err.message);
+      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+    }
   }, [state.editionId]);
 
   const getEditionId = editionId =>
@@ -97,8 +131,10 @@ export const ComicsProvider = ({ children }) => {
       }
       const image = formData.get('img');
       console.log(image);
+
       const sendComic = async () => {
         const httpAbortCtrl = new AbortController();
+        activeHttpRequests.current.push(httpAbortCtrl);
         try {
           const response = await fetch(
             `http://localhost:5000/api/editions/newcomic`,
@@ -108,24 +144,37 @@ export const ComicsProvider = ({ children }) => {
               signal: httpAbortCtrl.signal,
             }
           );
-          await response.json();
+          const responseData = await response.json();
+
+          activeHttpRequests.current = activeHttpRequests.current.filter(
+            reqCtrl => reqCtrl !== httpAbortCtrl
+          );
+
+          if (!response.ok) {
+            throw new Error(responseData.message);
+          }
 
           console.log(`successfully uploaded the comic`);
+          dispatch({
+            type: 'MESSAGE',
+            payload: responseData.message,
+          });
           dispatch({ type: 'ADD', payload: newEntry });
+
           history.push(`/editions`);
         } catch (err) {
+          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
           console.log(err);
         }
       };
+      console.log(state.error);
       sendComic();
     }
   };
 
   const removeComic = id => {
-    console.log(
-      '🚀 ~ file: comicsContext.js ~ line 95 ~ ComicsProvider ~ id',
-      id
-    );
+    const httpAbortCtrl = new AbortController();
+    activeHttpRequests.current.push(httpAbortCtrl);
     const deleteComic = async () => {
       try {
         const response = await fetch(
@@ -133,17 +182,29 @@ export const ComicsProvider = ({ children }) => {
           {
             method: 'DELETE',
             body: null,
+            signal: httpAbortCtrl.signal,
           }
         );
-        await response.json();
+        const resMessage = await response.json();
+
+        activeHttpRequests.current = activeHttpRequests.current.filter(
+          reqCtrl => reqCtrl !== httpAbortCtrl
+        );
+        dispatch({ type: 'MESSAGE', payload: resMessage.message });
         history.push(`/editions`);
       } catch (err) {
         console.log(err);
+        dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
       }
     };
     deleteComic();
     dispatch({ type: 'REMOVE', payload: id });
   };
+
+  const emptyMessage = useCallback(
+    () => dispatch({ type: 'EMPTY_MESSAGE' }),
+    []
+  );
 
   return (
     <ComicsContext.Provider
@@ -156,6 +217,9 @@ export const ComicsProvider = ({ children }) => {
         comicsList: state.comicsList,
         editionId: state.editionId,
         editionList: state.editionList,
+        errorMessage: state.errorMessage,
+        message: state.message,
+        emptyMessage,
       }}
     >
       {children}

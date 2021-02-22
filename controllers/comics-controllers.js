@@ -59,11 +59,16 @@ const createComic = async (req, res, next) => {
 
   const newEditionId = uuid();
 
-  // console.log(editionId, title, nr, img, logo);
-
-  const newImg = await cloudinaryUtil.cloudinaryUpload(
-    req.files['img'][0].path
-  );
+  let newImg;
+  try {
+    newImg = await cloudinaryUtil.cloudinaryUpload(req.files['img'][0].path);
+  } catch (err) {
+    const error = new HttpError(
+      'Could not upload image, please try again',
+      500
+    );
+    return next(error);
+  }
 
   const newComic = new Comic({
     editionId: editionId || newEditionId,
@@ -77,9 +82,19 @@ const createComic = async (req, res, next) => {
     newComic.logo = req.body.logo;
     newComic.cloudinaryLogoId = req.body.cloudinaryLogoId;
   } else if (req.files['logo']) {
-    const newLogo = await cloudinaryUtil.cloudinaryUpload(
-      req.files['logo'][0].path
-    );
+    let newLogo;
+    try {
+      newLogo = await cloudinaryUtil.cloudinaryUpload(
+        req.files['logo'][0].path
+      );
+    } catch (err) {
+      const error = new HttpError(
+        'Could not upload image, please try again',
+        500
+      );
+      return next(error);
+    }
+
     newComic.logo = await newLogo.url;
     newComic.cloudinaryLogoId = await newLogo.public_id;
   }
@@ -96,7 +111,7 @@ const createComic = async (req, res, next) => {
       return next(error);
     }
 
-    res.status(201).json({ comic: newComic });
+    res.status(201).json({ message: 'Strip je postavljen!' });
   }
 };
 
@@ -124,13 +139,6 @@ const deleteComic = async (req, res, next) => {
     return next(error);
   }
 
-  if (logoDelete.length === 1) {
-    await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
-    await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryLogoId);
-  } else {
-    await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
-  }
-
   try {
     await Comic.findByIdAndDelete(id);
   } catch (err) {
@@ -141,7 +149,30 @@ const deleteComic = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(200).json({ message: 'Comic is deleted' });
+  if (logoDelete.length === 1) {
+    try {
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryLogoId);
+    } catch (err) {
+      const error = new HttpError(
+        'Could not delete image or logo, please try again',
+        500
+      );
+      return next(error);
+    }
+  } else {
+    try {
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
+    } catch (err) {
+      const error = new HttpError(
+        'Could not felete image, please try again',
+        500
+      );
+      return next(error);
+    }
+  }
+
+  res.status(200).json({ message: 'Strip je obrisan!' });
 };
 
 exports.getAllEditions = getAllEditions;
