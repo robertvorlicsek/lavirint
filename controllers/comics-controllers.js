@@ -11,14 +11,14 @@ const getAllEditions = async (req, res, next) => {
     edition = await Comic.find().sort('nr');
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not find any editions',
+      'nešto je zapelo, nijedan strip nije pronađen!',
       500
     );
     return next(error);
   }
 
   if (!edition || edition.length === 0) {
-    const error = new HttpError('Could not find any comics!', 404);
+    const error = new HttpError('Nijedan strip nije pronađen!', 404);
     return next(error);
   }
 
@@ -33,21 +33,14 @@ const getComicsByEditionId = async (req, res, next) => {
   try {
     edition = await Comic.find({ editionId }).sort('nr');
   } catch (err) {
-    const error = new HttpError(
-      'Something went wrong, could not find any editions',
-      500
-    );
+    const error = new HttpError('Nijedna edicija nije pronađena!', 500);
     return next(error);
   }
 
   if (!edition || edition.length === 0) {
-    const error = new HttpError('Could not find any comics!', 404);
+    const error = new HttpError('Nijedan strip nije pronađen!', 404);
     return next(error);
   }
-  console.log(
-    '🚀 ~ file: comics-controllers.js ~ line 19 ~ getAllEditions ~ edition',
-    edition
-  );
 
   res.json({
     editions: edition.map(comic => comic.toObject({ getters: true })),
@@ -63,10 +56,7 @@ const createComic = async (req, res, next) => {
   try {
     newImg = await cloudinaryUtil.cloudinaryUpload(req.files['img'][0].path);
   } catch (err) {
-    const error = new HttpError(
-      'Could not upload image, please try again',
-      500
-    );
+    const error = new HttpError('Upload slike nije uspeo, probaj ponovo!', 500);
     return next(error);
   }
 
@@ -89,7 +79,7 @@ const createComic = async (req, res, next) => {
       );
     } catch (err) {
       const error = new HttpError(
-        'Could not upload image, please try again',
+        'Upload slike nije uspeo, probaj ponovo!',
         500
       );
       return next(error);
@@ -105,7 +95,7 @@ const createComic = async (req, res, next) => {
       await newComic.save();
     } catch (err) {
       const error = new HttpError(
-        'Creating comic failed, please try again',
+        'Postavljanje stripa nije uspelo, probaj ponovo!',
         500
       );
       return next(error);
@@ -122,7 +112,7 @@ const deleteComic = async (req, res, next) => {
     comic = await Comic.findById(id);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete comic',
+      'Nešto je zapelo, strip nije obrisan, probaj ponovo!',
       500
     );
     return next(error);
@@ -133,7 +123,7 @@ const deleteComic = async (req, res, next) => {
     logoDelete = await Comic.find({ logo: comic.logo });
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete comic',
+      'Nešto je zapelo, strip nije obrisan, probaj ponovo!',
       500
     );
     return next(error);
@@ -143,7 +133,7 @@ const deleteComic = async (req, res, next) => {
     await Comic.findByIdAndDelete(id);
   } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not delete comic',
+      'Nešto je zapelo, strip nije obrisan, probaj ponovo!',
       500
     );
     return next(error);
@@ -155,7 +145,7 @@ const deleteComic = async (req, res, next) => {
       await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryLogoId);
     } catch (err) {
       const error = new HttpError(
-        'Could not delete image or logo, please try again',
+        'Naslovnica ili logo nisu obrisani, probaj ponovo!',
         500
       );
       return next(error);
@@ -165,7 +155,7 @@ const deleteComic = async (req, res, next) => {
       await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
     } catch (err) {
       const error = new HttpError(
-        'Could not felete image, please try again',
+        'Naslovnica nije obrisana, probaj još jednom kasnije!',
         500
       );
       return next(error);

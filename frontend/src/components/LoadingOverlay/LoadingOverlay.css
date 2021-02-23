@@ -38,5 +38,16 @@
 .message-text {
   font-family: sans-serif;
   font-size: 2rem;
-  color: #fff;
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.error-message-text {
+  font-family: sans-serif;
+  font-size: 2rem;
+  color: rgb(228, 41, 41);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+  margin: 1rem;
 }

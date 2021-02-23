@@ -14,7 +14,7 @@ const NewComic = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const { comicsList, addComic, emptyMessage } = useComicsContext();
+  const { comicsList, addComic } = useComicsContext();
   const [label, setLabel] = useState(undefined);
   const [nr, setNr] = useState(undefined);
   const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
@@ -28,7 +28,6 @@ const NewComic = () => {
   };
 
   const onSubmit = data => {
-    emptyMessage();
     setIsLoading(true);
     if (logo.length === 0 && data.editionId && picture.length === 1) {
       const existingTitle = comicsList.filter(
@@ -77,7 +76,7 @@ const NewComic = () => {
           </label>
           {!radioInput ? (
             <label className='new-comic-label'>
-              Ako strip ili edicija već postoje, odaberi iz padajućeg menija:
+              Ako edicija već postoji, odaberi iz padajućeg menija:
               <select
                 value={label}
                 name='editionId'

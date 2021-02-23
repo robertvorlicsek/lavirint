@@ -10,10 +10,15 @@ const Editions = () => {
     getEditionId,
     getComics,
     message,
-    emptyMessage,
+    emptyMessages,
+    errorMessage,
   } = useComicsContext();
   const [uniqueEditions, setUniqueEditions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    console.log(errorMessage);
+  }, [errorMessage]);
 
   useEffect(() => {
     // !message && setIsLoading(true);
@@ -22,10 +27,10 @@ const Editions = () => {
 
   useEffect(() => {
     let time;
-    message ? (time = 3000) : (time = 300);
+    message || errorMessage ? (time = 3000) : (time = 300);
     setIsLoading(true);
     let timeout = setTimeout(() => {
-      emptyMessage();
+      emptyMessages();
       setIsLoading(false);
     }, time);
     const filtered = comicsList.filter(
@@ -35,7 +40,7 @@ const Editions = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [comicsList, setIsLoading, message, emptyMessage]);
+  }, [comicsList, setIsLoading, message, errorMessage, emptyMessages]);
 
   return (
     <div className='editions-container'>

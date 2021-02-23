@@ -4,12 +4,13 @@ import Loader from 'react-loader-spinner';
 import './LoadingOverlay.css';
 
 const LoadingOverlay = () => {
-  const { message } = useComicsContext();
+  const { message, errorMessage } = useComicsContext();
 
   return ReactDOM.createPortal(
     <div className='loading-overlay-container'>
       {message && <div className='message-text'>{message}</div>}
-      {!message && (
+      {errorMessage && <div className='error-message-text'>{errorMessage}</div>}
+      {!message && !errorMessage && (
         <Loader
           type='Oval'
           color='#000'

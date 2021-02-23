@@ -5,9 +5,8 @@
   align-items: flex-start;
   align-content: flex-start;
   width: 100%;
-  height: 90vh;
-  padding: 0 5% 5% 5%;
-  margin-top: 10vh;
+  height: 100vh;
+  padding: 13vh 5% 5% 5%;
 }
 
 .edition-link {
@@ -32,6 +31,6 @@
   position: relative;
   height: 3rem;
   width: 200px;
-  color: #000;
+  color: #fff;
   text-align: center;
 }

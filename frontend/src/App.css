@@ -15,6 +15,7 @@ body {
 
 .app {
   font-family: 'Boogaloo', cursive;
+  color: #fff;
   line-height: 1.2;
   position: fixed;
   top: 0;
@@ -26,7 +27,7 @@ body {
 .main-styles {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(
+  /* background: linear-gradient(
     to left top,
     #515151,
     #565656,
@@ -40,7 +41,12 @@ body {
     #a6a6a6,
     #b8b8b8,
     #cbcbcb
-  );
+  ); */
+  background-image: url('./pic/back.jpg');
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  background-position: center;
   margin: 0;
+  padding: 0;
   overflow-x: hidden;
 }

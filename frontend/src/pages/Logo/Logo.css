@@ -1,6 +1,6 @@
 .header-logo-container {
-  position: relative;
-  left: 20%;
+  position: fixed;
+  left: calc(50% - 80px);
   top: 3vh;
   width: 12rem;
   height: 1.7976rem;
@@ -8,7 +8,7 @@
 
 .header-logo-element {
   position: absolute;
-  fill: #000;
+  fill: #fff;
 }
 
 .L1 {
