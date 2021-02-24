@@ -23,9 +23,9 @@ const reducer = (state, { type, payload }) => {
     case 'GET':
       return {
         ...state,
-        comicsList: payload.editions,
+        comicsList: payload.comics,
       };
-    case 'GET_COMIC_ID':
+    case 'GET_EDITION_ID':
       return {
         ...state,
         editionId: payload,
@@ -88,7 +88,7 @@ export const ComicsProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch('http://localhost:5000/api/editions');
+      const response = await fetch('http://localhost:5000/api/comics');
       const data = await response.json();
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
@@ -100,29 +100,36 @@ export const ComicsProvider = ({ children }) => {
     }
   }, []);
 
-  const getComicsByEditionId = useCallback(async () => {
-    const httpAbortCtrl = new AbortController();
-    activeHttpRequests.current.push(httpAbortCtrl);
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/editions/comic/${state.editionId}`
-      );
-      const responseData = await response.json();
-      activeHttpRequests.current = activeHttpRequests.current.filter(
-        reqCtrl => reqCtrl !== httpAbortCtrl
-      );
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-      dispatch({ type: 'GET_COMICS_BY_EDITION_ID', payload: responseData });
-    } catch (err) {
-      console.log(err.message);
-      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-    }
-  }, [state.editionId]);
+  const getComicsByEditionId = useCallback(
+    paramEdId => {
+      let edId = state.editionId || paramEdId;
+      const fetchEditions = async () => {
+        const httpAbortCtrl = new AbortController();
+        activeHttpRequests.current.push(httpAbortCtrl);
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/comics/editions/${edId}`
+          );
+          const responseData = await response.json();
+          activeHttpRequests.current = activeHttpRequests.current.filter(
+            reqCtrl => reqCtrl !== httpAbortCtrl
+          );
+          if (!response.ok) {
+            throw new Error(responseData.message);
+          }
+          dispatch({ type: 'GET_COMICS_BY_EDITION_ID', payload: responseData });
+        } catch (err) {
+          console.log(err.message);
+          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+        }
+      };
+      fetchEditions();
+    },
+    [state.editionId]
+  );
 
   const getEditionId = editionId =>
-    dispatch({ type: 'GET_COMIC_ID', payload: editionId });
+    dispatch({ type: 'GET_EDITION_ID', payload: editionId });
 
   const addComic = newEntry => {
     if (newEntry) {
@@ -149,7 +156,7 @@ export const ComicsProvider = ({ children }) => {
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
           const response = await fetch(
-            `http://localhost:5000/api/editions/newcomic`,
+            `http://localhost:5000/api/comics/newcomic`,
             {
               method: 'POST',
               body: formData,
@@ -167,13 +174,16 @@ export const ComicsProvider = ({ children }) => {
           }
 
           console.log(`successfully uploaded the comic`);
+
           dispatch({
             type: 'MESSAGE',
             payload: responseData.message,
           });
-          dispatch({ type: 'ADD', payload: newEntry });
 
-          history.push(`/editions`);
+          dispatch({ type: 'ADD', payload: newEntry });
+          newEntry.editionId
+            ? history.push(`/editions/${newEntry.editionId}`)
+            : history.push(`/editions`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
           console.log(err);
@@ -184,38 +194,36 @@ export const ComicsProvider = ({ children }) => {
     }
   };
 
-  const removeComic = id => {
-    const deleteComic = async () => {
-      const httpAbortCtrl = new AbortController();
-      activeHttpRequests.current.push(httpAbortCtrl);
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/editions/${id}`,
-          {
-            method: 'DELETE',
-            body: null,
-            signal: httpAbortCtrl.signal,
-          }
-        );
-        const resMessage = await response.json();
+  const removeComic = async id => {
+    const httpAbortCtrl = new AbortController();
+    activeHttpRequests.current.push(httpAbortCtrl);
+    try {
+      const response = await fetch(`http://localhost:5000/api/comics/${id}`, {
+        method: 'DELETE',
+        body: null,
+        signal: httpAbortCtrl.signal,
+      });
+      const resMessage = await response.json();
 
-        activeHttpRequests.current = activeHttpRequests.current.filter(
-          reqCtrl => reqCtrl !== httpAbortCtrl
-        );
+      activeHttpRequests.current = activeHttpRequests.current.filter(
+        reqCtrl => reqCtrl !== httpAbortCtrl
+      );
 
-        if (!response.ok) {
-          throw new Error(resMessage.message);
-        }
-
-        dispatch({ type: 'MESSAGE', payload: resMessage.message });
-        history.push(`/editions`);
-      } catch (err) {
-        dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-        history.push(`/editions`);
+      if (!response.ok) {
+        throw new Error(resMessage.message);
       }
-      dispatch({ type: 'REMOVE', payload: id });
-    };
-    deleteComic();
+
+      dispatch({ type: 'MESSAGE', payload: resMessage.message });
+      // proveriti sta se desi ako nema editionId-a
+
+      state.editionList.length === 1
+        ? history.push(`/editions`)
+        : history.push(`/editions/${state.editionId}`);
+    } catch (err) {
+      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      history.push(`/editions`);
+    }
+    dispatch({ type: 'REMOVE', payload: id });
   };
 
   const emptyMessages = useCallback(

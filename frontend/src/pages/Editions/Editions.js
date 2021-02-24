@@ -16,14 +16,13 @@ const Editions = () => {
   const [uniqueEditions, setUniqueEditions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(errorMessage);
-  }, [errorMessage]);
+  // useEffect(() => {
+  //   console.log(errorMessage);
+  // }, [errorMessage]);
 
   useEffect(() => {
-    // !message && setIsLoading(true);
     getComics();
-  }, [getComics, setIsLoading, message]);
+  }, [getComics]);
 
   useEffect(() => {
     let time;
@@ -34,7 +33,7 @@ const Editions = () => {
       setIsLoading(false);
     }, time);
     const filtered = comicsList.filter(
-      (v, i, a) => a.findIndex(t => t.logo === v.logo) === i
+      (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
     );
     setUniqueEditions(filtered);
     return () => {
@@ -51,7 +50,7 @@ const Editions = () => {
             <Link
               key={i}
               className='edition-link'
-              to={`/editions/comic/titles`}
+              to={`/editions/${comic.editionId}`}
               onClick={() => getEditionId(comic.editionId)}
             >
               <div className='edition-container'>

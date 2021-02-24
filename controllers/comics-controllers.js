@@ -3,27 +3,27 @@ const Comic = require('../models/comics');
 const cloudinaryUtil = require('../utilities/cloudinaryUtil');
 const uuid = require('uuid').v4;
 
-const getAllEditions = async (req, res, next) => {
+const getAllComics = async (req, res, next) => {
   // const editionId = req.params.editionId;
-  let edition;
+  let comics;
   try {
     // edition = await Comic.find({ editionId });
-    edition = await Comic.find().sort('nr');
+    comics = await Comic.find().sort('nr');
   } catch (err) {
     const error = new HttpError(
-      'nešto je zapelo, nijedan strip nije pronađen!',
+      'Nešto je zapelo, nijedan strip nije pronađen!',
       500
     );
     return next(error);
   }
 
-  if (!edition || edition.length === 0) {
-    const error = new HttpError('Nijedan strip nije pronađen!', 404);
+  if (!comics || comics.length === 0) {
+    const error = new HttpError('Ovo izdanje ne postoji!', 404);
     return next(error);
   }
 
   res.json({
-    editions: edition.map(comic => comic.toObject({ getters: true })),
+    comics: comics.map(comic => comic.toObject({ getters: true })),
   });
 };
 
@@ -38,7 +38,7 @@ const getComicsByEditionId = async (req, res, next) => {
   }
 
   if (!edition || edition.length === 0) {
-    const error = new HttpError('Nijedan strip nije pronađen!', 404);
+    const error = new HttpError('Ova edicija (više) ne postoji!', 404);
     return next(error);
   }
 
@@ -165,7 +165,7 @@ const deleteComic = async (req, res, next) => {
   res.status(200).json({ message: 'Strip je obrisan!' });
 };
 
-exports.getAllEditions = getAllEditions;
+exports.getAllComics = getAllComics;
 exports.getComicsByEditionId = getComicsByEditionId;
 exports.createComic = createComic;
 exports.deleteComic = deleteComic;

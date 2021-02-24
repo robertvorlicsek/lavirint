@@ -4,6 +4,7 @@
   top: 3vh;
   width: 12rem;
   height: 1.7976rem;
+  transition: 0.1s;
 }
 
 .header-logo-element {

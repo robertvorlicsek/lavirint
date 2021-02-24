@@ -4,7 +4,6 @@ import './Main.css';
 const Main = () => {
   return (
     <div className='main-page'>
-      {/* <div className='main-promo-container'> */}
       <div className='main-promo-item'>
         <img src={zero} alt='Main Pic' className='main-promo-pic' />
         <div className='main-promo-text-container'>
@@ -21,8 +20,12 @@ const Main = () => {
             2017.). 152 strane, B5, cb+kolor, tvrdi povez, 600din/50kn.
           </div>
         </div>
+        <div className='main-promo-text-container-filler'>
+          &nbsp;
+          <br />
+          &nbsp;
+        </div>
       </div>
-      {/* </div> */}
     </div>
   );
 };

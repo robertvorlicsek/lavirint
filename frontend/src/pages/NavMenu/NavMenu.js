@@ -33,7 +33,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
         onClick={closeMenu}
         id='contact'
         className='menu-item'
-        to='/editions/newcomic'
+        to='/newcomic'
       >
         Novi strip
       </Link>

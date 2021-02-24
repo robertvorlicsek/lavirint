@@ -5,8 +5,8 @@ const router = express.Router();
 const comicsControllers = require('../controllers/comics-controllers');
 const fileUpload = require('../middleware/file-upload');
 
-router.get('/', comicsControllers.getAllEditions);
-router.get('/comic/:editionId', comicsControllers.getComicsByEditionId);
+router.get('/', comicsControllers.getAllComics);
+router.get('/editions/:editionId', comicsControllers.getComicsByEditionId);
 router.post(
   '/newcomic',
   // fileUpload.single('img'),

@@ -1,25 +1,42 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useComicsContext } from '../../contexts/comicsContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
-import './Comics.css';
+import './Titles.css';
 
 const Editions = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {
-    editionList,
     editionId,
     removeComic,
     getComicsByEditionId,
+    message,
+    emptyMessages,
+    errorMessage,
+    editionList,
   } = useComicsContext();
+  const parEditionId = useParams().editionId;
 
   useEffect(() => {
+    let time;
+    message || errorMessage ? (time = 3000) : (time = 300);
     setIsLoading(true);
-    let timeout = setTimeout(() => setIsLoading(false), 300);
-    getComicsByEditionId(editionId);
+    let timeout = setTimeout(() => {
+      emptyMessages();
+      setIsLoading(false);
+    }, time);
+    getComicsByEditionId(parEditionId);
     return () => {
       clearTimeout(timeout);
     };
-  }, [getComicsByEditionId, editionId]);
+  }, [
+    editionId,
+    getComicsByEditionId,
+    emptyMessages,
+    errorMessage,
+    message,
+    parEditionId,
+  ]);
 
   return (
     <div className='comics-container'>

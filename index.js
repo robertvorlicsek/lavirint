@@ -25,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/editions', comicsRoutes);
+app.use('/api/comics', comicsRoutes);
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname + '/frontend/src/index.html'));

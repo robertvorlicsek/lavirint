@@ -1,8 +1,26 @@
+import { useState, useEffect } from 'react';
 import './Logo.css';
 
 const Logo = () => {
+  const [scrollTop, setScrollTop] = useState(0);
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    window.addEventListener('scroll', e => setScrollTop(e.target.scrollTop), {
+      capture: true,
+    });
+    scrollTop > 5 ? setOpacity(0) : setOpacity(1);
+    return () => {
+      window.removeEventListener(
+        'scroll',
+        e => setScrollTop(e.target.scrollTop),
+        { capture: true }
+      );
+    };
+  }, [scrollTop]);
+
   return (
-    <div className='header-logo-container'>
+    <div className='header-logo-container' style={{ opacity }}>
       <svg
         xmlns='http://www.w3.org/2000/svg'
         viewBox='0 0 16.6 18.9'
