@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useComicsContext } from '../../contexts/comicsContext';
+import { useComicsContext } from '../../contexts/comics/comicsContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import './Titles.css';
 

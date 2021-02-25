@@ -8,16 +8,12 @@ import Main from './pages/Main/Main';
 import Editions from './pages/Editions/Editions';
 import Titles from './pages/Titles/Titles';
 import NewComic from './pages/NewComic/NewComic';
-import { useComicsContext } from './contexts/comicsContext';
+import NewPromo from './pages/NewPromo/NewPromo';
+import { ComicsProvider } from './contexts/comics/comicsContext';
+
 import './App.css';
 
 const App = () => {
-  const { getComics } = useComicsContext();
-
-  useEffect(() => {
-    getComics();
-  }, [getComics]);
-
   return (
     <div className='app'>
       <AnimatePresence exitBeforeEnter onExitComplete={() => {}}>
@@ -31,13 +27,24 @@ const App = () => {
             <Logo />
             <Switch>
               <Route path='/editions/:editionId' exact>
-                <Titles />
+                <ComicsProvider>
+                  <Titles />
+                </ComicsProvider>
               </Route>
               <Route path='/newcomic' exact>
-                <NewComic />
+                <ComicsProvider>
+                  <NewComic />
+                </ComicsProvider>
+              </Route>
+              <Route path='/newpromo' exact>
+                <ComicsProvider>
+                  <NewPromo />
+                </ComicsProvider>
               </Route>
               <Route path='/editions' exact>
-                <Editions />
+                <ComicsProvider>
+                  <Editions />
+                </ComicsProvider>
               </Route>
               <Route path='/' exact>
                 <Main />

@@ -6,9 +6,6 @@ import './NavMenu.css';
 
 const NavMenu = ({ pageWrapId, outerContainerId }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  // const showSettings = event => {
-  //   event.preventDefault();
-  // };
 
   const closeMenu = () => {
     setMenuOpen(false);
@@ -23,19 +20,32 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
       isOpen={menuOpen}
       onStateChange={state => stateChangeHandler(state)}
     >
-      <Link onClick={closeMenu} id='home' className='menu-item' to='/'>
+      <Link onClick={closeMenu} id='main' className='menu-item' to='/'>
         Početna
       </Link>
-      <Link onClick={closeMenu} id='about' className='menu-item' to='/editions'>
+      <Link
+        onClick={closeMenu}
+        id='editions'
+        className='menu-item'
+        to='/editions'
+      >
         Edicije
       </Link>
       <Link
         onClick={closeMenu}
-        id='contact'
+        id='newcomic'
         className='menu-item'
         to='/newcomic'
       >
         Novi strip
+      </Link>
+      <Link
+        onClick={closeMenu}
+        id='newpromo'
+        className='menu-item'
+        to='/newpromo'
+      >
+        Nova najava
       </Link>
       {/* <Link onClick={showSettings} className='menu-item--small' href='#!'>
         Settings

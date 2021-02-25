@@ -1,0 +1,60 @@
+export const comicsInitialState = {
+  comicsList: [],
+  editionId: '',
+  editionList: [],
+  errorMessage: '',
+  message: '',
+};
+
+export const comicsReducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'GET':
+      return {
+        ...state,
+        comicsList: payload.comics,
+      };
+    case 'GET_EDITION_ID':
+      return {
+        ...state,
+        editionId: payload,
+      };
+    case 'GET_COMICS_BY_EDITION_ID':
+      return {
+        ...state,
+        editionList: payload.editions,
+      };
+    case 'ADD':
+      return {
+        ...state,
+        comicsList: [...state.comicsList, payload],
+      };
+    case 'REMOVE':
+      const indexInComic = state.comicsList.findIndex(c => c.id === payload);
+      const newComicsList = [...state.comicsList];
+      newComicsList.splice(indexInComic, 1);
+      return {
+        ...state,
+        comicsList: newComicsList,
+      };
+    case 'MESSAGE':
+      return {
+        ...state,
+        message: payload,
+      };
+    case 'EMPTY_MESSAGES':
+      return {
+        ...state,
+        message: '',
+        errorMessage: '',
+      };
+    case 'ERROR_MESSAGE':
+      return {
+        ...state,
+        errorMessage: payload,
+      };
+    case 'EMPTY':
+      return { comicsList: [] };
+    default:
+      return state;
+  }
+};

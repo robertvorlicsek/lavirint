@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
-import { useComicsContext } from '../../contexts/comicsContext';
+import { useComicsContext } from '../../contexts/comics/comicsContext';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import './NewComic.css';
@@ -14,7 +14,7 @@ const NewComic = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const { comicsList, addComic } = useComicsContext();
+  const { getComics, comicsList, addComic } = useComicsContext();
   const [label, setLabel] = useState(undefined);
   const [nr, setNr] = useState(undefined);
   const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
@@ -47,6 +47,10 @@ const NewComic = () => {
   };
 
   useEffect(() => {
+    getComics();
+  }, [getComics]);
+
+  useEffect(() => {
     console.log('touched', formState.touched);
     console.log('pic', picture);
   }, [formState, picture]);
@@ -60,7 +64,7 @@ const NewComic = () => {
 
   return (
     <Fragment>
-      {isLoading && <LoadingOverlay mess />}
+      {isLoading && <LoadingOverlay />}
       <div className='new-comic-form-container'>
         <h1 className='new-comic-form-title'>Upload novog stripa</h1>
         <form className='new-comic-form' onSubmit={handleSubmit(onSubmit)}>

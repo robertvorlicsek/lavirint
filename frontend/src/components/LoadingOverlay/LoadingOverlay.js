@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { useComicsContext } from '../../contexts/comicsContext';
+import { useComicsContext } from '../../contexts/comics/comicsContext';
 import Loader from 'react-loader-spinner';
 import './LoadingOverlay.css';
 

@@ -6,75 +6,15 @@ import {
   useRef,
   useEffect,
 } from 'react';
+import { comicsReducer, comicsInitialState } from './comicsReducer';
 import { useHistory } from 'react-router-dom';
 const ComicsContext = createContext();
 export const useComicsContext = () => useContext(ComicsContext);
 
-const initalState = {
-  comicsList: [],
-  editionId: '',
-  editionList: [],
-  errorMessage: '',
-  message: '',
-};
-
-const reducer = (state, { type, payload }) => {
-  switch (type) {
-    case 'GET':
-      return {
-        ...state,
-        comicsList: payload.comics,
-      };
-    case 'GET_EDITION_ID':
-      return {
-        ...state,
-        editionId: payload,
-      };
-    case 'GET_COMICS_BY_EDITION_ID':
-      return {
-        ...state,
-        editionList: payload.editions,
-      };
-    case 'ADD':
-      return {
-        ...state,
-        comicsList: [...state.comicsList, payload],
-      };
-    case 'REMOVE':
-      const indexInComic = state.comicsList.findIndex(c => c.id === payload);
-      const newComicsList = [...state.comicsList];
-      newComicsList.splice(indexInComic, 1);
-      return {
-        ...state,
-        comicsList: newComicsList,
-      };
-    case 'MESSAGE':
-      return {
-        ...state,
-        message: payload,
-      };
-    case 'EMPTY_MESSAGES':
-      return {
-        ...state,
-        message: '',
-        errorMessage: '',
-      };
-    case 'ERROR_MESSAGE':
-      return {
-        ...state,
-        errorMessage: payload,
-      };
-    case 'EMPTY':
-      return { comicsList: [] };
-    default:
-      return state;
-  }
-};
-
-// Cart context for the provider
+// Comics context for the provider
 export const ComicsProvider = ({ children }) => {
   const activeHttpRequests = useRef([]);
-  const [state, dispatch] = useReducer(reducer, initalState);
+  const [state, dispatch] = useReducer(comicsReducer, comicsInitialState);
   const history = useHistory();
 
   useEffect(() => {
@@ -132,6 +72,10 @@ export const ComicsProvider = ({ children }) => {
     dispatch({ type: 'GET_EDITION_ID', payload: editionId });
 
   const addComic = newEntry => {
+    console.log(
+      '🚀 ~ file: comicsContext.js ~ line 75 ~ ComicsProvider ~ newEntry',
+      newEntry
+    );
     if (newEntry) {
       const formData = new FormData();
       if (newEntry.editionId) {
@@ -149,7 +93,11 @@ export const ComicsProvider = ({ children }) => {
         formData.append('cloudinaryLogoId', newEntry.cloudinaryLogoId);
       }
       const image = formData.get('img');
-      console.log(image);
+      const editionId = formData.get('editionId');
+      const nr = formData.get('nr');
+      const logo = formData.get('logo');
+      const title = formData.get('title');
+      console.log(image, editionId, logo, title, nr);
 
       const sendComic = async () => {
         const httpAbortCtrl = new AbortController();
@@ -189,7 +137,6 @@ export const ComicsProvider = ({ children }) => {
           console.log(err);
         }
       };
-      console.log(state.error);
       sendComic();
     }
   };
