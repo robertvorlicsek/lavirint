@@ -14,21 +14,27 @@ const NewComic = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const { getComics, comicsList, addComic } = useComicsContext();
+  const {
+    getComics,
+    comicsList,
+    addComic,
+    message,
+    errorMessage,
+  } = useComicsContext();
   const [label, setLabel] = useState(undefined);
   const [nr, setNr] = useState(undefined);
   const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
   const [radioInput, setRadioInput] = useState(false);
   const [picture, setPicture] = useState([]);
   const [logo, setLogo] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isMessage, setIsMessage] = useState(false);
 
   const handleInputOption = e => {
     setLabel(e.target.value);
   };
 
   const onSubmit = data => {
-    setIsLoading(true);
+    setIsMessage(true);
     if (logo.length === 0 && data.editionId && picture.length === 1) {
       const existingTitle = comicsList.filter(
         c => c.editionId === data.editionId
@@ -64,7 +70,9 @@ const NewComic = () => {
 
   return (
     <Fragment>
-      {isLoading && <LoadingOverlay />}
+      {isMessage && (
+        <LoadingOverlay message={message} errorMessage={errorMessage} />
+      )}
       <div className='new-comic-form-container'>
         <h1 className='new-comic-form-title'>Upload novog stripa</h1>
         <form className='new-comic-form' onSubmit={handleSubmit(onSubmit)}>
@@ -148,7 +156,6 @@ const NewComic = () => {
             />
           </label>
           <button
-            // disabled={!formState.isDirty || !formState.isValid}
             disabled={
               formState.isSubmitting ||
               (radioInput && logo.length === 0) ||

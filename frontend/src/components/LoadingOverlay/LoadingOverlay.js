@@ -1,11 +1,10 @@
 import ReactDOM from 'react-dom';
-import { useComicsContext } from '../../contexts/comics/comicsContext';
+// import { useComicsContext } from '../../contexts/comics/comicsContext';
 import Loader from 'react-loader-spinner';
 import './LoadingOverlay.css';
+// import { usePromosContext } from '../../contexts/promos/promosContext';
 
-const LoadingOverlay = () => {
-  const { message, errorMessage } = useComicsContext();
-
+const LoadingOverlay = ({ message, errorMessage }) => {
   return ReactDOM.createPortal(
     <div className='loading-overlay-container'>
       {message && <div className='message-text'>{message}</div>}

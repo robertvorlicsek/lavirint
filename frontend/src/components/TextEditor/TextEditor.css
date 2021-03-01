@@ -1,0 +1,30 @@
+.text-editor-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#text-editor-text {
+  margin: 0.5rem 0 1rem 0;
+}
+#text-editor-title {
+  margin: 0.5rem 0 1rem 0;
+}
+
+.text-editor-preview-output-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-start;
+  line-height: 0.7;
+  text-align: center;
+  width: 100%;
+}
+
+.text-editor-preview-title-output {
+  font-size: 2.4rem;
+  padding: 0;
+}
+
+.text-editor-preview-text-output {
+  font-size: 1.5rem;
+}

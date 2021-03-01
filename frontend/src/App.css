@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Boogaloo&display=swap');
+@font-face {
+  font-family: 'Comic Neue Angular Bold Italic';
+  src: local('Comic Neue Angular Bold Italic'),
+    url(./fonts/ComicNeueAngular-BoldItalic.otf) format('truetype');
+}
 
 * {
   box-sizing: border-box;
@@ -14,7 +18,7 @@ body {
 }
 
 .app {
-  font-family: 'Boogaloo', cursive;
+  font-family: 'Comic Neue Angular Bold Italic', cursive;
   color: #fff;
   line-height: 1.2;
   position: fixed;
@@ -49,4 +53,11 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+}
+
+.opacity {
+  opacity: 0;
+  transition-delay: 0.5s;
+  transition-property: opacity;
+  transition-duration: 1s;
 }

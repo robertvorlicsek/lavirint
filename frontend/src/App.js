@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 // import Loader from './pages/Loader/Loader';
 import NavMenu from './pages/NavMenu/NavMenu';
@@ -10,6 +9,7 @@ import Titles from './pages/Titles/Titles';
 import NewComic from './pages/NewComic/NewComic';
 import NewPromo from './pages/NewPromo/NewPromo';
 import { ComicsProvider } from './contexts/comics/comicsContext';
+import { PromosProvider } from './contexts/promos/promosContext';
 
 import './App.css';
 
@@ -37,17 +37,22 @@ const App = () => {
                 </ComicsProvider>
               </Route>
               <Route path='/newpromo' exact>
-                <ComicsProvider>
+                <PromosProvider>
                   <NewPromo />
-                </ComicsProvider>
+                </PromosProvider>
               </Route>
               <Route path='/editions' exact>
                 <ComicsProvider>
                   <Editions />
                 </ComicsProvider>
               </Route>
-              <Route path='/' exact>
-                <Main />
+              <Route path='/promo' exact>
+                <PromosProvider>
+                  <Main />
+                </PromosProvider>
+              </Route>
+              <Route exact path='/'>
+                <Redirect to='/promo' />
               </Route>
             </Switch>
           </main>

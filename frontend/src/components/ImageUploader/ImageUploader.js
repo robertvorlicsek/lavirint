@@ -2,7 +2,14 @@ import { useState, useEffect } from 'react';
 import ImageUploading from 'react-images-uploading';
 import './ImageUploader.css';
 
-const ImageUploader = ({ setPicture, setLogo, register, name, radioInput }) => {
+const ImageUploader = ({
+  setPicture,
+  setLogo,
+  setPromoPicture,
+  register,
+  name,
+  radioInput,
+}) => {
   const [image, setImage] = useState([]);
   const maxNumber = 1;
   const onChange = (imageList, addUpdateIndex) => {
@@ -14,11 +21,13 @@ const ImageUploader = ({ setPicture, setLogo, register, name, radioInput }) => {
       setPicture(image);
     } else if (name === 'logo') {
       setLogo(image);
+    } else if (name === 'promoImg') {
+      setPromoPicture(image);
     }
-  }, [image, name, setPicture, setLogo]);
+  }, [image, name, setPicture, setLogo, setPromoPicture]);
 
   return (
-    <div className='App'>
+    <div>
       <ImageUploading
         multiple
         value={image}

@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const HttpError = require('./models/http-error');
 
 const comicsRoutes = require('./routes/comics-routes');
+const promoRoutes = require('./routes/promo-routes');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/comics', comicsRoutes);
+app.use('/api/promo', promoRoutes);
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname + '/frontend/src/index.html'));
