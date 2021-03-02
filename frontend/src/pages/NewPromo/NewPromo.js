@@ -15,7 +15,15 @@ const NewPromo = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const { addPromo, message, errorMessage } = usePromosContext();
+  const {
+    addPromo,
+    message,
+    errorMessage,
+    promosList,
+    getPromos,
+  } = usePromosContext();
+  const [takenNr, setTakenNr] = useState('');
+  const [notAvailableNr, setNotAvailableNr] = useState(false);
   const [promoPicture, setPromoPicture] = useState([]);
   const [mainTitle, setMainTitle] = useState('');
   const [mainText, setMainText] = useState('');
@@ -30,10 +38,24 @@ const NewPromo = () => {
     }
   };
 
+  const checkAvailability = e =>
+    setNotAvailableNr(Array.from(takenNr).includes(e.target.value));
+
   useEffect(() => {
     console.log('touched', formState.touched);
     console.log('pic', promoPicture);
   }, [formState, promoPicture]);
+
+  useEffect(() => {
+    getPromos();
+  }, [getPromos]);
+
+  useEffect(() => {
+    if (promosList) {
+      const taken = promosList.map(p => p.nr).toString();
+      setTakenNr(taken);
+    }
+  }, [promosList]);
 
   return (
     <Fragment>
@@ -55,17 +77,25 @@ const NewPromo = () => {
             />
           </label>
           <label className='new-promo-label'>
-            Broj najave (zbog redosleda na glavnoj strani):
+            Broj najave (zbog redosleda na glavnoj strani, animacija kreće od
+            najvećeg broja).
+            <br />
+            <span className='red-warning-text'>
+              {promosList && `Već zauzeti brojevi: ${takenNr}`}
+            </span>
             <input
               type='number'
               name='nr'
-              // onChange={e => setNr(e.target.value)}
+              onChange={e => checkAvailability(e)}
               className='new-promo-input promo-form-hover'
               ref={register({
                 required: true,
               })}
             />
           </label>
+          {notAvailableNr && (
+            <p className='red-warning-text'>Ovaj broj je već zauzet!</p>
+          )}
           <label className='new-promo-label'>
             Promo slika:
             <ImageUploader
@@ -125,7 +155,8 @@ const NewPromo = () => {
             disabled={
               !formState.isValid ||
               formState.isSubmitting ||
-              promoPicture.length === 0
+              promoPicture.length === 0 ||
+              notAvailableNr
             }
             type='submit'
             value='Submit'

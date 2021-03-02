@@ -99,37 +99,32 @@ export const PromosProvider = ({ children }) => {
     }
   };
 
-  //   const removeComic = async id => {
-  //     const httpAbortCtrl = new AbortController();
-  //     activeHttpRequests.current.push(httpAbortCtrl);
-  //     try {
-  //       const response = await fetch(`http://localhost:5000/api/comics/${id}`, {
-  //         method: 'DELETE',
-  //         body: null,
-  //         signal: httpAbortCtrl.signal,
-  //       });
-  //       const resMessage = await response.json();
+  const deletePromo = async id => {
+    const httpAbortCtrl = new AbortController();
+    activeHttpRequests.current.push(httpAbortCtrl);
+    try {
+      const response = await fetch(`http://localhost:5000/api/promo/${id}`, {
+        method: 'DELETE',
+        body: null,
+        signal: httpAbortCtrl.signal,
+      });
+      const resMessage = await response.json();
 
-  //       activeHttpRequests.current = activeHttpRequests.current.filter(
-  //         reqCtrl => reqCtrl !== httpAbortCtrl
-  //       );
+      activeHttpRequests.current = activeHttpRequests.current.filter(
+        reqCtrl => reqCtrl !== httpAbortCtrl
+      );
 
-  //       if (!response.ok) {
-  //         throw new Error(resMessage.message);
-  //       }
+      if (!response.ok) {
+        throw new Error(resMessage.message);
+      }
 
-  //       dispatch({ type: 'MESSAGE', payload: resMessage.message });
-  //       // proveriti sta se desi ako nema editionId-a
-
-  //       state.editionList.length === 1
-  //         ? history.push(`/editions`)
-  //         : history.push(`/editions/${state.editionId}`);
-  //     } catch (err) {
-  //       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-  //       history.push(`/editions`);
-  //     }
-  //     dispatch({ type: 'REMOVE', payload: id });
-  //   };
+      dispatch({ type: 'MESSAGE', payload: resMessage.message });
+    } catch (err) {
+      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      console.log(err);
+    }
+    dispatch({ type: 'REMOVE', payload: id });
+  };
 
   const emptyMessages = useCallback(
     () => dispatch({ type: 'EMPTY_MESSAGES' }),
@@ -141,6 +136,7 @@ export const PromosProvider = ({ children }) => {
       value={{
         getPromos,
         addPromo,
+        deletePromo,
         promosList: state.promosList,
         errorMessage: state.errorMessage,
         message: state.message,

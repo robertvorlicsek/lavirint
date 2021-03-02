@@ -72,6 +72,15 @@
   display: none;
 }
 
+.new-promo-delete-button {
+  max-width: 10rem;
+  align-self: 'center';
+  position: absolute;
+  bottom: -3.5rem;
+  right: 10%;
+  z-index: 2;
+}
+
 @media only screen and (max-width: 985px) {
   .main-promo-item {
     position: relative;
@@ -122,11 +131,12 @@
   .main-promo-text-container-filler {
     display: block;
   }
+  .new-promo-delete-button {
+    max-width: 10rem;
+    align-self: 'center';
+    position: absolute;
+    bottom: -3.5rem;
+    right: 1rem;
+    z-index: 2;
+  }
 }
-
-/* .opacity {
-  opacity: 0;
-  transition-delay: 0.5s;
-  transition-property: opacity;
-  transition-duration: 1s;
-} */

@@ -17,7 +17,7 @@ export const promosReducer = (state, { type, payload }) => {
         promosList: [...state.promosList, payload],
       };
     case 'REMOVE':
-      const indexInPromo = state.promoList.findIndex(p => p.id === payload);
+      const indexInPromo = state.promosList.findIndex(p => p.id === payload);
       const newPromosList = [...state.promosList];
       newPromosList.splice(indexInPromo, 1);
       return {

@@ -47,30 +47,32 @@ const Editions = () => {
       {isMessage && (
         <LoadingOverlay message={message} errorMessage={errorMessage} />
       )}
-      {uniqueEditions.map(
-        (comic, i) =>
-          comic.logo && (
-            <Link
-              key={i}
-              className='edition-link'
-              to={`/editions/${comic.editionId}`}
-              onClick={() => getEditionId(comic.editionId)}
-            >
-              <div className='edition-container '>
-                <div className='edition-logo-container'>
-                  <Image
-                    src={comic.logo}
-                    alt={comic.title}
-                    className='edition-logo'
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                  />
+      {!comicsList && <div>Još nema nijedne edicije!</div>}
+      {comicsList &&
+        uniqueEditions.map(
+          (comic, i) =>
+            comic.logo && (
+              <Link
+                key={i}
+                className='edition-link'
+                to={`/editions/${comic.editionId}`}
+                onClick={() => getEditionId(comic.editionId)}
+              >
+                <div className='edition-container '>
+                  <div className='edition-logo-container'>
+                    <Image
+                      src={comic.logo}
+                      alt={comic.title}
+                      className='edition-logo'
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
+                    />
+                  </div>
+                  <div className='edition-logo-description'>{comic.title}</div>
                 </div>
-                <div className='edition-logo-description'>{comic.title}</div>
-              </div>
-            </Link>
-          )
-      )}
+              </Link>
+            )
+        )}
     </div>
   );
 };

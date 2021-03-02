@@ -6,7 +6,7 @@ const cloudinaryUtil = require('../utilities/cloudinaryUtil');
 const getPromos = async (req, res, next) => {
   let promos;
   try {
-    promos = await Promo.find().sort('nr');
+    promos = await Promo.find().sort({ nr: 'desc' });
   } catch (err) {
     const error = new HttpError(
       'Nešto je zapelo, nijedna najava nije pronađena!',
@@ -49,6 +49,7 @@ const createPromo = async (req, res, next) => {
     promoTitle,
     promoText,
     promoImg: await newPromoImg.url,
+    cloudinaryPromoImgId: await newPromoImg.public_id,
   });
 
   console.log('new-promo:', newPromo);
@@ -67,66 +68,43 @@ const createPromo = async (req, res, next) => {
   }
 };
 
-// const deleteComic = async (req, res, next) => {
-//   const id = req.params.id;
-//   let comic;
-//   try {
-//     comic = await Comic.findById(id);
-//   } catch (err) {
-//     const error = new HttpError(
-//       'Nešto je zapelo, strip nije obrisan, probaj ponovo!',
-//       500
-//     );
-//     return next(error);
-//   }
+const deletePromo = async (req, res, next) => {
+  const id = req.params.id;
+  let promo;
 
-//   let logoDelete;
-//   try {
-//     logoDelete = await Comic.find({ logo: comic.logo });
-//   } catch (err) {
-//     const error = new HttpError(
-//       'Nešto je zapelo, strip nije obrisan, probaj ponovo!',
-//       500
-//     );
-//     return next(error);
-//   }
+  try {
+    promo = await Promo.findById(id);
+  } catch (err) {
+    const error = new HttpError(
+      'Nešto je zapelo, najava ne postoji, probaj ponovo!',
+      500
+    );
+    return next(error);
+  }
 
-//   try {
-//     await Comic.findByIdAndDelete(id);
-//   } catch (err) {
-//     const error = new HttpError(
-//       'Nešto je zapelo, strip nije obrisan, probaj ponovo!',
-//       500
-//     );
-//     return next(error);
-//   }
+  try {
+    await Promo.findByIdAndDelete(id);
+  } catch (err) {
+    const error = new HttpError(
+      'Nešto je zapelo, najava nije obrisana, probaj ponovo!',
+      500
+    );
+    return next(error);
+  }
 
-//   if (logoDelete.length === 1) {
-//     try {
-//       await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
-//       await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryLogoId);
-//     } catch (err) {
-//       const error = new HttpError(
-//         'Naslovnica ili logo nisu obrisani, probaj ponovo!',
-//         500
-//       );
-//       return next(error);
-//     }
-//   } else {
-//     try {
-//       await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
-//     } catch (err) {
-//       const error = new HttpError(
-//         'Naslovnica nije obrisana, probaj još jednom kasnije!',
-//         500
-//       );
-//       return next(error);
-//     }
-//   }
+  try {
+    await cloudinaryUtil.cloudinaryDelete(promo.cloudinaryPromoImgId);
+  } catch (err) {
+    const error = new HttpError(
+      'Slika iz najave nije obrisana, probaj još jednom kasnije!',
+      500
+    );
+    return next(error);
+  }
 
-//   res.status(200).json({ message: 'Strip je obrisan!' });
-// };
+  res.status(200).json({ message: 'Najava je obrisana!' });
+};
 
 exports.getPromos = getPromos;
 exports.createPromo = createPromo;
-// exports.deletePromo = deletePromo;
+exports.deletePromo = deletePromo;

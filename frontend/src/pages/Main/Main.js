@@ -8,6 +8,7 @@ const Main = () => {
   const {
     getPromos,
     promosList,
+    deletePromo,
     message,
     errorMessage,
     emptyMessages,
@@ -32,40 +33,47 @@ const Main = () => {
     };
   }, [message, errorMessage, emptyMessages]);
 
-  console.log(promosList);
-
   return (
     <Fragment>
       {isMessage && (
         <LoadingOverlay message={message} errorMessage={errorMessage} />
       )}
       <div className='main-page'>
-        {promosList.map(p => {
-          return (
-            <div
-              key={p.id}
-              className='main-promo-item opacity'
-              style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
-            >
-              <Image
-                src={p.promoImg}
-                alt={p.promoTitle}
-                className='main-promo-pic'
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-              />
-              <div className='main-promo-text-container'>
-                <div className='main-promo-title'>{p.promoTitle}</div>
-                <div className='main-promo-text'>{p.promoText}</div>
+        {!promosList && <div>Još nema nijedne najave!</div>}
+        {promosList &&
+          promosList.map(p => {
+            return (
+              <div
+                key={p.id}
+                className='main-promo-item opacity'
+                style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+              >
+                <Image
+                  src={p.promoImg}
+                  alt={p.promoTitle}
+                  className='main-promo-pic'
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                />
+                <div className='main-promo-text-container'>
+                  <div className='main-promo-title'>{p.promoTitle}</div>
+                  <div className='main-promo-text'>{p.promoText}</div>
+                  <button
+                    onClick={() => deletePromo(p.id)}
+                    className='delete-button new-promo-delete-button'
+                    disabled={promosList.length === 1}
+                  >
+                    Obriši najavu
+                  </button>
+                </div>
+                <div className='main-promo-text-container-filler'>
+                  &nbsp;
+                  <br />
+                  &nbsp;
+                </div>
               </div>
-              <div className='main-promo-text-container-filler'>
-                &nbsp;
-                <br />
-                &nbsp;
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </Fragment>
   );

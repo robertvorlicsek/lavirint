@@ -38,11 +38,6 @@ const Editions = () => {
     parEditionId,
   ]);
 
-  const deleteComic = id => {
-    setIsMessage(true);
-    removeComic(id);
-  };
-
   return (
     <Fragment>
       {isMessage && (
@@ -52,28 +47,30 @@ const Editions = () => {
         className='comics-container opacity'
         style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
       >
-        {editionList.map((comic, i) => (
-          <div className='comic-container' key={i}>
-            <div className='comic-image-container'>
-              <Image
-                src={comic.img}
-                alt={comic.title}
-                className='comic-image'
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-              />
+        {!editionList && <div>Još nema nijednog stripa!</div>}
+        {editionList &&
+          editionList.map((comic, i) => (
+            <div className='comic-container' key={i}>
+              <div className='comic-image-container'>
+                <Image
+                  src={comic.img}
+                  alt={comic.title}
+                  className='comic-image'
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                />
+              </div>
+              <div className='comic-image-description'>
+                {comic.title} {comic.nr}
+              </div>
+              <button
+                onClick={() => removeComic(comic.id)}
+                className='delete-button'
+              >
+                obriši strip
+              </button>
             </div>
-            <div className='comic-image-description'>
-              {comic.title} {comic.nr}
-            </div>
-            <button
-              onClick={() => deleteComic(comic.id)}
-              className='delete-comic'
-            >
-              obriši strip
-            </button>
-          </div>
-        ))}
+          ))}
       </div>
     </Fragment>
   );

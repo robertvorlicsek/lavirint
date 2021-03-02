@@ -18,6 +18,6 @@ router.post(
   ],
   comicsControllers.createPromo
 );
-// router.delete('/:promoId', comicsControllers.deletePromo);
+router.delete('/:id', comicsControllers.deletePromo);
 
 module.exports = router;

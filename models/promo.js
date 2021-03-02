@@ -24,6 +24,9 @@ const promoSchema = new Schema({
     type: String,
     required: true,
   },
+  cloudinaryPromoImgId: {
+    type: String,
+  },
 });
 
 // comicSchema.plugin(uniqueValidator);

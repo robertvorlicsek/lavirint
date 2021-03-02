@@ -55,9 +55,41 @@ body {
   overflow-x: hidden;
 }
 
+/* GLOBAL STYLES */
+
 .opacity {
   opacity: 0;
   transition-delay: 0.5s;
   transition-property: opacity;
   transition-duration: 1s;
+}
+
+.red-warning-text {
+  color: red;
+}
+
+.delete-button {
+  border: 1px solid var(--bc, var(--border));
+  border-radius: 1rem;
+  cursor: pointer;
+  width: 100%;
+  height: 2rem;
+  align-self: center;
+  margin-bottom: 2rem;
+  color: white;
+  background-color: rgb(51, 0, 0);
+  transition: all 0.2s;
+}
+
+.delete-button:hover {
+  color: white;
+  background-color: rgb(85, 0, 0);
+}
+
+.delete-button:disabled,
+.delete-button[disabled] {
+  border: 1px solid #999999;
+  background-color: #8a8a8a;
+  color: #666666;
+  cursor: initial;
 }
