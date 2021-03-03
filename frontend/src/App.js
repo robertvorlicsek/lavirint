@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import NavMenu from './pages/NavMenu/NavMenu';
 import Logo from './components/Logo/Logo';
 import Main from './pages/Main/Main';
+import News from './pages/News/News';
 import Editions from './pages/Editions/Editions';
 import Titles from './pages/Titles/Titles';
 import NewComic from './pages/NewComic/NewComic';
@@ -49,6 +50,11 @@ const App = () => {
               <Route path='/promo' exact>
                 <PromosProvider>
                   <Main />
+                </PromosProvider>
+              </Route>
+              <Route path='/news' exact>
+                <PromosProvider>
+                  <News />
                 </PromosProvider>
               </Route>
               <Route exact path='/'>

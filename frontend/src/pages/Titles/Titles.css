@@ -31,7 +31,7 @@
   font-size: 0.8rem;
 }
 
-.delete-comic {
+/* .delete-comic {
   border: 1px solid var(--bc, var(--border));
   border-radius: 1rem;
   cursor: pointer;
@@ -46,4 +46,4 @@
 .delete-comic:hover {
   color: white;
   background-color: rgb(60, 60, 60);
-}
+} */

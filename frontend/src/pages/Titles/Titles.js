@@ -65,7 +65,7 @@ const Editions = () => {
               </div>
               <button
                 onClick={() => removeComic(comic.id)}
-                className='delete-button'
+                className='red-button'
               >
                 obriši strip
               </button>

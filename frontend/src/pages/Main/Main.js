@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import { Fragment, useEffect, useState } from 'react';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
@@ -5,6 +6,7 @@ import Image from '../../components/Image/Image';
 import './Main.css';
 
 const Main = () => {
+  let history = useHistory();
   const {
     getPromos,
     promosList,
@@ -17,10 +19,6 @@ const Main = () => {
   const [isMessage, setIsMessage] = useState(false);
 
   useEffect(() => {
-    getPromos();
-  }, [getPromos]);
-
-  useEffect(() => {
     let time;
     message || errorMessage ? (time = 3000) : (time = 300);
     (message || errorMessage) && setIsMessage(true);
@@ -28,10 +26,15 @@ const Main = () => {
       emptyMessages();
       setIsMessage(false);
     }, time);
+    getPromos();
     return () => {
       clearTimeout(timeout);
     };
-  }, [message, errorMessage, emptyMessages]);
+  }, [getPromos, message, errorMessage, emptyMessages]);
+
+  const newsButtonHandler = () => {
+    history.push('/news');
+  };
 
   return (
     <Fragment>
@@ -58,12 +61,12 @@ const Main = () => {
                 <div className='main-promo-text-container'>
                   <div className='main-promo-title'>{p.promoTitle}</div>
                   <div className='main-promo-text'>{p.promoText}</div>
+
                   <button
-                    onClick={() => deletePromo(p.id)}
-                    className='delete-button new-promo-delete-button'
-                    disabled={promosList.length === 1}
+                    onClick={newsButtonHandler}
+                    className='red-button link-button more-button'
                   >
-                    Obriši najavu
+                    Detaljnije...
                   </button>
                 </div>
                 <div className='main-promo-text-container-filler'>
