@@ -25,6 +25,10 @@ const News = () => {
       setIsMessage(false);
     }, time);
     promosList.length === 0 && getPromos();
+    console.log(
+      '🚀 ~ file: News.js ~ line 28 ~ useEffect ~ promosList',
+      promosList
+    );
     return () => {
       clearTimeout(timeout);
     };

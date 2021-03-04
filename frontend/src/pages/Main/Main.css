@@ -5,6 +5,7 @@
   align-content: center;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
 }
 
 .main-promo-item {
@@ -12,12 +13,11 @@
   top: 0.5rem;
   display: flex;
   justify-content: center;
-  align-content: center;
   align-items: center;
   width: 90vw;
   max-width: 1125px;
   max-height: 90vh;
-  padding: 1rem 0 2rem 0;
+  padding: 1rem 0 2rem 2rem;
 }
 
 .main-promo-pic {
@@ -27,7 +27,7 @@
   border-radius: 20px;
   filter: drop-shadow(6px 4px 5px #000000);
   width: auto;
-  max-height: 75vh;
+  max-height: 70vh;
   height: auto;
 }
 
@@ -73,6 +73,10 @@
 }
 
 @media only screen and (max-width: 985px) {
+  .main-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
   .main-promo-item {
     position: relative;
     top: 2rem;
@@ -84,6 +88,7 @@
     width: 90vw;
     height: auto;
     max-width: 400px;
+    padding: 1rem 0 2rem 0rem;
   }
   .main-promo-pic {
     width: 100%;
@@ -94,7 +99,7 @@
     position: relative;
     top: 0%;
     left: 0%;
-    max-width: 445px;
+    max-width: 100%;
     border-radius: 0px 0px 15px 15px;
     height: fit-content;
   }
