@@ -10,7 +10,7 @@ const Main = () => {
   const {
     getPromos,
     promosList,
-    deletePromo,
+    setPromoAsFirst,
     message,
     errorMessage,
     emptyMessages,
@@ -33,6 +33,8 @@ const Main = () => {
   }, [getPromos, message, errorMessage, emptyMessages]);
 
   const newsButtonHandler = () => {
+    setPromoAsFirst();
+    console.log(promosList);
     history.push('/news');
   };
 

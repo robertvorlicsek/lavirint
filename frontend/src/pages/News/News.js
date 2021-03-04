@@ -24,11 +24,11 @@ const News = () => {
       emptyMessages();
       setIsMessage(false);
     }, time);
-    getPromos();
+    promosList.length === 0 && getPromos();
     return () => {
       clearTimeout(timeout);
     };
-  }, [getPromos, message, errorMessage, emptyMessages]);
+  }, [getPromos, message, errorMessage, emptyMessages, promosList]);
   return (
     <Fragment>
       {isMessage && (

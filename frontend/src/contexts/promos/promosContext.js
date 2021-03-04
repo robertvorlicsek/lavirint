@@ -99,6 +99,10 @@ export const PromosProvider = ({ children }) => {
     }
   };
 
+  const setPromoAsFirst = useCallback(id => {
+    dispatch({ type: 'SET_FIRST', payload: id });
+  }, []);
+
   const deletePromo = async id => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
@@ -136,6 +140,7 @@ export const PromosProvider = ({ children }) => {
       value={{
         getPromos,
         addPromo,
+        setPromoAsFirst,
         deletePromo,
         promosList: state.promosList,
         errorMessage: state.errorMessage,
