@@ -47,8 +47,8 @@ export const PromosProvider = ({ children }) => {
     );
     if (newEntry) {
       const formData = new FormData();
-      formData.append('promoName', newEntry.promoName);
       formData.append('nr', newEntry.nr);
+      formData.append('promoDate', newEntry.promoDate);
       formData.append('promoTitle', newEntry.promoTitle);
       formData.append('promoText', newEntry.promoText);
       if (newEntry.promoImg) {

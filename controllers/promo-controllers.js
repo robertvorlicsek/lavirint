@@ -28,7 +28,7 @@ const getPromos = async (req, res, next) => {
 };
 
 const createPromo = async (req, res, next) => {
-  const { promoName, promoTitle, promoText, nr } = req.body;
+  const { promoName, promoTitle, promoText, nr, promoDate } = req.body;
 
   let newPromoImg;
   try {
@@ -44,8 +44,8 @@ const createPromo = async (req, res, next) => {
   }
 
   const newPromo = new Promo({
-    promoName,
     nr,
+    promoDate,
     promoTitle,
     promoText,
     promoImg: await newPromoImg.url,

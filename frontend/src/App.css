@@ -57,6 +57,16 @@ body {
 
 /* GLOBAL STYLES */
 
+a {
+  text-decoration: none;
+  color: rgb(238, 255, 0);
+  transition: color 0.2s;
+}
+a:hover {
+  text-decoration: none;
+  color: rgb(255, 44, 44);
+}
+
 .opacity {
   opacity: 0;
   transition-delay: 0.5s;

@@ -4,12 +4,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const promoSchema = new Schema({
-  promoName: {
-    type: String,
-    required: true,
-  },
   nr: {
     type: Number,
+    required: true,
+  },
+  promoDate: {
+    type: Date,
     required: true,
   },
   promoTitle: {

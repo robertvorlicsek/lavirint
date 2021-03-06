@@ -1,10 +1,42 @@
 import { useHistory } from 'react-router-dom';
 import { Fragment, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import parse from 'html-react-parser';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
 import './Main.css';
+
+const formatedDate = date => {
+  const days = [
+    'Januar',
+    'Februar',
+    'Mart',
+    'April',
+    'Maj',
+    'Jun',
+    'Jul',
+    'Avgust',
+    'Septembar',
+    'Oktobar',
+    'Novembar',
+    'Decembar',
+  ];
+  let year = date.slice(0, 4);
+  let month = date.slice(5, 7);
+  let day = date.slice(8, 10);
+  month = days[parseInt(month) - 1];
+  return `${day}. ${month} ${year}.`;
+};
+
+const splitText = text => {
+  if (text.includes('-do ovde!-')) {
+    const promoText = text.split('-do ovde!-');
+    return promoText[0];
+  } else {
+    return text;
+  }
+};
 
 const Main = () => {
   let history = useHistory();
@@ -66,89 +98,90 @@ const Main = () => {
         <LoadingOverlay message={message} errorMessage={errorMessage} />
       )}
       <div className='main-page'>
-        <AnimatePresence>
-          {!promosList && <div>Još nema nijedne najave!</div>}
-          {promosList.length !== 0 && showPromo && (
-            <motion.div
-              key={promosList[promoInd].id}
-              className='main-promo-item '
-              // style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
-              initial={
-                !isLoading && promosList.length > 1
-                  ? {
-                      rotateY: '20deg',
-                      skewX: 20,
-                      skewY: -20,
-                      opacity: 0,
-                      display: 'none',
-                    }
-                  : {
-                      opacity: 0,
-                      display: 'none',
-                    }
+        {!promosList && <div>Još nema nijedne najave!</div>}
+        {promosList.length !== 0 && showPromo && (
+          <motion.div
+            key={promosList[promoInd].id}
+            className='main-promo-item '
+            // style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+            initial={
+              !isLoading && promosList.length > 1
+                ? {
+                    rotateY: '20deg',
+                    skewX: 20,
+                    skewY: -20,
+                    opacity: 0,
+                    display: 'none',
+                  }
+                : {
+                    opacity: 0,
+                    display: 'none',
+                  }
+            }
+            animate={
+              !isLoading && promosList.length > 1
+                ? {
+                    skewX: 0,
+                    rotateY: '0deg',
+                    skewY: 0,
+                    opacity: 1,
+                    display: 'flex',
+                  }
+                : {
+                    opacity: 1,
+                    display: 'flex',
+                  }
+            }
+            transition={
+              !isLoading && promosList.length > 1
+                ? { duration: 0.2 }
+                : { delay: 0.5, duration: 0.5 }
+            }
+            exit={
+              promosList.length > 1 && {
+                rotateY: '-20deg',
+                skewX: -20,
+                skewY: 20,
+                opacity: 0,
+                display: 'none',
               }
-              animate={
-                !isLoading && promosList.length > 1
-                  ? {
-                      skewX: 0,
-                      rotateY: '0deg',
-                      skewY: 0,
-                      opacity: 1,
-                      display: 'flex',
-                    }
-                  : {
-                      opacity: 1,
-                      display: 'flex',
-                    }
-              }
-              transition={
-                !isLoading && promosList.length > 1
-                  ? { duration: 0.2 }
-                  : { delay: 0.5, duration: 0.5 }
-              }
-              exit={
-                promosList.length > 1 && {
-                  rotateY: '-20deg',
-                  skewX: -20,
-                  skewY: 20,
-                  opacity: 0,
-                  display: 'none',
-                }
-              }
-            >
-              <div style={{ zIndex: 1 }}>
-                <Image
-                  src={promosList[promoInd].promoImg}
-                  alt={promosList[promoInd].promoTitle}
-                  className='main-promo-pic'
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
-                />
+            }
+          >
+            <div style={{ zIndex: 1 }}>
+              <Image
+                src={promosList[promoInd].promoImg}
+                alt={promosList[promoInd].promoTitle}
+                className='main-promo-pic'
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+              />
+            </div>
+
+            <div className='main-promo-text-container'>
+              <div className='main-promo-date'>
+                {formatedDate(promosList[promoInd].promoDate)}
+              </div>
+              <div className='main-promo-title'>
+                {parse(promosList[promoInd].promoTitle)}
+              </div>
+              <div className='main-promo-text'>
+                {parse(splitText(promosList[promoInd].promoText))}
               </div>
 
-              <div className='main-promo-text-container'>
-                <div className='main-promo-title'>
-                  {promosList[promoInd].promoTitle}
-                </div>
-                <div className='main-promo-text'>
-                  {promosList[promoInd].promoText}
-                </div>
-
-                <button
-                  onClick={() => newsButtonHandler(promosList[promoInd].id)}
-                  className='red-button link-button more-button'
-                >
-                  Detaljnije...
-                </button>
-              </div>
-              <div className='main-promo-text-container-filler'>
-                &nbsp;
-                <br />
-                &nbsp;
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <button
+                onClick={() => newsButtonHandler(promosList[promoInd].id)}
+                className='red-button link-button more-button'
+              >
+                Detaljnije...
+              </button>
+            </div>
+            <div className='main-promo-text-container-filler'>
+              &nbsp;
+              <br />
+              &nbsp;
+            </div>
+          </motion.div>
+        )}
       </div>
     </Fragment>
   );

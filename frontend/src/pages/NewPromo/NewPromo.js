@@ -6,6 +6,13 @@ import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
 import './NewPromo.css';
 
+const date = new Date();
+const currentDate = () => {
+  return `${date.getFullYear()}-${
+    date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+  }-${date.getDay() < 10 ? '0' + date.getDay() : date.getDay() + 1}`;
+};
+
 const NewPromo = () => {
   const {
     register,
@@ -25,6 +32,7 @@ const NewPromo = () => {
   const [takenNr, setTakenNr] = useState('');
   const [notAvailableNr, setNotAvailableNr] = useState(false);
   const [promoPicture, setPromoPicture] = useState([]);
+  const [todaysDate, setTodaysDate] = useState(currentDate());
   const [mainTitle, setMainTitle] = useState('');
   const [mainText, setMainText] = useState('');
   const [isMessage, setIsMessage] = useState(false);
@@ -57,6 +65,8 @@ const NewPromo = () => {
     }
   }, [promosList]);
 
+  console.log(currentDate());
+
   return (
     <Fragment>
       {isMessage && (
@@ -65,17 +75,6 @@ const NewPromo = () => {
       <div className='new-promo-container'>
         <h1 className='new-promo-title'>Upload nove najave</h1>
         <form className='new-promo-form' onSubmit={handleSubmit(onSubmit)}>
-          <label className='new-promo-label'>
-            Ime najave (da bi se lakše našlo i obrisalo sa spiska najava):
-            <input
-              type='text'
-              name='promoName'
-              className='new-promo-input promo-form-hover'
-              ref={register({
-                required: true,
-              })}
-            />
-          </label>
           <label className='new-promo-label'>
             Broj najave (zbog redosleda na glavnoj strani, animacija kreće od
             najvećeg broja).
@@ -96,6 +95,19 @@ const NewPromo = () => {
           {notAvailableNr && (
             <p className='red-warning-text'>Ovaj broj je već zauzet!</p>
           )}
+          <label className='new-promo-label'>
+            Datum:
+            <input
+              onChange={e => setTodaysDate(e.target.value)}
+              type='date'
+              name='promoDate'
+              value={todaysDate}
+              className='new-promo-input promo-form-hover'
+              ref={register({
+                required: true,
+              })}
+            />
+          </label>
           <label className='new-promo-label'>
             Promo slika:
             <ImageUploader
@@ -123,12 +135,20 @@ const NewPromo = () => {
           <label htmlFor='text-editor-text'>
             Promo tekst ide ovde. Ako hoćeš da menjaš boju ili bilo šta drugo,
             stavi željeno/a slovo/a, reč(i) ili rečenicu/e između{' '}
-            {'(<span></span>)'} taga. Primer: <br />
+            {'(<span></span>)'} taga.
+            <br /> Primer:
+            <br />
+            <br />
             {`Gospođa <span style="color: red; font-size:2rem;">prima</span> utorkom i petkom`}
             . <br />
+            <br />
             Ako iskopiraš primer selektivne gospođe tu dole, videćeš na šta
             mislim. Šta sve možeš da staviš u "style", izguglaj pod "css
             styles".
+            <br /> <br />
+            Tekst koji će se pojaviti na najavi prve strane odvoji sa{' '}
+            <span style={{ color: 'yellow' }}>-do ovde!-</span>&nbsp;. <br />
+            Ostatak posle toga će se pojaviti samo u "vestima".
           </label>
           <textarea
             className='promo-form-hover'

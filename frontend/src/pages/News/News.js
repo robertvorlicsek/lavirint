@@ -1,8 +1,18 @@
 import { Fragment, useEffect, useState } from 'react';
+import parse from 'html-react-parser';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
 import './News.css';
+
+const replaceText = text => {
+  if (text.includes('-do ovde!-')) {
+    const newsText = text.replace('-do ovde!-', '');
+    return newsText;
+  } else {
+    return text;
+  }
+};
 
 const News = () => {
   const {
@@ -51,16 +61,19 @@ const News = () => {
                   key={p.id}
                   style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
                 >
-                  <Image
-                    src={p.promoImg}
-                    alt={p.promoTitle}
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                    className='news-item-pic'
-                  />
                   <div className='news-item-text-container'>
-                    <h2 className='news-item-title'>{p.promoTitle}</h2>
-                    <div className='news-item-text'>{p.promoText}</div>
+                    <h2 className='news-item-title'>{parse(p.promoTitle)}</h2>
+                    <div className='news-item-text'>
+                      <Image
+                        src={p.promoImg}
+                        alt={p.promoTitle}
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
+                        className='news-item-pic'
+                      />
+                      <br /> <br />
+                      {parse(replaceText(p.promoText))}
+                    </div>
                     <button
                       onClick={() => deletePromo(p.id)}
                       className='red-button news-item-delete-button'
