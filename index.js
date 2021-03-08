@@ -7,12 +7,14 @@ const HttpError = require('./models/http-error');
 
 const comicsRoutes = require('./routes/comics-routes');
 const promoRoutes = require('./routes/promo-routes');
+const settingsRoutes = require('./routes/settings-routes');
 
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+app.use(express.urlencoded());
 
 app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
@@ -26,6 +28,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/api/settings', settingsRoutes);
 app.use('/api/comics', comicsRoutes);
 app.use('/api/promo', promoRoutes);
 

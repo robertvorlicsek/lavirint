@@ -37,7 +37,7 @@ const Editions = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [comicsList, setIsLoading, message, errorMessage, emptyMessages]);
+  }, [comicsList, message, errorMessage, emptyMessages]);
 
   return (
     <div

@@ -50,6 +50,14 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
       >
         Nova najava
       </Link>
+      <Link
+        onClick={closeMenu}
+        id='settings'
+        className='menu-item'
+        to='/settings'
+      >
+        Podešavanja
+      </Link>
       {/* <Link onClick={showSettings} className='menu-item--small' href='#!'>
         Settings
       </Link> */}

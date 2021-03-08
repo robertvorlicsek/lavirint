@@ -49,10 +49,10 @@ const NewPromo = () => {
   const checkAvailability = e =>
     setNotAvailableNr(Array.from(takenNr).includes(e.target.value));
 
-  useEffect(() => {
-    console.log('touched', formState.touched);
-    console.log('pic', promoPicture);
-  }, [formState, promoPicture]);
+  // useEffect(() => {
+  //   console.log('touched', formState.touched);
+  //   console.log('pic', promoPicture);
+  // }, [formState, promoPicture]);
 
   useEffect(() => {
     getPromos();

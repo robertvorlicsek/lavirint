@@ -46,7 +46,7 @@ body {
     #b8b8b8,
     #cbcbcb
   ); */
-  background-image: url('./pic/background4K.jpg');
+  background-color: black;
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
   background-position: center;

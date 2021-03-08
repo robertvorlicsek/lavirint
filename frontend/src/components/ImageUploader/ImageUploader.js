@@ -6,6 +6,7 @@ const ImageUploader = ({
   setPicture,
   setLogo,
   setPromoPicture,
+  setBackgroundPicture,
   register,
   name,
   radioInput,
@@ -23,13 +24,14 @@ const ImageUploader = ({
       setLogo(image);
     } else if (name === 'promoImg') {
       setPromoPicture(image);
+    } else if (name === 'backgroundImg') {
+      setBackgroundPicture(image);
     }
-  }, [image, name, setPicture, setLogo, setPromoPicture]);
+  }, [image, name, setPicture, setLogo, setPromoPicture, setBackgroundPicture]);
 
   return (
     <div>
       <ImageUploading
-        multiple
         value={image}
         onChange={onChange}
         maxNumber={maxNumber}
@@ -38,7 +40,6 @@ const ImageUploader = ({
         {({
           imageList,
           onImageUpload,
-          onImageUpdate,
           onImageRemove,
           isDragging,
           dragProps,
@@ -59,7 +60,7 @@ const ImageUploader = ({
               {imageList.length === 0 && (
                 <button
                   ref={
-                    name === 'img' || radioInput
+                    name === 'img' || name === 'promoImg' || radioInput
                       ? register({ required: true })
                       : register
                   }
@@ -83,14 +84,16 @@ const ImageUploader = ({
               &nbsp;
               {imageList.map((image, index) => (
                 <div key={index} className='image-item'>
-                  <img src={image['data_url']} alt='' width='100' />
+                  <img
+                    src={image['data_url']}
+                    alt=''
+                    style={
+                      name === 'backgroundImg'
+                        ? { width: '100%', border: '1px solid white' }
+                        : null
+                    }
+                  />
                   <div className='image-item__btn-wrapper'>
-                    <button
-                      className='upload__image-button update'
-                      onClick={() => onImageUpdate(index)}
-                    >
-                      Update
-                    </button>
                     <button
                       className='upload__image-button update'
                       onClick={() => onImageRemove(index)}
