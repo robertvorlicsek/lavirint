@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
+import { useAuthContext } from '../../contexts/auth/authContext';
 import { useSettingsContext } from '../../contexts/settings/settingsContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
@@ -24,11 +25,12 @@ const SettingsPage = () => {
     message,
     errorMessage,
   } = useSettingsContext();
+  const { token } = useAuthContext();
   const { promosList, getPromos } = usePromosContext();
   const [backgroundPicture, setBackgroundPicture] = useState([]);
   const [isMessage, setIsMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [numberOfPromos, setNumberOfPromos] = useState(null);
+  const [numberOfPromos, setNumberOfPromos] = useState('');
   const [submitNow, setSubmitNow] = useState(false);
   useEffect(() => {
     getSettings();
@@ -46,7 +48,7 @@ const SettingsPage = () => {
       data.cloudinaryBackgroundImgId = settings.cloudinaryBackgroundImgId;
       if (data.backgroundImg) {
         console.log(data);
-        updateSettings(data);
+        updateSettings(data, token);
       }
     }
   };
@@ -95,14 +97,14 @@ const SettingsPage = () => {
               setIsLoading={setIsLoading}
             />
           </label>
-          {/* <label className='new-promo-label'>
-            Novi Background: */}
-          <ImageUploader
-            setBackgroundPicture={setBackgroundPicture}
-            name='backgroundImg'
-            register={register}
-          />
-          {/* </label> */}
+          <label className='new-promo-label'>
+            Novi Background:
+            <ImageUploader
+              setBackgroundPicture={setBackgroundPicture}
+              name='backgroundImg'
+              register={register}
+            />
+          </label>
           <button
             // disabled={!formState.isDirty || !formState.isValid}
             disabled={numberOfPromos > promosList.length}

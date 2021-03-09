@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
+import { useAuthContext } from '../../contexts/auth/authContext';
 import { useComicsContext } from '../../contexts/comics/comicsContext';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
@@ -21,6 +22,7 @@ const NewComic = () => {
     message,
     errorMessage,
   } = useComicsContext();
+  const { token } = useAuthContext();
   const [label, setLabel] = useState(undefined);
   const [nr, setNr] = useState(undefined);
   const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
@@ -48,18 +50,13 @@ const NewComic = () => {
       data.logo = logo[0];
     }
     if (data.logo) {
-      addComic(data);
+      addComic(data, token);
     }
   };
 
   useEffect(() => {
     getComics();
   }, [getComics]);
-
-  useEffect(() => {
-    console.log('touched', formState.touched);
-    console.log('pic', picture);
-  }, [formState, picture]);
 
   useEffect(() => {
     const filtered = comicsList.filter(

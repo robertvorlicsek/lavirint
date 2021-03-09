@@ -60,7 +60,7 @@
   height: fit-content;
   position: relative;
   max-width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
   text-shadow: 3px 3px 1px black;
   background-color: rgba(255, 255, 255, 0.2);
   padding: 0.5rem 0;
@@ -81,7 +81,7 @@
 .red-button.news-item-delete-button {
   width: 7rem;
   position: absolute;
-  top: 7rem;
+  top: 6.5rem;
   right: 0;
 }
 

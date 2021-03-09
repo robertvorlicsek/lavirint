@@ -1,6 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import parse from 'html-react-parser';
+import { useAuthContext } from '../../contexts/auth/authContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
@@ -29,6 +30,7 @@ const NewPromo = () => {
     promosList,
     getPromos,
   } = usePromosContext();
+  const { token } = useAuthContext();
   const [takenNr, setTakenNr] = useState('');
   const [notAvailableNr, setNotAvailableNr] = useState(false);
   const [promoPicture, setPromoPicture] = useState([]);
@@ -42,7 +44,7 @@ const NewPromo = () => {
     data.promoImg = promoPicture[0];
     if (data.promoImg) {
       console.log(data);
-      addPromo(data);
+      addPromo(data, token);
     }
   };
 
@@ -64,8 +66,6 @@ const NewPromo = () => {
       setTakenNr(taken);
     }
   }, [promosList]);
-
-  console.log(currentDate());
 
   return (
     <Fragment>

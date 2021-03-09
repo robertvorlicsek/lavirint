@@ -40,7 +40,7 @@ export const SettingsProvider = ({ children }) => {
     }
   }, []);
 
-  const updateSettings = newEntry => {
+  const updateSettings = (newEntry, token) => {
     console.log(
       '🚀 ~ file: promoContext.js ~ line 45 ~ PromoProvider ~ newEntry',
       newEntry
@@ -69,6 +69,7 @@ export const SettingsProvider = ({ children }) => {
           const response = await fetch(`http://localhost:5000/api/settings`, {
             method: 'PATCH',
             body: formData,
+            headers: { Authorization: 'Bearer ' + token },
             signal: httpAbortCtrl.signal,
           });
           const responseData = await response.json();
@@ -142,6 +143,7 @@ export const SettingsProvider = ({ children }) => {
         getSettings,
         updateSettings,
         settings: state.settings,
+        nrOfPromos: state.nrOfPromos,
         //   addPromo,
         //   setPromoAsFirst,
         //   deletePromo,

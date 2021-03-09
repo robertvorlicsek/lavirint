@@ -4,8 +4,12 @@ const { check } = require('express-validator');
 const router = express.Router();
 const comicsControllers = require('../controllers/promo-controllers');
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 
 router.get('/', comicsControllers.getPromos);
+
+router.use(checkAuth);
+
 router.post(
   '/newpromo',
   // fileUpload.single('img'),

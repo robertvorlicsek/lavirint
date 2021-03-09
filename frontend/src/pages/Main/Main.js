@@ -2,6 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { Fragment, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import parse from 'html-react-parser';
+import { useSettingsContext } from '../../contexts/settings/settingsContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
@@ -48,6 +49,7 @@ const Main = () => {
     errorMessage,
     emptyMessages,
   } = usePromosContext();
+  const { settings } = useSettingsContext();
   const [isLoading, setIsLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
   const [showPromo, setShowPromo] = useState(true);
@@ -68,29 +70,30 @@ const Main = () => {
   }, [getPromos, message, errorMessage, emptyMessages]);
 
   useEffect(() => {
+    const newPromoNr = promosList.slice(0, settings.nrOfPromos);
     setShowPromo(true);
-    let animTimeout = setTimeout(() => {
-      setShowPromo(false);
-      setPromoInd(i => {
-        if (promosList.length > i + 1) {
-          return i + 1;
-        } else {
-          return 0;
-        }
-      });
-    }, 8000);
+    if (newPromoNr.length !== 1) {
+      let animTimeout = setTimeout(() => {
+        setShowPromo(false);
+        setPromoInd(i => {
+          if (newPromoNr.length > i + 1) {
+            return i + 1;
+          } else {
+            return 0;
+          }
+        });
+      }, 8000);
 
-    return () => {
-      clearTimeout(animTimeout);
-    };
-  }, [promosList, promoInd]);
+      return () => {
+        clearTimeout(animTimeout);
+      };
+    }
+  }, [promosList, promoInd, settings]);
 
   const newsButtonHandler = id => {
     setPromoAsFirst(id);
     history.push('/news');
   };
-
-  console.log(promoInd);
 
   return (
     <Fragment>

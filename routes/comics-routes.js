@@ -4,9 +4,13 @@ const { check } = require('express-validator');
 const router = express.Router();
 const comicsControllers = require('../controllers/comics-controllers');
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 
 router.get('/', comicsControllers.getAllComics);
 router.get('/editions/:editionId', comicsControllers.getComicsByEditionId);
+
+router.use(checkAuth);
+
 router.post(
   '/newcomic',
   // fileUpload.single('img'),

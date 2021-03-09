@@ -40,7 +40,7 @@ export const PromosProvider = ({ children }) => {
     }
   }, []);
 
-  const addPromo = newEntry => {
+  const addPromo = (newEntry, token) => {
     console.log(
       '🚀 ~ file: promoContext.js ~ line 45 ~ PromoProvider ~ newEntry',
       newEntry
@@ -68,6 +68,7 @@ export const PromosProvider = ({ children }) => {
             {
               method: 'POST',
               body: formData,
+              headers: { Authorization: 'Bearer ' + token },
               signal: httpAbortCtrl.signal,
             }
           );
@@ -103,13 +104,14 @@ export const PromosProvider = ({ children }) => {
     dispatch({ type: 'SET_FIRST', payload: id });
   }, []);
 
-  const deletePromo = async id => {
+  const deletePromo = async (id, token) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
       const response = await fetch(`http://localhost:5000/api/promo/${id}`, {
         method: 'DELETE',
         body: null,
+        headers: { Authorization: 'Bearer ' + token },
         signal: httpAbortCtrl.signal,
       });
       const resMessage = await response.json();

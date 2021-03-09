@@ -1,0 +1,99 @@
+import {
+  useEffect,
+  createContext,
+  useReducer,
+  useContext,
+  //   useCallback,
+  useRef,
+} from 'react';
+import { authReducer, authInitialState } from './authReducer';
+
+import { useHistory } from 'react-router-dom';
+const AuthContext = createContext();
+export const useAuthContext = () => useContext(AuthContext);
+
+// Auth context for the provider
+export const AuthProvider = ({ children }) => {
+  const activeHttpRequests = useRef([]);
+  const [state, dispatch] = useReducer(authReducer, authInitialState);
+  const history = useHistory();
+
+  useEffect(() => {
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
+    };
+  }, []);
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem('userData'));
+    if (storedData && storedData.token) {
+      dispatch({ type: 'AUTH', payload: storedData });
+    }
+  }, []);
+
+  const signup = async authData => {
+    console.log(
+      '🚀 ~ file: comicsContext.js ~ line 75 ~ ComicsProvider ~ newEntry',
+      authData
+    );
+
+    const mode =
+      // 'signup'
+      'login';
+    const httpAbortCtrl = new AbortController();
+    activeHttpRequests.current.push(httpAbortCtrl);
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${mode}`, {
+        method: 'POST',
+        body: JSON.stringify(authData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal: httpAbortCtrl.signal,
+      });
+      const responseData = await response.json();
+
+      activeHttpRequests.current = activeHttpRequests.current.filter(
+        reqCtrl => reqCtrl !== httpAbortCtrl
+      );
+
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+
+      dispatch({
+        type: 'MESSAGE',
+        payload: responseData.message,
+      });
+      dispatch({ type: 'AUTH', payload: responseData });
+      history.push(`/promo`);
+    } catch (err) {
+      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      console.log(err);
+    }
+  };
+
+  const logout = () => {
+    dispatch({ type: 'LOGOUT', payload: 'Logout uspešan' });
+    history.push(`/promo`);
+  };
+
+  const switchToSignup = mode => {
+    dispatch({ type: 'SWITCH_TO_SIGNUP', payload: mode });
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        signup,
+        token: state.token,
+        logout,
+        switchToSignup,
+        signupMode: state.signupMode,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};

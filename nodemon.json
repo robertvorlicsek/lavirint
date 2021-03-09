@@ -2,6 +2,7 @@
     "env": {
         "DB_USER": "plavi",
         "DB_PASSWORD": "zeMqKtQNgysQ6RtD",
-        "DB_NAME": "lavirintDB"
+        "DB_NAME": "lavirintDB",
+        "JWT_KEY": "najtajnini_dekarin_kljuch"
     }
 }

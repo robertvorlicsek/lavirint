@@ -1,20 +1,20 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const HttpError = require('./models/http-error');
 
+const usersRoutes = require('./routes/users-routes');
 const comicsRoutes = require('./routes/comics-routes');
 const promoRoutes = require('./routes/promo-routes');
 const settingsRoutes = require('./routes/settings-routes');
 
 const app = express();
 
+// mongoose.set('useCreateIndex', true);
 app.use(cors());
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
 app.use(express.urlencoded());
+app.use(express.json());
 
 app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 app.use('/api/settings', settingsRoutes);
 app.use('/api/comics', comicsRoutes);
 app.use('/api/promo', promoRoutes);
+app.use('/api/users', usersRoutes);
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname + '/frontend/src/index.html'));

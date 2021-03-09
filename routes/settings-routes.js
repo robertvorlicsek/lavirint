@@ -4,8 +4,11 @@ const { check } = require('express-validator');
 const router = express.Router();
 const settingsControllers = require('../controllers/settings-controllers');
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 
 router.get('/', settingsControllers.getSettings);
+
+router.use(checkAuth);
 
 router.post(
   '/newsettings',

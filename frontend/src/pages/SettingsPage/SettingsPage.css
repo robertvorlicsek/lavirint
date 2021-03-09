@@ -69,13 +69,13 @@
   background-color: black;
 }
 
-.new-promo-submit:hover {
+.settings-submit:hover {
   color: white;
   background-color: rgb(60, 60, 60);
 }
 
-.new-promo-submit:disabled,
-.new-promo-submit[disabled] {
+.settings-submit:disabled,
+.settings-submit[disabled] {
   border: 1px solid #999999;
   background-color: #8a8a8a;
   color: #666666;

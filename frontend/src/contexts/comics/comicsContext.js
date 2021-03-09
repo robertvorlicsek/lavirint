@@ -71,7 +71,7 @@ export const ComicsProvider = ({ children }) => {
   const getEditionId = editionId =>
     dispatch({ type: 'GET_EDITION_ID', payload: editionId });
 
-  const addComic = newEntry => {
+  const addComic = (newEntry, token) => {
     console.log(
       '🚀 ~ file: comicsContext.js ~ line 75 ~ ComicsProvider ~ newEntry',
       newEntry
@@ -108,6 +108,7 @@ export const ComicsProvider = ({ children }) => {
             {
               method: 'POST',
               body: formData,
+              headers: { Authorization: 'Bearer ' + token },
               signal: httpAbortCtrl.signal,
             }
           );
@@ -141,13 +142,14 @@ export const ComicsProvider = ({ children }) => {
     }
   };
 
-  const removeComic = async id => {
+  const removeComic = async (id, token) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
       const response = await fetch(`http://localhost:5000/api/comics/${id}`, {
         method: 'DELETE',
         body: null,
+        headers: { Authorization: 'Bearer ' + token },
         signal: httpAbortCtrl.signal,
       });
       const resMessage = await response.json();

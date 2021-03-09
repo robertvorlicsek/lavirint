@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import parse from 'html-react-parser';
+import { useAuthContext } from '../../contexts/auth/authContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
@@ -23,6 +24,7 @@ const News = () => {
     errorMessage,
     emptyMessages,
   } = usePromosContext();
+  const { token } = useAuthContext();
   const [isLoading, setIsLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
 
@@ -35,10 +37,6 @@ const News = () => {
       setIsMessage(false);
     }, time);
     promosList.length === 0 && getPromos();
-    console.log(
-      '🚀 ~ file: News.js ~ line 28 ~ useEffect ~ promosList',
-      promosList
-    );
     return () => {
       clearTimeout(timeout);
     };
@@ -74,13 +72,15 @@ const News = () => {
                       <br /> <br />
                       {parse(replaceText(p.promoText))}
                     </div>
-                    <button
-                      onClick={() => deletePromo(p.id)}
-                      className='red-button news-item-delete-button'
-                      disabled={promosList.length === 1}
-                    >
-                      Obriši najavu
-                    </button>
+                    {!!token && (
+                      <button
+                        onClick={() => deletePromo(p.id, token)}
+                        className='red-button news-item-delete-button'
+                        disabled={promosList.length === 1}
+                      >
+                        Obriši najavu
+                      </button>
+                    )}
                   </div>
                 </div>
               );

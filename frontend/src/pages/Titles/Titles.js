@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAuthContext } from '../../contexts/auth/authContext';
 import { useComicsContext } from '../../contexts/comics/comicsContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
@@ -16,6 +17,7 @@ const Editions = () => {
     errorMessage,
     editionList,
   } = useComicsContext();
+  const { token } = useAuthContext();
   const parEditionId = useParams().editionId;
 
   useEffect(() => {
@@ -63,12 +65,14 @@ const Editions = () => {
               <div className='comic-image-description'>
                 {comic.title} {comic.nr}
               </div>
-              <button
-                onClick={() => removeComic(comic.id)}
-                className='red-button'
-              >
-                obriši strip
-              </button>
+              {!!token && (
+                <button
+                  onClick={() => removeComic(comic.id, token)}
+                  className='red-button'
+                >
+                  obriši strip
+                </button>
+              )}
             </div>
           ))}
       </div>
