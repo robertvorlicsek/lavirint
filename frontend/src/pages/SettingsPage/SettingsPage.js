@@ -28,9 +28,9 @@ const SettingsPage = () => {
   const { token } = useAuthContext();
   const { promosList, getPromos } = usePromosContext();
   const [backgroundPicture, setBackgroundPicture] = useState([]);
+  const [newNrOfPromos, setNewNrOfPromos] = useState('');
   const [isMessage, setIsMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [numberOfPromos, setNumberOfPromos] = useState('');
   const [submitNow, setSubmitNow] = useState(false);
   useEffect(() => {
     getSettings();
@@ -51,10 +51,6 @@ const SettingsPage = () => {
         updateSettings(data, token);
       }
     }
-  };
-
-  const nrOfPromosHandler = e => {
-    setNumberOfPromos(e.target.value);
   };
 
   return (
@@ -79,9 +75,9 @@ const SettingsPage = () => {
             <input
               type='number'
               name='nrOfPromos'
-              value={numberOfPromos || settings.nrOfPromos}
-              onChange={nrOfPromosHandler}
+              defaultValue={settings.nrOfPromos}
               className='settings-input settings-hover'
+              onChange={e => setNewNrOfPromos(e.target.value)}
               ref={register({
                 required: true,
               })}
@@ -107,7 +103,11 @@ const SettingsPage = () => {
           </label>
           <button
             // disabled={!formState.isDirty || !formState.isValid}
-            disabled={numberOfPromos > promosList.length}
+            disabled={
+              newNrOfPromos > promosList.length || newNrOfPromos < 1
+                ? true
+                : false
+            }
             type='submit'
             value='Submit'
             className='settings-submit'
