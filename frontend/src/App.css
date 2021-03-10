@@ -31,21 +31,6 @@ body {
 .main-styles {
   display: flex;
   flex-direction: column;
-  /* background: linear-gradient(
-    to left top,
-    #515151,
-    #565656,
-    #5a5a5a,
-    #5f5f5f,
-    #646464,
-    #6e6e6e,
-    #787878,
-    #828282,
-    #949494,
-    #a6a6a6,
-    #b8b8b8,
-    #cbcbcb
-  ); */
   background-color: black;
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
@@ -53,6 +38,12 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+}
+
+.app-loader-container {
+  display: flex;
+  width: 100vw;
+  text-align: center;
 }
 
 /* GLOBAL STYLES */

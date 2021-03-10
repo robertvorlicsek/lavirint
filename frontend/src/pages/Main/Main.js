@@ -6,29 +6,30 @@ import { useSettingsContext } from '../../contexts/settings/settingsContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
+import { getFormatedDate } from '../../hooks/useFormatDate';
 import './Main.css';
 
-const formatedDate = date => {
-  const days = [
-    'Januar',
-    'Februar',
-    'Mart',
-    'April',
-    'Maj',
-    'Jun',
-    'Jul',
-    'Avgust',
-    'Septembar',
-    'Oktobar',
-    'Novembar',
-    'Decembar',
-  ];
-  let year = date.slice(0, 4);
-  let month = date.slice(5, 7);
-  let day = date.slice(8, 10);
-  month = days[parseInt(month) - 1];
-  return `${day}. ${month} ${year}.`;
-};
+// const formatedDate = date => {
+//   const days = [
+//     'Januar',
+//     'Februar',
+//     'Mart',
+//     'April',
+//     'Maj',
+//     'Jun',
+//     'Jul',
+//     'Avgust',
+//     'Septembar',
+//     'Oktobar',
+//     'Novembar',
+//     'Decembar',
+//   ];
+//   let year = date.slice(0, 4);
+//   let month = date.slice(5, 7);
+//   let day = date.slice(8, 10);
+//   month = days[parseInt(month) - 1];
+//   return `${day}. ${month} ${year}.`;
+// };
 
 const splitText = text => {
   if (text.includes('-do ovde!-')) {
@@ -162,7 +163,7 @@ const Main = () => {
 
             <div className='main-promo-text-container'>
               <div className='main-promo-date'>
-                {formatedDate(promosList[promoInd].promoDate)}
+                {getFormatedDate(promosList[promoInd].promoDate)}
               </div>
               <div className='main-promo-title'>
                 {parse(promosList[promoInd].promoTitle)}

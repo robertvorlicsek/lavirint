@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import { useAuthContext } from '../../contexts/auth/authContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
+import { getFormatedDate } from '../../hooks/useFormatDate';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
 import './News.css';
@@ -69,6 +70,7 @@ const News = () => {
                         setIsLoading={setIsLoading}
                         className='news-item-pic'
                       />
+                      <span>{getFormatedDate(p.promoDate)}</span>
                       <br /> <br />
                       {parse(replaceText(p.promoText))}
                     </div>
