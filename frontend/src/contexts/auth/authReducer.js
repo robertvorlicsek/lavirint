@@ -3,22 +3,22 @@ export const authInitialState = {
   userId: null,
   username: null,
   token: null,
-  //   tokenExpirationDate: null,
+  tokenExpirationDate: null,
   message: '',
   errorMessage: '',
 };
 
 export const authReducer = (state, { type, payload }) => {
-  //   const expDate =
-  //     payload.expiration || new Date(new Date().getTime() + 1000 * 60 * 60);
   switch (type) {
     case 'AUTH':
+      const tokenExpirationDate =
+        payload.expiration || new Date(new Date().getTime() + 1000 * 60 * 60);
       localStorage.setItem(
         'userData',
         JSON.stringify({
           userId: payload.userId,
           token: payload.token,
-          //   expiration: expDate,
+          expiration: tokenExpirationDate,
         })
       );
       return {
@@ -27,7 +27,7 @@ export const authReducer = (state, { type, payload }) => {
         userId: payload.userId,
         username: payload.username,
         token: payload.token,
-        // tokenExpirationDate: expDate,
+        tokenExpirationDate: new Date(tokenExpirationDate),
       };
     case 'LOGOUT':
       localStorage.removeItem('userData');
@@ -37,7 +37,7 @@ export const authReducer = (state, { type, payload }) => {
         userId: null,
         username: null,
         token: null,
-        // tokenExpirationDate: null,
+        tokenExpirationDate: null,
       };
     case 'SWITCH_TO_SIGNUP':
       return {

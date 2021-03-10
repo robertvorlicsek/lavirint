@@ -3,8 +3,8 @@ import {
   createContext,
   useReducer,
   useContext,
-  //   useCallback,
   useRef,
+  useCallback,
 } from 'react';
 import { authReducer, authInitialState } from './authReducer';
 
@@ -27,7 +27,11 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
-    if (storedData && storedData.token) {
+    if (
+      storedData &&
+      storedData.token &&
+      new Date(storedData.expiration) > new Date()
+    ) {
       dispatch({ type: 'AUTH', payload: storedData });
     }
   }, []);
@@ -74,10 +78,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = useCallback(() => {
     dispatch({ type: 'LOGOUT', payload: 'Logout uspešan' });
     history.push(`/promo`);
-  };
+  }, [history]);
+
+  useEffect(() => {
+    let logoutTimer;
+    if (state.token && state.tokenExpirationDate) {
+      const remainingTime =
+        state.tokenExpirationDate.getTime() - new Date().getTime();
+      logoutTimer = setTimeout(logout, remainingTime);
+    } else {
+      clearTimeout(logoutTimer);
+    }
+  }, [state.token, logout, state.tokenExpirationDate]);
 
   const switchToSignup = mode => {
     dispatch({ type: 'SWITCH_TO_SIGNUP', payload: mode });
