@@ -20,7 +20,6 @@ const SettingsPage = () => {
   });
   const {
     settings,
-    getSettings,
     updateSettings,
     message,
     errorMessage,
@@ -33,9 +32,8 @@ const SettingsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [submitNow, setSubmitNow] = useState(false);
   useEffect(() => {
-    getSettings();
     getPromos();
-  }, [getSettings, getPromos]);
+  }, [getPromos]);
 
   const onSubmit = data => {
     if (submitNow) {

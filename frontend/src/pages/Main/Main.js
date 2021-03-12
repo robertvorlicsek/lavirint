@@ -1,35 +1,15 @@
-import { useHistory } from 'react-router-dom';
 import { Fragment, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useHistory } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import parse from 'html-react-parser';
 import { useSettingsContext } from '../../contexts/settings/settingsContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
+import { useAuthContext } from '../../contexts/auth/authContext';
+
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
 import { getFormatedDate } from '../../hooks/useFormatDate';
 import './Main.css';
-
-// const formatedDate = date => {
-//   const days = [
-//     'Januar',
-//     'Februar',
-//     'Mart',
-//     'April',
-//     'Maj',
-//     'Jun',
-//     'Jul',
-//     'Avgust',
-//     'Septembar',
-//     'Oktobar',
-//     'Novembar',
-//     'Decembar',
-//   ];
-//   let year = date.slice(0, 4);
-//   let month = date.slice(5, 7);
-//   let day = date.slice(8, 10);
-//   month = days[parseInt(month) - 1];
-//   return `${day}. ${month} ${year}.`;
-// };
 
 const splitText = text => {
   if (text.includes('-do ovde!-')) {
@@ -41,6 +21,7 @@ const splitText = text => {
 };
 
 const Main = () => {
+  const { loggedIn } = useAuthContext();
   let history = useHistory();
   const {
     getPromos,
@@ -54,7 +35,16 @@ const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
   const [showPromo, setShowPromo] = useState(true);
+  const [opacity, setOpacity] = useState(0);
   const [promoInd, setPromoInd] = useState(0);
+  const [disableIntro, setDisableIntro] = useState(false);
+
+  useEffect(() => {
+    const intro = JSON.parse(sessionStorage.getItem('intro'));
+    if (intro && intro.disableIntro) {
+      setDisableIntro(true);
+    }
+  }, []);
 
   useEffect(() => {
     let time;
@@ -64,7 +54,6 @@ const Main = () => {
       emptyMessages();
       setIsMessage(false);
     }, time);
-    getPromos();
     return () => {
       clearTimeout(timeout);
     };
@@ -91,6 +80,17 @@ const Main = () => {
     }
   }, [promosList, promoInd, settings]);
 
+  useEffect(() => {
+    let time = disableIntro ? 1000 : 4000;
+    let opacity = setTimeout(() => {
+      setOpacity(1);
+    }, time);
+
+    return () => {
+      clearTimeout(opacity);
+    };
+  }, [promosList, promoInd, settings, disableIntro]);
+
   const newsButtonHandler = id => {
     setPromoAsFirst(id);
     history.push('/news');
@@ -101,91 +101,106 @@ const Main = () => {
       {isMessage && (
         <LoadingOverlay message={message} errorMessage={errorMessage} />
       )}
-      <div className='main-page'>
-        {!promosList && <div>Još nema nijedne najave!</div>}
-        {promosList.length !== 0 && showPromo && (
-          <motion.div
-            key={promosList[promoInd].id}
-            className='main-promo-item '
-            // style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
-            initial={
-              !isLoading && promosList.length > 1
-                ? {
-                    rotateY: '20deg',
-                    skewX: 20,
-                    skewY: -20,
-                    opacity: 0,
-                    display: 'none',
-                  }
-                : {
-                    opacity: 0,
-                    display: 'none',
-                  }
-            }
-            animate={
-              !isLoading && promosList.length > 1
-                ? {
-                    skewX: 0,
-                    rotateY: '0deg',
-                    skewY: 0,
-                    opacity: 1,
-                    display: 'flex',
-                  }
-                : {
-                    opacity: 1,
-                    display: 'flex',
-                  }
-            }
-            transition={
-              !isLoading && promosList.length > 1
-                ? { duration: 0.2 }
-                : { delay: 0.5, duration: 0.5 }
-            }
-            exit={
-              promosList.length > 1 && {
-                rotateY: '-20deg',
-                skewX: -20,
-                skewY: 20,
-                opacity: 0,
-                display: 'none',
+      <div
+        className='main-page'
+        style={
+          !loggedIn
+            ? {
+                transition: 'opacity 0.2s',
+                opacity,
               }
-            }
-          >
-            <div style={{ zIndex: 1 }}>
-              <Image
-                src={promosList[promoInd].promoImg}
-                alt={promosList[promoInd].promoTitle}
-                className='main-promo-pic'
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-              />
-            </div>
+            : { opacity: 1 }
+        }
+      >
+        <AnimatePresence
+          exitBeforeEnter
+          initial={false}
+          onExitComplete={() => {}}
+        >
+          {!promosList && <div>Još nema nijedne najave!</div>}
+          {promosList.length !== 0 && showPromo && (
+            <motion.div
+              key={promosList[promoInd].id}
+              className='main-promo-item '
+              initial={
+                !isLoading && promosList.length > 1
+                  ? {
+                      rotateY: '20deg',
+                      skewX: 20,
+                      skewY: -20,
+                      opacity: 0,
+                      display: 'none',
+                    }
+                  : {
+                      opacity: 0,
+                      display: 'none',
+                    }
+              }
+              animate={
+                !isLoading && promosList.length > 1
+                  ? {
+                      skewX: 0,
+                      rotateY: '0deg',
+                      skewY: 0,
+                      opacity: 1,
+                      display: 'flex',
+                    }
+                  : {
+                      opacity: 1,
+                      display: 'flex',
+                    }
+              }
+              transition={
+                !isLoading && promosList.length > 1
+                  ? { duration: 0.2 }
+                  : { delay: 0.5, duration: 0.5 }
+              }
+              exit={
+                promosList.length > 1 && {
+                  rotateY: '-20deg',
+                  skewX: -20,
+                  skewY: 20,
+                  opacity: 0,
+                  display: 'none',
+                }
+              }
+            >
+              <div style={{ zIndex: 1 }}>
+                <Image
+                  src={promosList[promoInd].promoImg}
+                  alt={promosList[promoInd].promoTitle}
+                  className='main-promo-pic'
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                />
+              </div>
 
-            <div className='main-promo-text-container'>
-              <div className='main-promo-date'>
-                {getFormatedDate(promosList[promoInd].promoDate)}
-              </div>
-              <div className='main-promo-title'>
-                {parse(promosList[promoInd].promoTitle)}
-              </div>
-              <div className='main-promo-text'>
-                {parse(splitText(promosList[promoInd].promoText))}
-              </div>
+              <div className='main-promo-text-container'>
+                <div className='main-promo-date'>
+                  {getFormatedDate(promosList[promoInd].promoDate)}
+                </div>
+                <div className='main-promo-title'>
+                  {parse(promosList[promoInd].promoTitle)}
+                </div>
+                <div className='main-promo-text'>
+                  {parse(splitText(promosList[promoInd].promoText))}
+                </div>
 
-              <button
-                onClick={() => newsButtonHandler(promosList[promoInd].id)}
-                className='red-button link-button more-button'
-              >
-                Detaljnije...
-              </button>
-            </div>
-            <div className='main-promo-text-container-filler'>
-              &nbsp;
-              <br />
-              &nbsp;
-            </div>
-          </motion.div>
-        )}
+                <button
+                  onClick={() => newsButtonHandler(promosList[promoInd].id)}
+                  className='red-button link-button more-button'
+                >
+                  Detaljnije...
+                </button>
+              </div>
+              <div className='main-promo-text-container-filler'>
+                &nbsp;
+                <br />
+                &nbsp;
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </Fragment>
   );

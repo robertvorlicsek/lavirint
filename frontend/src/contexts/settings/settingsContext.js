@@ -24,6 +24,18 @@ export const SettingsProvider = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    let disableIntroTimer = setTimeout(() => {
+      sessionStorage.setItem(
+        'intro',
+        JSON.stringify({
+          disableIntro: true,
+        })
+      );
+    }, 2000);
+    return () => clearTimeout(disableIntroTimer);
+  }, []);
+
   const getSettings = useCallback(async () => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
@@ -39,6 +51,10 @@ export const SettingsProvider = ({ children }) => {
       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
     }
   }, []);
+
+  useEffect(() => {
+    getSettings();
+  }, [getSettings]);
 
   const updateSettings = (newEntry, token) => {
     console.log(

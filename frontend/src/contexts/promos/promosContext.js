@@ -40,6 +40,10 @@ export const PromosProvider = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    getPromos();
+  }, [getPromos]);
+
   const addPromo = (newEntry, token) => {
     console.log(
       '🚀 ~ file: promoContext.js ~ line 45 ~ PromoProvider ~ newEntry',
