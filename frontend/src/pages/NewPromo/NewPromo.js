@@ -7,8 +7,13 @@ import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
 import './NewPromo.css';
 
-const date = new Date();
 const currentDate = () => {
+  const currentTime = Date.now();
+  console.log(
+    '🚀 ~ file: NewPromo.js ~ line 12 ~ currentDate ~ currentTime',
+    currentTime
+  );
+  const date = new Date(currentTime);
   return `${date.getFullYear()}-${
     date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
   }-${date.getDay() < 10 ? '0' + date.getDay() : date.getDay() + 1}`;
@@ -28,7 +33,7 @@ const NewPromo = () => {
   const [takenNr, setTakenNr] = useState('');
   const [notAvailableNr, setNotAvailableNr] = useState(false);
   const [promoPicture, setPromoPicture] = useState([]);
-  const [todaysDate, setTodaysDate] = useState(currentDate());
+  const [todaysDate, setTodaysDate] = useState(null);
   const [mainTitle, setMainTitle] = useState('');
   const [mainText, setMainText] = useState('');
   const [isMessage, setIsMessage] = useState(false);
@@ -55,6 +60,10 @@ const NewPromo = () => {
       const taken = promosList.map(p => p.nr).toString();
       setTakenNr(taken);
     }
+  }, [promosList]);
+
+  useEffect(() => {
+    setTodaysDate(currentDate());
   }, [promosList]);
 
   return (
@@ -91,7 +100,7 @@ const NewPromo = () => {
               onChange={e => setTodaysDate(e.target.value)}
               type='date'
               name='promoDate'
-              value={todaysDate}
+              value={todaysDate || currentDate()}
               className='new-promo-input promo-form-hover'
               ref={register({
                 required: true,
