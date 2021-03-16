@@ -68,6 +68,76 @@ const createPromo = async (req, res, next) => {
   }
 };
 
+const updatePromo = async (req, res, next) => {
+  const { promoTitle, promoText, nr, promoDate } = req.body;
+  const promoId = req.params.pid;
+
+  let newPromoImg;
+  let oldPromoImg;
+  let cloudinaryId;
+
+  let promo;
+  try {
+    promo = await Promo.findById(promoId);
+  } catch (err) {
+    const error = new HttpError(
+      'Something went wrong, could not update promo',
+      500
+    );
+    return next(error);
+  }
+
+  if (req.files && !req.body.promoImg) {
+    try {
+      await cloudinaryUtil.cloudinaryDelete(promo.cloudinaryPromoImgId);
+    } catch (err) {
+      const error = new HttpError(
+        'Stara slika iz najave nije obrisana, probaj još jednom kasnije!',
+        500
+      );
+      return next(error);
+    }
+    try {
+      newPromoImg = await cloudinaryUtil.cloudinaryUpload(
+        req.files['promoImg'][0].path
+      );
+    } catch (err) {
+      const error = new HttpError(
+        'Upload promo slike nije uspeo, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
+  } else if (req.body.promoImg && req.body.cloudinaryPromoImgId) {
+    oldPromoImg = req.body.promoImg;
+    cloudinaryId = req.body.cloudinaryPromoImgId;
+  }
+
+  promo.promoTitle = promoTitle;
+  promo.nr = nr;
+  promo.promoText = promoText;
+  promo.promoDate = promoDate;
+  promo.promoImg = newPromoImg ? await newPromoImg.url : oldPromoImg;
+  promo.cloudinaryPromoImgId = newPromoImg
+    ? await newPromoImg.public_id
+    : cloudinaryId;
+
+  // console.log('new-promo:', newPromo);
+  if (promo.promoImg) {
+    try {
+      await promo.save();
+    } catch (err) {
+      const error = new HttpError(
+        'Update najave nije uspeo, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
+
+    res.status(201).json({ message: 'Najava je apdejtovana!' });
+  }
+};
+
 const deletePromo = async (req, res, next) => {
   const id = req.params.id;
   let promo;
@@ -107,4 +177,5 @@ const deletePromo = async (req, res, next) => {
 
 exports.getPromos = getPromos;
 exports.createPromo = createPromo;
+exports.updatePromo = updatePromo;
 exports.deletePromo = deletePromo;

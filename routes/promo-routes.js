@@ -8,7 +8,7 @@ const checkAuth = require('../middleware/check-auth');
 
 router.get('/', comicsControllers.getPromos);
 
-router.use(checkAuth);
+// router.use(checkAuth);
 
 router.post(
   '/newpromo',
@@ -21,6 +21,18 @@ router.post(
     check('promoText').not().isEmpty(),
   ],
   comicsControllers.createPromo
+);
+router.patch(
+  '/:pid',
+  // fileUpload.single('img'),
+  fileUpload.fields([{ name: 'promoImg', maxCount: 1 }]),
+  [
+    check('promoName').not().isEmpty(),
+    check('nr').not().isEmpty(),
+    check('promoTitle').not().isEmpty(),
+    check('promoText').not().isEmpty(),
+  ],
+  comicsControllers.updatePromo
 );
 router.delete('/:id', comicsControllers.deletePromo);
 
