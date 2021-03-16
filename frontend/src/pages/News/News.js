@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import parse from 'html-react-parser';
+import { useHistory } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/auth/authContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
 import { getFormatedDate } from '../../hooks/useFormatDate';
@@ -17,6 +18,7 @@ const replaceText = text => {
 };
 
 const News = () => {
+  const history = useHistory();
   const {
     getPromos,
     promosList,
@@ -75,13 +77,22 @@ const News = () => {
                       {parse(replaceText(p.promoText))}
                     </div>
                     {!!token && (
-                      <button
-                        onClick={() => deletePromo(p.id, token)}
-                        className='red-button news-item-delete-button'
-                        disabled={promosList.length === 1}
-                      >
-                        Obriši najavu
-                      </button>
+                      <Fragment>
+                        <button
+                          onClick={() => history.push(`/promo/edit/${p.id}`)}
+                          className='red-button news-item-edit-button'
+                          disabled={promosList.length === 1}
+                        >
+                          Edituj
+                        </button>
+                        <button
+                          onClick={() => deletePromo(p.id, token)}
+                          className='red-button news-item-delete-button'
+                          disabled={promosList.length === 1}
+                        >
+                          Obriši
+                        </button>
+                      </Fragment>
                     )}
                   </div>
                 </div>

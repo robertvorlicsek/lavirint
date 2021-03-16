@@ -60,7 +60,7 @@ const ImageUploader = ({
               {imageList.length === 0 && (
                 <button
                   ref={
-                    name === 'img' || name === 'promoImg' || radioInput
+                    name === 'img' || radioInput
                       ? register({ required: true })
                       : register
                   }

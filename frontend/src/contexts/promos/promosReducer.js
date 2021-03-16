@@ -16,6 +16,12 @@ export const promosReducer = (state, { type, payload }) => {
         ...state,
         promosList: [...state.promosList, payload],
       };
+    case 'UPDATE':
+      const otherEntries = state.promosList.filter(p => p.id !== payload.id);
+      return {
+        ...state,
+        promosList: [...otherEntries, payload],
+      };
     case 'SET_FIRST':
       const indexInPromoArr = state.promosList.findIndex(p => p.id === payload);
       const newPromosListArr = [...state.promosList];

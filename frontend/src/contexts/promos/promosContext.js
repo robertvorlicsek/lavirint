@@ -103,6 +103,71 @@ export const PromosProvider = ({ children }) => {
       sendPromo();
     }
   };
+  const updatePromo = (modifiedEntry, token) => {
+    console.log(
+      '🚀 ~ file: promoContext.js ~ line 45 ~ PromoProvider ~ modifiedEntry',
+      modifiedEntry
+    );
+    if (modifiedEntry) {
+      const formData = new FormData();
+      formData.append('nr', modifiedEntry.nr);
+      formData.append('promoDate', modifiedEntry.promoDate);
+      formData.append('promoTitle', modifiedEntry.promoTitle);
+      formData.append('promoText', modifiedEntry.promoText);
+      formData.append(
+        'cloudinaryPromoImgId',
+        modifiedEntry.cloudinaryPromoImgId
+      );
+      if (modifiedEntry.promoImg.file) {
+        formData.append('promoImg', modifiedEntry.promoImg.file);
+      } else if (!modifiedEntry.promoImg.file) {
+        formData.append('promoImg', modifiedEntry.promoImg);
+      }
+
+      const image = formData.get('promoImg');
+
+      console.log(image);
+
+      const sendPromo = async () => {
+        const httpAbortCtrl = new AbortController();
+        activeHttpRequests.current.push(httpAbortCtrl);
+        try {
+          const response = await fetch(
+            `http://localhost:5000/api/promo/${modifiedEntry.id}`,
+            {
+              method: 'PATCH',
+              body: formData,
+              headers: { Authorization: 'Bearer ' + token },
+              signal: httpAbortCtrl.signal,
+            }
+          );
+          const responseData = await response.json();
+
+          activeHttpRequests.current = activeHttpRequests.current.filter(
+            reqCtrl => reqCtrl !== httpAbortCtrl
+          );
+
+          if (!response.ok) {
+            throw new Error(responseData.message);
+          }
+
+          console.log(`Najava je uspešno promenjena!`);
+
+          dispatch({
+            type: 'MESSAGE',
+            payload: responseData.message,
+          });
+
+          dispatch({ type: 'UPDATE', payload: modifiedEntry });
+          history.push(`/promo`);
+        } catch (err) {
+          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+          console.log(err);
+        }
+      };
+      sendPromo();
+    }
+  };
 
   const setPromoAsFirst = useCallback(id => {
     dispatch({ type: 'SET_FIRST', payload: id });
@@ -147,6 +212,7 @@ export const PromosProvider = ({ children }) => {
         getPromos,
         addPromo,
         setPromoAsFirst,
+        updatePromo,
         deletePromo,
         promosList: state.promosList,
         errorMessage: state.errorMessage,

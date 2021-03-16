@@ -6,6 +6,7 @@ import Editions from '../pages/Editions/Editions';
 import Titles from '../pages/Titles/Titles';
 import NewComic from '../pages/NewComic/NewComic';
 import NewPromo from '../pages/NewPromo/NewPromo';
+import UpdatePromo from '../pages/UpdatePromo/UpdatePromo';
 import SettingsPage from '../pages/SettingsPage/SettingsPage';
 import { ComicsProvider } from '../contexts/comics/comicsContext';
 import { PromosProvider } from '../contexts/promos/promosContext';
@@ -48,6 +49,11 @@ const Routes = () => {
         <Route path='/promo' exact>
           <PromosProvider>
             <Main />
+          </PromosProvider>
+        </Route>
+        <Route path='/promo/edit/:id' exact>
+          <PromosProvider>
+            <UpdatePromo />
           </PromosProvider>
         </Route>
         <Route path='/news' exact>
