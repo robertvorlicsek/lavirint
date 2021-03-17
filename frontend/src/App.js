@@ -14,7 +14,7 @@ const App = () => {
   const location = useLocation();
   const { height, width } = useWindowDimensions();
   const { settings, introDisabled } = useSettingsContext();
-  const { loggedIn } = useAuthContext();
+  const { token } = useAuthContext();
 
   const scaleRatio = (width / 16 - ((width / 100) * 20) / 16) / 12;
   // console.log('🚀 ~ file: App.js ~ line 119 ~ App ~ scaleRatio', scaleRatio);
@@ -33,7 +33,8 @@ const App = () => {
           className='main-styles'
           style={{ backgroundImage: `url(${settings.backgroundImg})` }}
         >
-          {(!loggedIn || location.pathname === '/promo') && !introDisabled ? (
+          {(!token && location.pathname === '/promo' && !introDisabled) ||
+          (!token && !introDisabled) ? (
             <motion.div
               style={{ originX: 0.5 }}
               className='app-loader-container'

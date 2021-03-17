@@ -109,7 +109,6 @@ export const AuthProvider = ({ children }) => {
         logout,
         switchToSignup,
         signupMode: state.signupMode,
-        loggedIn: state.loggedIn,
       }}
     >
       {children}

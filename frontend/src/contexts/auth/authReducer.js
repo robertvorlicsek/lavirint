@@ -1,5 +1,4 @@
 export const authInitialState = {
-  loggedIn: false,
   userId: null,
   username: null,
   token: null,
@@ -23,7 +22,6 @@ export const authReducer = (state, { type, payload }) => {
       );
       return {
         ...state,
-        loggedIn: !!payload.token,
         userId: payload.userId,
         username: payload.username,
         token: payload.token,
@@ -33,7 +31,6 @@ export const authReducer = (state, { type, payload }) => {
       localStorage.removeItem('userData');
       return {
         ...state,
-        loggedIn: false,
         userId: null,
         username: null,
         token: null,

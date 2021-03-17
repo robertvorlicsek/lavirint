@@ -21,7 +21,7 @@ const splitText = text => {
 };
 
 const Main = () => {
-  const { loggedIn } = useAuthContext();
+  const { token } = useAuthContext();
   let history = useHistory();
   const {
     getPromos,
@@ -31,20 +31,22 @@ const Main = () => {
     errorMessage,
     emptyMessages,
   } = usePromosContext();
-  const { settings } = useSettingsContext();
+  const { settings, introDisabled } = useSettingsContext();
   const [isLoading, setIsLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
   const [showPromo, setShowPromo] = useState(true);
   const [opacity, setOpacity] = useState(0);
   const [promoInd, setPromoInd] = useState(0);
-  const [disableIntro, setDisableIntro] = useState(false);
+  // const [disableIntro, setDisableIntro] = useState(false);
 
-  useEffect(() => {
-    const intro = JSON.parse(sessionStorage.getItem('intro'));
-    if (intro && intro.disableIntro) {
-      setDisableIntro(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const intro = JSON.parse(sessionStorage.getItem('intro'));
+  //   if (intro && intro.disableIntro) {
+  //     setDisableIntro(true);
+  //   }
+  // }, []);
+
+  console.log(introDisabled);
 
   useEffect(() => {
     let time;
@@ -81,7 +83,8 @@ const Main = () => {
   }, [promosList, promoInd, settings]);
 
   useEffect(() => {
-    let time = disableIntro ? 1000 : 4000;
+    let time = introDisabled ? 1000 : 4000;
+    console.log('🚀 ~ file: Main.js ~ line 87 ~ useEffect ~ time', time);
     let opacity = setTimeout(() => {
       setOpacity(1);
     }, time);
@@ -89,7 +92,7 @@ const Main = () => {
     return () => {
       clearTimeout(opacity);
     };
-  }, [promosList, promoInd, settings, disableIntro]);
+  }, [introDisabled]);
 
   const newsButtonHandler = id => {
     setPromoAsFirst(id);
@@ -104,7 +107,7 @@ const Main = () => {
       <div
         className='main-page'
         style={
-          !loggedIn
+          !token
             ? {
                 transition: 'opacity 0.2s',
                 opacity,
