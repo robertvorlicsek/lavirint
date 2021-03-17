@@ -1,6 +1,6 @@
 export const settingsInitialState = {
   settings: {},
-  disableIntro: false,
+  introDisabled: true,
 };
 
 export const settingsReducer = (state, { type, payload }) => {
@@ -19,6 +19,11 @@ export const settingsReducer = (state, { type, payload }) => {
       return {
         ...state,
         settings: payload,
+      };
+    case 'DISABLE_INTRO':
+      return {
+        ...state,
+        introDisabled: payload,
       };
     case 'MESSAGE':
       return {

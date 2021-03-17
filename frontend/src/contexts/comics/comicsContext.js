@@ -28,7 +28,9 @@ export const ComicsProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch('http://localhost:5000/api/comics');
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/comics`
+      );
       const data = await response.json();
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
@@ -48,7 +50,7 @@ export const ComicsProvider = ({ children }) => {
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
           const response = await fetch(
-            `http://localhost:5000/api/comics/editions/${edId}`
+            `${process.env.REACT_APP_BACKEND_URL}/comics/editions/${edId}`
           );
           const responseData = await response.json();
           activeHttpRequests.current = activeHttpRequests.current.filter(
@@ -104,7 +106,7 @@ export const ComicsProvider = ({ children }) => {
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
           const response = await fetch(
-            `http://localhost:5000/api/comics/newcomic`,
+            `${process.env.REACT_APP_BACKEND_URL}/comics/newcomic`,
             {
               method: 'POST',
               body: formData,
@@ -146,12 +148,15 @@ export const ComicsProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`http://localhost:5000/api/comics/${id}`, {
-        method: 'DELETE',
-        body: null,
-        headers: { Authorization: 'Bearer ' + token },
-        signal: httpAbortCtrl.signal,
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/comics/${id}`,
+        {
+          method: 'DELETE',
+          body: null,
+          headers: { Authorization: 'Bearer ' + token },
+          signal: httpAbortCtrl.signal,
+        }
+      );
       const resMessage = await response.json();
 
       activeHttpRequests.current = activeHttpRequests.current.filter(

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import useWindowDimensions from './hooks/useWindowDimensions';
@@ -13,19 +13,13 @@ import './App.css';
 const App = () => {
   const location = useLocation();
   const { height, width } = useWindowDimensions();
-  const { settings } = useSettingsContext();
+  const { settings, introDisabled } = useSettingsContext();
   const { loggedIn } = useAuthContext();
-  const [disableIntro, setDisableIntro] = useState(false);
-
-  useEffect(() => {
-    const intro = JSON.parse(sessionStorage.getItem('intro'));
-    if (intro && intro.disableIntro) {
-      setDisableIntro(true);
-    }
-  }, []);
 
   const scaleRatio = (width / 16 - ((width / 100) * 20) / 16) / 12;
   // console.log('🚀 ~ file: App.js ~ line 119 ~ App ~ scaleRatio', scaleRatio);
+
+  console.log(introDisabled);
 
   return (
     <div className='app'>
@@ -39,7 +33,7 @@ const App = () => {
           className='main-styles'
           style={{ backgroundImage: `url(${settings.backgroundImg})` }}
         >
-          {!loggedIn && location.pathname === '/promo' && !disableIntro ? (
+          {(!loggedIn || location.pathname === '/promo') && !introDisabled ? (
             <motion.div
               style={{ originX: 0.5 }}
               className='app-loader-container'
@@ -58,6 +52,7 @@ const App = () => {
               <div className='app-loader-container'>
                 <Loader />
               </div>
+              <Routes />
             </Fragment>
           )}
           <Routes />

@@ -28,7 +28,9 @@ export const PromosProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch('http://localhost:5000/api/promo');
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/promo`
+      );
       const data = await response.json();
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
@@ -45,10 +47,6 @@ export const PromosProvider = ({ children }) => {
   }, [getPromos]);
 
   const addPromo = (newEntry, token) => {
-    console.log(
-      '🚀 ~ file: promoContext.js ~ line 45 ~ PromoProvider ~ newEntry',
-      newEntry
-    );
     if (newEntry) {
       const formData = new FormData();
       formData.append('nr', newEntry.nr);
@@ -68,7 +66,7 @@ export const PromosProvider = ({ children }) => {
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
           const response = await fetch(
-            `http://localhost:5000/api/promo/newpromo`,
+            `${process.env.REACT_APP_BACKEND_URL}/promo/newpromo`,
             {
               method: 'POST',
               body: formData,
@@ -104,10 +102,6 @@ export const PromosProvider = ({ children }) => {
     }
   };
   const updatePromo = (modifiedEntry, token) => {
-    console.log(
-      '🚀 ~ file: promoContext.js ~ line 45 ~ PromoProvider ~ modifiedEntry',
-      modifiedEntry
-    );
     if (modifiedEntry) {
       const formData = new FormData();
       formData.append('nr', modifiedEntry.nr);
@@ -133,7 +127,7 @@ export const PromosProvider = ({ children }) => {
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
           const response = await fetch(
-            `http://localhost:5000/api/promo/${modifiedEntry.id}`,
+            `${process.env.REACT_APP_BACKEND_URL}/promo/${modifiedEntry.id}`,
             {
               method: 'PATCH',
               body: formData,
@@ -177,12 +171,15 @@ export const PromosProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`http://localhost:5000/api/promo/${id}`, {
-        method: 'DELETE',
-        body: null,
-        headers: { Authorization: 'Bearer ' + token },
-        signal: httpAbortCtrl.signal,
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/promo/${id}`,
+        {
+          method: 'DELETE',
+          body: null,
+          headers: { Authorization: 'Bearer ' + token },
+          signal: httpAbortCtrl.signal,
+        }
+      );
       const resMessage = await response.json();
 
       activeHttpRequests.current = activeHttpRequests.current.filter(

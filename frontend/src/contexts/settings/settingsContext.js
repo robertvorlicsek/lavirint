@@ -24,23 +24,13 @@ export const SettingsProvider = ({ children }) => {
     };
   }, []);
 
-  useEffect(() => {
-    let disableIntroTimer = setTimeout(() => {
-      sessionStorage.setItem(
-        'intro',
-        JSON.stringify({
-          disableIntro: true,
-        })
-      );
-    }, 2000);
-    return () => clearTimeout(disableIntroTimer);
-  }, []);
-
   const getSettings = useCallback(async () => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch('http://localhost:5000/api/settings');
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/settings`
+      );
       const data = await response.json();
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
@@ -55,6 +45,31 @@ export const SettingsProvider = ({ children }) => {
   useEffect(() => {
     getSettings();
   }, [getSettings]);
+
+  const disableIntro = useCallback(value => {
+    dispatch({ type: 'DISABLE_INTRO', payload: value });
+  }, []);
+
+  useEffect(() => {
+    const intro = JSON.parse(sessionStorage.getItem('intro'));
+    console.log(
+      '🚀 ~ file: settingsContext.js ~ line 55 ~ useEffect ~ intro',
+      intro
+    );
+    let disableIntroTimer;
+    if (!intro) {
+      disableIntro(false);
+      disableIntroTimer = setTimeout(() => {
+        sessionStorage.setItem(
+          'intro',
+          JSON.stringify({
+            disableIntro: true,
+          })
+        );
+      }, 2000);
+    }
+    return () => clearTimeout(disableIntroTimer);
+  }, [disableIntro]);
 
   const updateSettings = (newEntry, token) => {
     console.log(
@@ -82,12 +97,15 @@ export const SettingsProvider = ({ children }) => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`http://localhost:5000/api/settings`, {
-            method: 'PATCH',
-            body: formData,
-            headers: { Authorization: 'Bearer ' + token },
-            signal: httpAbortCtrl.signal,
-          });
+          const response = await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/settings`,
+            {
+              method: 'PATCH',
+              body: formData,
+              headers: { Authorization: 'Bearer ' + token },
+              signal: httpAbortCtrl.signal,
+            }
+          );
           const responseData = await response.json();
 
           activeHttpRequests.current = activeHttpRequests.current.filter(
@@ -125,7 +143,7 @@ export const SettingsProvider = ({ children }) => {
   //   const httpAbortCtrl = new AbortController();
   //   activeHttpRequests.current.push(httpAbortCtrl);
   //   try {
-  //     const response = await fetch(`http://localhost:5000/api/promo/${id}`, {
+  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/promo/${id}`, {
   //       method: 'DELETE',
   //       body: null,
   //       signal: httpAbortCtrl.signal,
@@ -160,6 +178,7 @@ export const SettingsProvider = ({ children }) => {
         updateSettings,
         settings: state.settings,
         nrOfPromos: state.nrOfPromos,
+        introDisabled: state.introDisabled,
         //   addPromo,
         //   setPromoAsFirst,
         //   deletePromo,
