@@ -37,7 +37,7 @@ app.use('/api/users', usersRoutes);
 //   res.sendFile(path.join(__dirname + '/frontend/src/index.html'));
 // });
 
-app.use(express.static(path.join('frontend')));
+// app.use(express.static(path.join('frontend')));
 
 // app.use((req, res, next) => {
 //   const error = new HttpError('Could not find this route', 404);
