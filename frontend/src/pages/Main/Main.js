@@ -24,7 +24,6 @@ const Main = () => {
   const { token } = useAuthContext();
   let history = useHistory();
   const {
-    getPromos,
     promosList,
     setPromoAsFirst,
     message,
@@ -37,6 +36,7 @@ const Main = () => {
   const [showPromo, setShowPromo] = useState(true);
   const [opacity, setOpacity] = useState(0);
   const [promoInd, setPromoInd] = useState(0);
+  const [introLoaded, setintroLoaded] = useState(false);
   // const [disableIntro, setDisableIntro] = useState(false);
 
   // useEffect(() => {
@@ -59,7 +59,7 @@ const Main = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [getPromos, message, errorMessage, emptyMessages]);
+  }, [message, errorMessage, emptyMessages]);
 
   useEffect(() => {
     const newPromoNr = promosList.slice(0, settings.nrOfPromos);
@@ -83,16 +83,17 @@ const Main = () => {
   }, [promosList, promoInd, settings]);
 
   useEffect(() => {
-    let time = introDisabled ? 1000 : 4000;
-    console.log('🚀 ~ file: Main.js ~ line 87 ~ useEffect ~ time', time);
+    const intro = JSON.parse(sessionStorage.getItem('intro'));
+    let time = !token && !introDisabled && !intro ? 4000 : 500;
     let opacity = setTimeout(() => {
       setOpacity(1);
+      setintroLoaded(true);
     }, time);
 
     return () => {
       clearTimeout(opacity);
     };
-  }, [introDisabled]);
+  }, [introDisabled, token, introLoaded]);
 
   const newsButtonHandler = id => {
     setPromoAsFirst(id);
@@ -106,14 +107,10 @@ const Main = () => {
       )}
       <div
         className='main-page'
-        style={
-          !token
-            ? {
-                transition: 'opacity 0.2s',
-                opacity,
-              }
-            : { opacity: 1 }
-        }
+        style={{
+          transition: 'opacity 0.2s',
+          opacity,
+        }}
       >
         <AnimatePresence
           exitBeforeEnter

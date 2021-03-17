@@ -1,6 +1,6 @@
 export const settingsInitialState = {
   settings: {},
-  introDisabled: true,
+  introDisabled: false,
 };
 
 export const settingsReducer = (state, { type, payload }) => {

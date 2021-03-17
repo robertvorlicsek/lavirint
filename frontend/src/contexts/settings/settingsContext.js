@@ -7,7 +7,7 @@ import {
   useEffect,
 } from 'react';
 import { settingsReducer, settingsInitialState } from './settingsReducer';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 const SettingsContext = createContext();
 export const useSettingsContext = () => useContext(SettingsContext);
 
@@ -16,6 +16,7 @@ export const SettingsProvider = ({ children }) => {
   const activeHttpRequests = useRef([]);
   const [state, dispatch] = useReducer(settingsReducer, settingsInitialState);
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     return () => {
@@ -56,20 +57,23 @@ export const SettingsProvider = ({ children }) => {
       '🚀 ~ file: settingsContext.js ~ line 55 ~ useEffect ~ intro',
       intro
     );
-    let disableIntroTimer;
-    if (!intro) {
-      disableIntro(false);
-      disableIntroTimer = setTimeout(() => {
-        sessionStorage.setItem(
-          'intro',
-          JSON.stringify({
-            disableIntro: true,
-          })
-        );
-      }, 2000);
+    if (!!intro) {
+      disableIntro(intro.disableIntro);
     }
+    if (location.pathname !== '/promo') {
+      disableIntro(true);
+    }
+    let disableIntroTimer = setTimeout(() => {
+      sessionStorage.setItem(
+        'intro',
+        JSON.stringify({
+          disableIntro: true,
+        })
+      );
+    }, 2000);
+
     return () => clearTimeout(disableIntroTimer);
-  }, [disableIntro]);
+  }, [disableIntro, getSettings, location]);
 
   const updateSettings = (newEntry, token) => {
     console.log(

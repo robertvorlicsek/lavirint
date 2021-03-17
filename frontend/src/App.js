@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import useWindowDimensions from './hooks/useWindowDimensions';
