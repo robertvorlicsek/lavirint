@@ -20,8 +20,6 @@ const getPromos = async (req, res, next) => {
     return next(error);
   }
 
-  console.log(promos);
-
   res.json({
     promos: promos.map(promo => promo.toObject({ getters: true })),
   });
@@ -52,7 +50,6 @@ const createPromo = async (req, res, next) => {
     cloudinaryPromoImgId: await newPromoImg.public_id,
   });
 
-  console.log('new-promo:', newPromo);
   if (newPromo.promoImg) {
     try {
       await newPromo.save();
@@ -122,7 +119,6 @@ const updatePromo = async (req, res, next) => {
     ? await newPromoImg.public_id
     : cloudinaryId;
 
-  // console.log('new-promo:', newPromo);
   if (promo.promoImg) {
     try {
       await promo.save();

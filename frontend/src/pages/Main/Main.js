@@ -46,8 +46,6 @@ const Main = () => {
   //   }
   // }, []);
 
-  console.log(introDisabled);
-
   useEffect(() => {
     let time;
     message || errorMessage ? (time = 3000) : (time = 300);

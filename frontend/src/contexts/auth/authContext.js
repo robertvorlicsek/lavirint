@@ -37,11 +37,6 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signup = async authData => {
-    console.log(
-      '🚀 ~ file: comicsContext.js ~ line 75 ~ ComicsProvider ~ newEntry',
-      authData
-    );
-
     const mode =
       // 'signup'
       'login';
@@ -74,7 +69,6 @@ export const AuthProvider = ({ children }) => {
       history.push(`/promo`);
     } catch (err) {
       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-      console.log(err);
     }
   };
 

@@ -35,7 +35,6 @@ export const PromosProvider = ({ children }) => {
       );
       dispatch({ type: 'GET', payload: data });
     } catch (err) {
-      console.log(err.message);
       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
     }
   }, []);
@@ -54,10 +53,6 @@ export const PromosProvider = ({ children }) => {
       if (newEntry.promoImg) {
         formData.append('promoImg', newEntry.promoImg.file);
       }
-
-      const image = formData.get('promoImg');
-
-      console.log(image);
 
       const sendPromo = async () => {
         const httpAbortCtrl = new AbortController();

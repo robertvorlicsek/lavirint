@@ -51,7 +51,6 @@ const UpdatePromo = () => {
       data.id = editItem.id;
       data.cloudinaryPromoImgId = editItem.cloudinaryPromoImgId;
       if (data.promoImg) {
-        console.log(data);
         updatePromo(data, token);
       }
     }
@@ -64,10 +63,10 @@ const UpdatePromo = () => {
     );
   };
 
-  useEffect(() => {
-    console.log('touched', formState.touched);
-    console.log('pic', promoPicture);
-  }, [formState, promoPicture]);
+  // useEffect(() => {
+  //   console.log('touched', formState.touched);
+  //   console.log('pic', promoPicture);
+  // }, [formState, promoPicture]);
 
   useEffect(() => {
     const eItem = promosList.find(p => p.id === id);

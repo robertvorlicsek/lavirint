@@ -35,7 +35,6 @@ export const ComicsProvider = ({ children }) => {
       );
       dispatch({ type: 'GET', payload: data });
     } catch (err) {
-      console.log(err.message);
       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
     }
   }, []);
@@ -57,7 +56,6 @@ export const ComicsProvider = ({ children }) => {
           }
           dispatch({ type: 'GET_COMICS_BY_EDITION_ID', payload: responseData });
         } catch (err) {
-          console.log(err.message);
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
         }
       };
@@ -70,10 +68,6 @@ export const ComicsProvider = ({ children }) => {
     dispatch({ type: 'GET_EDITION_ID', payload: editionId });
 
   const addComic = (newEntry, token) => {
-    console.log(
-      '🚀 ~ file: comicsContext.js ~ line 75 ~ ComicsProvider ~ newEntry',
-      newEntry
-    );
     if (newEntry) {
       const formData = new FormData();
       if (newEntry.editionId) {
@@ -90,12 +84,6 @@ export const ComicsProvider = ({ children }) => {
         formData.append('logo', newEntry.logo);
         formData.append('cloudinaryLogoId', newEntry.cloudinaryLogoId);
       }
-      const image = formData.get('img');
-      const editionId = formData.get('editionId');
-      const nr = formData.get('nr');
-      const logo = formData.get('logo');
-      const title = formData.get('title');
-      console.log(image, editionId, logo, title, nr);
 
       const sendComic = async () => {
         const httpAbortCtrl = new AbortController();
@@ -117,8 +105,6 @@ export const ComicsProvider = ({ children }) => {
             throw new Error(responseData.message);
           }
 
-          console.log(`successfully uploaded the comic`);
-
           dispatch({
             type: 'MESSAGE',
             payload: responseData.message,
@@ -130,7 +116,6 @@ export const ComicsProvider = ({ children }) => {
             : history.push(`/editions`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-          console.log(err);
         }
       };
       sendComic();

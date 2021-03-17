@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect, useLocation } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Auth from '../pages/Auth/Auth';
 import Main from '../pages/Main/Main';
 import News from '../pages/News/News';
@@ -14,8 +14,6 @@ import { useAuthContext } from '../contexts/auth/authContext';
 
 const Routes = () => {
   const { token } = useAuthContext();
-  console.log('🚀 ~ file: Routes.js ~ line 17 ~ Routes ~ token', token);
-  // const location = useLocation();
   if (token) {
     return (
       <Switch>

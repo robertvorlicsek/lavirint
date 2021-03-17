@@ -46,7 +46,6 @@ const createSettings = async (req, res, next) => {
     cloudinaryBackgroundImgId: await newBackgroundImg.public_id,
   });
 
-  console.log('new-settings:', newSettings);
   if (newSettings.backgroundImg) {
     try {
       await newSettings.save();
@@ -112,8 +111,6 @@ const updateSettings = async (req, res, next) => {
   settings.nrOfPromos = nrOfPromos;
   settings.backgroundImg = newBackgroundImg;
   settings.cloudinaryBackgroundImgId = newCloudinaryBackgroundImgId;
-
-  console.log(cloudinaryBackgroundImgId);
 
   try {
     await settings.save();

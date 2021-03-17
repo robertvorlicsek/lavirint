@@ -45,7 +45,6 @@ const SettingsPage = () => {
       }
       data.cloudinaryBackgroundImgId = settings.cloudinaryBackgroundImgId;
       if (data.backgroundImg) {
-        console.log(data);
         updateSettings(data, token);
       }
     }

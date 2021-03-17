@@ -18,7 +18,6 @@ const Auth = () => {
 
   const onSubmit = data => {
     setIsMessage(true);
-    console.log(data);
     signup(data);
   };
 

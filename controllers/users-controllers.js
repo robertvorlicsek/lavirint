@@ -63,10 +63,6 @@ const signup = async (req, res, next) => {
     username,
     password: hashedPassword,
   });
-  console.log(
-    '🚀 ~ file: users-controllers.js ~ line 67 ~ signup ~ createdUser',
-    createdUser
-  );
 
   try {
     await createdUser.save();

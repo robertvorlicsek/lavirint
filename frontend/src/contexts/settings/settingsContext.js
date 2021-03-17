@@ -36,7 +36,6 @@ export const SettingsProvider = ({ children }) => {
       );
       dispatch({ type: 'GET', payload: data });
     } catch (err) {
-      console.log(err.message);
       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
     }
   }, []);
@@ -51,10 +50,6 @@ export const SettingsProvider = ({ children }) => {
 
   useEffect(() => {
     const intro = JSON.parse(sessionStorage.getItem('intro'));
-    console.log(
-      '🚀 ~ file: settingsContext.js ~ line 55 ~ useEffect ~ intro',
-      intro
-    );
     if (!!intro) {
       disableIntro(intro.disableIntro);
     }
@@ -74,10 +69,6 @@ export const SettingsProvider = ({ children }) => {
   }, [disableIntro, getSettings, location]);
 
   const updateSettings = (newEntry, token) => {
-    console.log(
-      '🚀 ~ file: promoContext.js ~ line 45 ~ PromoProvider ~ newEntry',
-      newEntry
-    );
     if (newEntry) {
       const formData = new FormData();
       formData.append('nrOfPromos', newEntry.nrOfPromos);
@@ -90,10 +81,6 @@ export const SettingsProvider = ({ children }) => {
       } else {
         formData.append('backgroundImg', newEntry.backgroundImg);
       }
-
-      const image = formData.get('backgroundImg');
-
-      console.log(image);
 
       const sendSettings = async () => {
         const httpAbortCtrl = new AbortController();
@@ -115,8 +102,6 @@ export const SettingsProvider = ({ children }) => {
             throw new Error(responseData.message);
           }
 
-          console.log(`Podešavanja su uspešno promenjena!`);
-
           dispatch({
             type: 'MESSAGE',
             payload: responseData.message,
@@ -127,7 +112,6 @@ export const SettingsProvider = ({ children }) => {
           history.push(`/promo`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-          console.log(err);
         }
       };
       sendSettings();
@@ -160,7 +144,6 @@ export const SettingsProvider = ({ children }) => {
   //     dispatch({ type: 'MESSAGE', payload: resMessage.message });
   //   } catch (err) {
   //     dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-  //     console.log(err);
   //   }
   //   dispatch({ type: 'REMOVE', payload: id });
   // };

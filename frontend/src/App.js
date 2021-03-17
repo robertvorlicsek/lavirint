@@ -17,9 +17,6 @@ const App = () => {
   const { token } = useAuthContext();
 
   const scaleRatio = (width / 16 - ((width / 100) * 20) / 16) / 12;
-  // console.log('🚀 ~ file: App.js ~ line 119 ~ App ~ scaleRatio', scaleRatio);
-
-  console.log(introDisabled);
 
   return (
     <div className='app'>

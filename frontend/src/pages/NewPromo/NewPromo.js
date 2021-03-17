@@ -9,10 +9,6 @@ import './NewPromo.css';
 
 const currentDate = () => {
   const currentTime = Date.now();
-  console.log(
-    '🚀 ~ file: NewPromo.js ~ line 12 ~ currentDate ~ currentTime',
-    currentTime
-  );
   const date = new Date(currentTime);
   return `${date.getFullYear()}-${
     date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
@@ -42,7 +38,6 @@ const NewPromo = () => {
     setIsMessage(true);
     data.promoImg = promoPicture[0];
     if (data.promoImg) {
-      console.log(data);
       addPromo(data, token);
     }
   };
