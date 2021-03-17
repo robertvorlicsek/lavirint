@@ -64,7 +64,7 @@ const createComic = async (req, res, next) => {
     editionId: editionId || newEditionId,
     title,
     nr,
-    img: await newImg.url,
+    img: await newImg.secure_url,
     cloudinaryImgId: await newImg.public_id,
   });
 
@@ -85,7 +85,7 @@ const createComic = async (req, res, next) => {
       return next(error);
     }
 
-    newComic.logo = await newLogo.url;
+    newComic.logo = await newLogo.secure_url;
     newComic.cloudinaryLogoId = await newLogo.public_id;
   }
 

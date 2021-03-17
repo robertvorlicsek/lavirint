@@ -46,7 +46,7 @@ const createPromo = async (req, res, next) => {
     promoDate,
     promoTitle,
     promoText,
-    promoImg: await newPromoImg.url,
+    promoImg: await newPromoImg.secure_url,
     cloudinaryPromoImgId: await newPromoImg.public_id,
   });
 
@@ -114,7 +114,7 @@ const updatePromo = async (req, res, next) => {
   promo.nr = nr;
   promo.promoText = promoText;
   promo.promoDate = promoDate;
-  promo.promoImg = newPromoImg ? await newPromoImg.url : oldPromoImg;
+  promo.promoImg = newPromoImg ? await newPromoImg.secure_url : oldPromoImg;
   promo.cloudinaryPromoImgId = newPromoImg
     ? await newPromoImg.public_id
     : cloudinaryId;

@@ -42,7 +42,7 @@ const createSettings = async (req, res, next) => {
 
   const newSettings = new Settings({
     nrOfPromos,
-    backgroundImg: await newBackgroundImg.url,
+    backgroundImg: await newBackgroundImg.secure_url,
     cloudinaryBackgroundImgId: await newBackgroundImg.public_id,
   });
 
@@ -74,7 +74,7 @@ const updateSettings = async (req, res, next) => {
       newBackImg = await cloudinaryUtil.cloudinaryUpload(
         req.files['backgroundImg'][0].path
       );
-      newBackgroundImg = await newBackImg.url;
+      newBackgroundImg = await newBackImg.secure_url;
       newCloudinaryBackgroundImgId = await newBackImg.public_id;
     } catch (err) {
       const error = new HttpError(
