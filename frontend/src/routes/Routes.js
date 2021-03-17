@@ -14,8 +14,9 @@ import { useAuthContext } from '../contexts/auth/authContext';
 
 const Routes = () => {
   const { token } = useAuthContext();
-  const location = useLocation();
-  if (token || location.pathname === '/dekara') {
+  console.log('🚀 ~ file: Routes.js ~ line 17 ~ Routes ~ token', token);
+  // const location = useLocation();
+  if (token) {
     return (
       <Switch>
         <Route path='/dekara' exact>

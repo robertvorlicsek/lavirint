@@ -53,7 +53,6 @@ const App = () => {
               <div className='app-loader-container'>
                 <Loader />
               </div>
-              <Routes />
             </Fragment>
           )}
           <Routes />

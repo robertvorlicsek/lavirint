@@ -28,12 +28,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
         <Link onClick={closeMenu} id='promo' className='menu-item' to='/promo'>
           Početna
         </Link>
-        <Link
-          onClick={closeMenu}
-          id='editions'
-          className='menu-item'
-          to='/news'
-        >
+        <Link onClick={closeMenu} id='news' className='menu-item' to='/news'>
           Vesti
         </Link>
         <Link
@@ -81,12 +76,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
         <Link onClick={closeMenu} id='promo' className='menu-item' to='/promo'>
           Početna
         </Link>
-        <Link
-          onClick={closeMenu}
-          id='editions'
-          className='menu-item'
-          to='/news'
-        >
+        <Link onClick={closeMenu} id='news' className='menu-item' to='/news'>
           Vesti
         </Link>
         <Link
