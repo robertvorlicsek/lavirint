@@ -64,8 +64,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-console.log('enviroment: ', process.env.NODE_ENV);
-
 const PORT = 5000;
 mongoose
   .connect(

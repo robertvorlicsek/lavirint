@@ -74,8 +74,6 @@ export const PromosProvider = ({ children }) => {
             throw new Error(responseData.message);
           }
 
-          console.log(`Najava je uspešno postavljena!`);
-
           dispatch({
             type: 'MESSAGE',
             payload: responseData.message,
@@ -85,7 +83,6 @@ export const PromosProvider = ({ children }) => {
           history.push(`/promo`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-          console.log(err);
         }
       };
       sendPromo();
@@ -108,10 +105,6 @@ export const PromosProvider = ({ children }) => {
         formData.append('promoImg', modifiedEntry.promoImg);
       }
 
-      const image = formData.get('promoImg');
-
-      console.log(image);
-
       const sendPromo = async () => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
@@ -132,8 +125,6 @@ export const PromosProvider = ({ children }) => {
             throw new Error(responseData.message);
           }
 
-          console.log(`Najava je uspešno promenjena!`);
-
           dispatch({
             type: 'MESSAGE',
             payload: responseData.message,
@@ -143,7 +134,6 @@ export const PromosProvider = ({ children }) => {
           history.push(`/promo`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-          console.log(err);
         }
       };
       sendPromo();
@@ -177,7 +167,6 @@ export const PromosProvider = ({ children }) => {
       dispatch({ type: 'MESSAGE', payload: resMessage.message });
     } catch (err) {
       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-      console.log(err);
     }
     dispatch({ type: 'REMOVE', payload: id });
   };

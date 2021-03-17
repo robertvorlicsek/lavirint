@@ -4,6 +4,8 @@
         "DB_PASSWORD": "zeMqKtQNgysQ6RtD",
         "DB_NAME": "lavirintDB",
         "JWT_KEY": "najtajnini_dekarin_kljuch",
-        "NODE_ENV": "developement"
+        "CLOUDINARY_CLOUD_NAME": "dv2mx0alo",
+        "CLOUDINARY_API_KEY": "164848637964621",
+        "CLOUDINARY_API_SECRET": "1ZMu5dvsa-WCiKJAuc-urxv6PR8"
     }
 }
