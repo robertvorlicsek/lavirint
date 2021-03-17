@@ -37,7 +37,7 @@ app.use('/api/users', usersRoutes);
 //   res.sendFile(path.join(__dirname + '/frontend/src/index.html'));
 // });
 
-// app.use(express.static(path.join('frontend')));
+app.use(express.static(path.join('frontend')));
 
 // app.use((req, res, next) => {
 //   const error = new HttpError('Could not find this route', 404);
@@ -57,7 +57,8 @@ app.use((error, req, res, next) => {
 
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
-  app.use(express.static('frontend/build'));
+  // app.use(express.static('frontend/build'));
+  app.use(express.static(path.join('frontend')));
 
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
