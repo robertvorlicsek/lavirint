@@ -28,9 +28,7 @@ export const ComicsProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/comics`
-      );
+      const response = await fetch(`/api/comics`);
       const data = await response.json();
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
@@ -49,9 +47,7 @@ export const ComicsProvider = ({ children }) => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/comics/editions/${edId}`
-          );
+          const response = await fetch(`/api/comics/editions/${edId}`);
           const responseData = await response.json();
           activeHttpRequests.current = activeHttpRequests.current.filter(
             reqCtrl => reqCtrl !== httpAbortCtrl
@@ -105,15 +101,12 @@ export const ComicsProvider = ({ children }) => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/comics/newcomic`,
-            {
-              method: 'POST',
-              body: formData,
-              headers: { Authorization: 'Bearer ' + token },
-              signal: httpAbortCtrl.signal,
-            }
-          );
+          const response = await fetch(`/api/comics/newcomic`, {
+            method: 'POST',
+            body: formData,
+            headers: { Authorization: 'Bearer ' + token },
+            signal: httpAbortCtrl.signal,
+          });
           const responseData = await response.json();
 
           activeHttpRequests.current = activeHttpRequests.current.filter(
@@ -148,15 +141,12 @@ export const ComicsProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/comics/${id}`,
-        {
-          method: 'DELETE',
-          body: null,
-          headers: { Authorization: 'Bearer ' + token },
-          signal: httpAbortCtrl.signal,
-        }
-      );
+      const response = await fetch(`/api/comics/${id}`, {
+        method: 'DELETE',
+        body: null,
+        headers: { Authorization: 'Bearer ' + token },
+        signal: httpAbortCtrl.signal,
+      });
       const resMessage = await response.json();
 
       activeHttpRequests.current = activeHttpRequests.current.filter(

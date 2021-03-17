@@ -48,17 +48,14 @@ export const AuthProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/users/${mode}`,
-        {
-          method: 'POST',
-          body: JSON.stringify(authData),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          signal: httpAbortCtrl.signal,
-        }
-      );
+      const response = await fetch(`/api/users/${mode}`, {
+        method: 'POST',
+        body: JSON.stringify(authData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal: httpAbortCtrl.signal,
+      });
       const responseData = await response.json();
 
       activeHttpRequests.current = activeHttpRequests.current.filter(

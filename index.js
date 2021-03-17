@@ -37,6 +37,8 @@ app.use('/api/users', usersRoutes);
 //   res.sendFile(path.join(__dirname + '/frontend/src/index.html'));
 // });
 
+// app.use(express.static(path.join('frontend')));
+
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route', 404);
   throw error;
@@ -52,6 +54,17 @@ app.use((error, req, res, next) => {
   res.status(error.code || 500);
   res.json({ message: error.message || 'An unknown error occured!' });
 });
+
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('frontend/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
+
+console.log('enviroment: ', process.env.NODE_ENV);
 
 const PORT = 5000;
 mongoose

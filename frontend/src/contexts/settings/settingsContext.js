@@ -29,9 +29,7 @@ export const SettingsProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/settings`
-      );
+      const response = await fetch(`/api/settings`);
       const data = await response.json();
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
@@ -101,15 +99,12 @@ export const SettingsProvider = ({ children }) => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/settings`,
-            {
-              method: 'PATCH',
-              body: formData,
-              headers: { Authorization: 'Bearer ' + token },
-              signal: httpAbortCtrl.signal,
-            }
-          );
+          const response = await fetch(`/api/settings`, {
+            method: 'PATCH',
+            body: formData,
+            headers: { Authorization: 'Bearer ' + token },
+            signal: httpAbortCtrl.signal,
+          });
           const responseData = await response.json();
 
           activeHttpRequests.current = activeHttpRequests.current.filter(
