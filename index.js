@@ -11,9 +11,9 @@ const settingsRoutes = require('./routes/settings-routes');
 
 const app = express();
 
-// mongoose.set('useCreateIndex', true);
+mongoose.set('useCreateIndex', true);
 // app.use(cors());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/uploads/images', express.static(path.join('uploads', 'images')));
