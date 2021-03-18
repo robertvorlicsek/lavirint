@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const HttpError = require('./models/http-error');
@@ -12,7 +12,7 @@ const settingsRoutes = require('./routes/settings-routes');
 const app = express();
 
 // mongoose.set('useCreateIndex', true);
-app.use(cors());
+// app.use(cors());
 app.use(express.urlencoded());
 app.use(express.json());
 
