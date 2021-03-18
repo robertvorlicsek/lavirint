@@ -63,7 +63,7 @@ export const SettingsProvider = ({ children }) => {
           disableIntro: true,
         })
       );
-    }, 2000);
+    }, 4000);
 
     return () => clearTimeout(disableIntroTimer);
   }, [disableIntro, getSettings, location]);
@@ -161,10 +161,6 @@ export const SettingsProvider = ({ children }) => {
         settings: state.settings,
         nrOfPromos: state.nrOfPromos,
         introDisabled: state.introDisabled,
-        //   addPromo,
-        //   setPromoAsFirst,
-        //   deletePromo,
-        //   promosList: state.promosList,
         errorMessage: state.errorMessage,
         message: state.message,
         emptyMessages,

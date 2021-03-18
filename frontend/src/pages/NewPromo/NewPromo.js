@@ -131,19 +131,11 @@ const NewPromo = () => {
             cols='30'
           ></textarea>
           <label htmlFor='text-editor-text'>
-            Promo tekst ide ovde. Ako hoćeš da menjaš boju ili bilo šta drugo,
-            stavi željeno/a slovo/a, reč(i) ili rečenicu/e između{' '}
-            {'(<span></span>)'} taga.
-            <br /> Primer:
+            Promo tekst ide ovde. Ako hoćeš da menjaš boju, recimo u crvenu, ili
+            bilo šta drugo, stavi željeno/a slovo/a, reč(i) ili rečenicu/e
+            između {'(<span style="color: red">tekst ide ovde</span>)'} taga.
+            <br /> Proguglaj šta je sve moguće.
             <br />
-            <br />
-            {`Gospođa <span style="color: red; font-size:2rem;">prima</span> utorkom i petkom`}
-            . <br />
-            <br />
-            Ako iskopiraš primer selektivne gospođe tu dole, videćeš na šta
-            mislim. Šta sve možeš da staviš u "style", izguglaj pod "css
-            styles".
-            <br /> <br />
             Tekst koji će se pojaviti na najavi prve strane odvoji sa{' '}
             <span style={{ color: 'yellow' }}>-do ovde!-</span>&nbsp;. <br />
             Ostatak posle toga će se pojaviti samo u "vestima".
