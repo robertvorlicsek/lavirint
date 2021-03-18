@@ -30,10 +30,12 @@ const Editions = () => {
       emptyMessages();
       setIsMessage(false);
     }, time);
-    const filtered = comicsList.filter(
-      (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
-    );
-    setUniqueEditions(filtered);
+    if (comicsList) {
+      const filtered = comicsList.filter(
+        (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
+      );
+      setUniqueEditions(filtered);
+    }
     return () => {
       clearTimeout(timeout);
     };
@@ -42,12 +44,14 @@ const Editions = () => {
   return (
     <div
       className='editions-container opacity'
-      style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+      style={!isLoading || !comicsList ? { opacity: '1' } : { opacity: '0' }}
     >
       {isMessage && (
         <LoadingOverlay message={message} errorMessage={errorMessage} />
       )}
-      {!comicsList && <div>Još nema nijedne edicije!</div>}
+      {!comicsList && (
+        <div style={{ opacity: 1 }}>Još nema nijedne edicije!</div>
+      )}
       {comicsList &&
         uniqueEditions.map(
           (comic, i) =>

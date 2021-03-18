@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async authData => {
     const mode =
-      // 'signup'
+      // 'signup';
       'login';
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);

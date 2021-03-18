@@ -294,8 +294,7 @@ const pathVariants = {
   },
 };
 
-const Loader = () => {
-  const [scrollTop, setScrollTop] = useState(0);
+const Loader = ({ scrollTop, setScrollTop }) => {
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -310,7 +309,8 @@ const Loader = () => {
         { capture: true }
       );
     };
-  }, [scrollTop]);
+  }, [scrollTop, setScrollTop]);
+
   return (
     <div className='animated-logo-container' style={{ opacity }}>
       <svg

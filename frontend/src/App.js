@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import useWindowDimensions from './hooks/useWindowDimensions';
@@ -15,8 +15,22 @@ const App = () => {
   const { height, width } = useWindowDimensions();
   const { settings, introDisabled } = useSettingsContext();
   const { token } = useAuthContext();
+  const [scrollTop, setScrollTop] = useState(0);
 
   const scaleRatio = (width / 16 - ((width / 100) * 20) / 16) / 12;
+
+  useEffect(() => {
+    window.addEventListener('scroll', e => setScrollTop(e.target.scrollTop), {
+      capture: true,
+    });
+    return () => {
+      window.removeEventListener(
+        'scroll',
+        e => setScrollTop(e.target.scrollTop),
+        { capture: true }
+      );
+    };
+  }, [scrollTop]);
 
   return (
     <div className='app'>
@@ -43,12 +57,12 @@ const App = () => {
               animate={{ scale: 1, y: 0 }}
               transition={{ delay: 4 }}
             >
-              <Loader />
+              <Loader scrollTop={scrollTop} setScrollTop={setScrollTop} />
             </motion.div>
           ) : (
             <Fragment>
               <div className='app-loader-container'>
-                <Loader />
+                <Loader scrollTop={scrollTop} setScrollTop={setScrollTop} />
               </div>
             </Fragment>
           )}

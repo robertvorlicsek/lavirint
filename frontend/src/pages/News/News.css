@@ -88,14 +88,14 @@
 .red-button.news-item-delete-button {
   width: fit-content;
   position: absolute;
-  top: 6.5rem;
+  top: 5.25rem;
   right: 0;
   padding: 0 1rem;
 }
 .red-button.news-item-edit-button {
   width: fit-content;
   position: absolute;
-  top: 6.5rem;
+  top: 5.25rem;
   right: 5rem;
   padding: 0 1rem;
 }

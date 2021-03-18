@@ -59,10 +59,12 @@ const NewComic = () => {
   }, [getComics]);
 
   useEffect(() => {
-    const filtered = comicsList.filter(
-      (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
-    );
-    setUniqueEditionIds(filtered);
+    if (comicsList) {
+      const filtered = comicsList.filter(
+        (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
+      );
+      setUniqueEditionIds(filtered);
+    }
   }, [comicsList]);
 
   return (

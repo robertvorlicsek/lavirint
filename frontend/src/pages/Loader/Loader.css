@@ -132,3 +132,13 @@
   left: 95.2%;
   top: 41%;
 }
+
+@media only screen and (max-width: 938px) {
+  .animated-logo-container {
+    position: fixed;
+    top: 3.4vh;
+    left: calc(50vw - 4rem);
+    width: 8rem;
+    height: 1.1985rem;
+  }
+}

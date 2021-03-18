@@ -88,8 +88,6 @@ const UpdatePromo = () => {
   //    setMainTitle()
   //   }, [promosList]);
 
-  console.log('NAN:', notAvailableNr);
-
   return (
     <Fragment>
       {isMessage && (
