@@ -35,16 +35,16 @@ app.use('/api/comics', comicsRoutes);
 app.use('/api/promo', promoRoutes);
 app.use('/api/users', usersRoutes);
 
-// app.use((error, req, res, next) => {
-//   if (req.file) {
-//     fs.unlink(req.file.path, err => console.log(err));
-//   }
-//   if (res.headerSent) {
-//     return next(error);
-//   }
-//   res.status(error.code || 500);
-//   res.json({ message: error.message || 'An unknown error occured!' });
-// });
+app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, err => console.log(err));
+  }
+  if (res.headerSent) {
+    return next(error);
+  }
+  res.status(error.code || 500);
+  res.json({ message: error.message || 'An unknown error occured!' });
+});
 
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
