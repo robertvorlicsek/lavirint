@@ -33,12 +33,15 @@ const NewPromo = () => {
   const [mainTitle, setMainTitle] = useState('');
   const [mainText, setMainText] = useState('');
   const [isMessage, setIsMessage] = useState(false);
+  const [submit, setSubmit] = useState(false);
 
   const onSubmit = data => {
-    setIsMessage(true);
-    data.promoImg = promoPicture[0];
-    if (data.promoImg) {
-      addPromo(data, token);
+    if (submit) {
+      setIsMessage(true);
+      data.promoImg = promoPicture[0];
+      if (data.promoImg) {
+        addPromo(data, token);
+      }
     }
   };
 
@@ -175,6 +178,7 @@ const NewPromo = () => {
             type='submit'
             value='Submit'
             className='new-promo-submit'
+            onClick={() => setSubmit(true)}
           >
             Submit
           </button>
