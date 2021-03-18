@@ -1,10 +1,13 @@
 /* Position and sizing of burger button */
 .bm-burger-button {
   position: fixed;
-  width: 1.6rem;
-  height: 1.4rem;
-  left: 1.5rem;
+  width: 1.8rem;
+  height: 1.6rem;
+  left: 1.4rem;
   top: 3vh;
+  border: 0.3rem solid black;
+  background-color: black;
+  padding: 0.3rem;
 }
 
 /* Color/shape of burger icon bars */
