@@ -16,7 +16,9 @@ mongoose.set('useCreateIndex', true);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/uploads/images', express.static(path.join('uploads', 'images')));
+// app.use('/uploads/images', express.static(path.join('uploads', 'images')));
+app.use(express.static(path.join(__dirname, 'uploads/images')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -32,17 +34,6 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/comics', comicsRoutes);
 app.use('/api/promo', promoRoutes);
 app.use('/api/users', usersRoutes);
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname + '/frontend/src/index.html'));
-// });
-
-// app.use(express.static(path.join('frontend')));
-
-// app.use((req, res, next) => {
-//   const error = new HttpError('Could not find this route', 404);
-//   throw error;
-// });
 
 app.use((error, req, res, next) => {
   if (req.file) {
