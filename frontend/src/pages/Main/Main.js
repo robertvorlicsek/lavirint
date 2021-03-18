@@ -192,9 +192,7 @@ const Main = () => {
                 </button>
               </div>
               <div className='main-promo-text-container-filler'>
-                &nbsp;
-                <br />
-                &nbsp;
+                l<br />l<br />l<br />l<br />
               </div>
             </motion.div>
           )}

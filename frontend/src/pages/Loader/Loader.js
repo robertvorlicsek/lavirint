@@ -9,6 +9,7 @@ const pathVariants = {
     pathLength: 0,
     fill: 'rgba(255,255,255,0)',
   },
+  exit: { opacity: 0 },
   animate1: {
     opacity: 1,
     pathLength: 1,

@@ -89,6 +89,7 @@ const NewPromo = () => {
               })}
             />
           </label>
+
           {notAvailableNr && (
             <p className='red-warning-text'>Ovaj broj je već zauzet!</p>
           )}

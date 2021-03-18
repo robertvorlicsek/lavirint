@@ -44,8 +44,8 @@
 }
 
 .main-promo-date {
-  font-size: 1.3rem;
-  line-height: 1.3;
+  font-size: 1rem;
+  line-height: 1;
   text-align: center;
   height: fit-content;
   position: relative;
@@ -56,7 +56,7 @@
 }
 
 .main-promo-title {
-  font-size: 2.5rem;
+  font-size: 1.6rem;
   line-height: 1;
   text-align: center;
   height: fit-content;
@@ -73,7 +73,7 @@
   left: 15%;
   max-width: 80%;
   height: fit-content;
-  font-size: 1.3rem;
+  font-size: 1rem;
   text-align: center;
   text-shadow: 2px 2px 1px black;
   line-height: 1.3;
@@ -116,7 +116,6 @@
     height: fit-content;
   }
   .main-promo-title {
-    font-size: 2.4rem;
     text-align: center;
     position: relative;
     left: 10%;
@@ -129,7 +128,6 @@
     top: 0;
     left: 10%;
     max-width: 80%;
-    font-size: 1.5rem;
     text-align: center;
     text-shadow: 2px 2px 1px black;
     line-height: 1.3;
@@ -137,7 +135,9 @@
   }
 
   .main-promo-text-container-filler {
-    display: block;
+    display: inline;
+    height: 5rem;
+    opacity: 0;
   }
   .new-promo-delete-button {
     max-width: 10rem;
