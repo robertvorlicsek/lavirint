@@ -61,10 +61,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error(responseData.message);
       }
 
-      dispatch({
-        type: 'MESSAGE',
-        payload: responseData.message,
-      });
       dispatch({ type: 'AUTH', payload: responseData });
       history.push(`/promo`);
     } catch (err) {
@@ -92,6 +88,11 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: 'SWITCH_TO_SIGNUP', payload: mode });
   };
 
+  const emptyMessages = useCallback(
+    () => dispatch({ type: 'EMPTY_MESSAGES' }),
+    []
+  );
+
   return (
     <AuthContext.Provider
       value={{
@@ -100,6 +101,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         switchToSignup,
         signupMode: state.signupMode,
+        errorMessage: state.errorMessage,
+        emptyMessages,
       }}
     >
       {children}

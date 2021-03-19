@@ -3,7 +3,6 @@ export const authInitialState = {
   username: null,
   token: null,
   tokenExpirationDate: null,
-  message: '',
   errorMessage: '',
 };
 
@@ -41,11 +40,6 @@ export const authReducer = (state, { type, payload }) => {
         ...state,
         signupMode: payload,
       };
-    case 'MESSAGE':
-      return {
-        ...state,
-        message: payload,
-      };
     case 'EMPTY_MESSAGES':
       return {
         ...state,
@@ -58,7 +52,14 @@ export const authReducer = (state, { type, payload }) => {
         errorMessage: payload,
       };
     case 'EMPTY':
-      return { promosList: [] };
+      return {
+        userId: null,
+        username: null,
+        token: null,
+        tokenExpirationDate: null,
+        message: '',
+        errorMessage: '',
+      };
     default:
       return state;
   }

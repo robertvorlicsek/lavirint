@@ -7,11 +7,11 @@ const usersControllers = require('../controllers/users-controllers');
 
 router.get('/', usersControllers.getUsers);
 
-router.post(
-  '/signup',
-  [check('username').not().isEmpty(), check('password').isLength({ min: 12 })],
-  usersControllers.signup
-);
+// router.post(
+//   '/signup',
+//   [check('username').not().isEmpty(), check('password').isLength({ min: 12 })],
+//   usersControllers.signup
+// );
 
 router.post('/login', usersControllers.login);
 

@@ -15,7 +15,7 @@ const LoadingOverlay = ({ message, errorMessage }) => {
           color='#000'
           height={100}
           width={100}
-          timeout={500000} //3 secs
+          timeout={3000} //3 secs
         />
       )}
     </div>,

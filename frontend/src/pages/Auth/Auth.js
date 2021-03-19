@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from '../../contexts/auth/authContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
@@ -13,7 +13,13 @@ const Auth = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const { signup, token, logout, message, errorMessage } = useAuthContext();
+  const {
+    signup,
+    token,
+    logout,
+    errorMessage,
+    emptyMessages,
+  } = useAuthContext();
   const [isMessage, setIsMessage] = useState(false);
 
   const onSubmit = data => {
@@ -25,11 +31,20 @@ const Auth = () => {
     logout();
   };
 
+  useEffect(() => {
+    let messageTimeout;
+    if (errorMessage) {
+      messageTimeout = setTimeout(() => {
+        setIsMessage(false);
+        emptyMessages();
+      }, 2000);
+    }
+    return () => clearTimeout(messageTimeout);
+  }, [errorMessage, emptyMessages]);
+
   return (
     <Fragment>
-      {isMessage && (
-        <LoadingOverlay message={message} errorMessage={errorMessage} />
-      )}
+      {isMessage && <LoadingOverlay errorMessage={errorMessage} />}
       <div className='auth-container'>
         {token ? (
           <button onClick={userLogout}>Logout</button>
