@@ -63,7 +63,7 @@ export const SettingsProvider = ({ children }) => {
           disableIntro: true,
         })
       );
-    }, 4000);
+    }, 10000);
 
     return () => clearTimeout(disableIntroTimer);
   }, [disableIntro, getSettings, location]);

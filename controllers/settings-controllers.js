@@ -88,7 +88,7 @@ const updateSettings = async (req, res, next) => {
         await cloudinaryUtil.cloudinaryDelete(cloudinaryBackgroundImgId);
       } catch (err) {
         const error = new HttpError(
-          'Stari background nije obrisan, probaj još jednom kasnije!',
+          'Stari background nije obrisan, probaj kasnije ponovo!',
           500
         );
         return next(error);

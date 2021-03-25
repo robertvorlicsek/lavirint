@@ -72,7 +72,6 @@ const Editions = () => {
                       setIsLoading={setIsLoading}
                     />
                   </div>
-                  <div className='edition-logo-description'>{comic.title}</div>
                 </div>
               </Link>
             )
