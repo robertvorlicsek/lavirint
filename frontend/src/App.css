@@ -21,18 +21,16 @@ body {
   font-family: 'Comic Neue Angular Bold Italic', cursive;
   color: #fff;
   line-height: 1.2;
-  /* position: fixed;
-  top: 0;
-  left: 0; */
   width: 100vw;
   min-height: 100vh;
 }
 
 #outer-container {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
 }
+
 .main-styles {
   display: flex;
   flex-direction: column;
