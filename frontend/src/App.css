@@ -24,9 +24,6 @@ body {
   width: 100vw;
   /* min-height: 100vh; */
   height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .main-styles {
@@ -36,6 +33,9 @@ body {
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
   /* background-position: bottom 50% right 50%; */
+  position: fixed;
+  top: 0;
+  left: 0;
   background-position: center;
   margin: 0;
   padding: 0;
