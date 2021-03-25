@@ -29,13 +29,12 @@ body {
 }
 
 .main-styles {
-  position: fixed;
   display: flex;
   flex-direction: column;
   background-color: black;
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
-  background-position: center;
+  background-position: bottom;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
