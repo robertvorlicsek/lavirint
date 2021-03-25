@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 
 app.use('/api/settings', settingsRoutes);
 app.use('/api/comics', comicsRoutes);
-app.use('/api/promo', promoRoutes);
+app.use('/api', promoRoutes);
 app.use('/api/users', usersRoutes);
 
 app.use((error, req, res, next) => {

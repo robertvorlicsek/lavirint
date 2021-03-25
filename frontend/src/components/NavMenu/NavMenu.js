@@ -25,7 +25,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
         isOpen={menuOpen}
         onStateChange={state => stateChangeHandler(state)}
       >
-        <Link onClick={closeMenu} id='promo' className='menu-item' to='/promo'>
+        <Link onClick={closeMenu} id='promo' className='menu-item' to='/'>
           Početna
         </Link>
         <Link onClick={closeMenu} id='news' className='menu-item' to='/news'>
@@ -73,7 +73,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
         isOpen={menuOpen}
         onStateChange={state => stateChangeHandler(state)}
       >
-        <Link onClick={closeMenu} id='promo' className='menu-item' to='/promo'>
+        <Link onClick={closeMenu} id='promo' className='menu-item' to=''>
           Početna
         </Link>
         <Link onClick={closeMenu} id='news' className='menu-item' to='/news'>

@@ -28,7 +28,7 @@ export const PromosProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`/api/promo`);
+      const response = await fetch(`/api`);
       const data = await response.json();
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
@@ -58,7 +58,7 @@ export const PromosProvider = ({ children }) => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`/api/promo/newpromo`, {
+          const response = await fetch(`/api/newpromo`, {
             method: 'POST',
             body: formData,
             headers: { Authorization: 'Bearer ' + token },
@@ -80,7 +80,7 @@ export const PromosProvider = ({ children }) => {
           });
 
           dispatch({ type: 'ADD', payload: newEntry });
-          history.push(`/promo`);
+          history.push(`/`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
         }
@@ -109,7 +109,7 @@ export const PromosProvider = ({ children }) => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`/api/promo/${modifiedEntry.id}`, {
+          const response = await fetch(`/api/${modifiedEntry.id}`, {
             method: 'PATCH',
             body: formData,
             headers: { Authorization: 'Bearer ' + token },
@@ -131,7 +131,7 @@ export const PromosProvider = ({ children }) => {
           });
 
           dispatch({ type: 'UPDATE', payload: modifiedEntry });
-          history.push(`/promo`);
+          history.push(`/`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
         }
@@ -148,7 +148,7 @@ export const PromosProvider = ({ children }) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`/api/promo/${id}`, {
+      const response = await fetch(`/api/${id}`, {
         method: 'DELETE',
         body: null,
         headers: { Authorization: 'Bearer ' + token },

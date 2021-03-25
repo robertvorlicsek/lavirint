@@ -53,7 +53,7 @@ export const SettingsProvider = ({ children }) => {
     if (!!intro) {
       disableIntro(intro.disableIntro);
     }
-    if (location.pathname !== '/promo') {
+    if (location.pathname !== '/') {
       disableIntro(true);
     }
     let disableIntroTimer = setTimeout(() => {
@@ -109,7 +109,7 @@ export const SettingsProvider = ({ children }) => {
 
           dispatch({ type: 'UPDATE', payload: newEntry });
           getSettings();
-          history.push(`/promo`);
+          history.push(`/`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
         }

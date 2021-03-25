@@ -45,11 +45,7 @@ const Routes = () => {
             <Editions />
           </ComicsProvider>
         </Route>
-        <Route path='/promo' exact>
-          <PromosProvider>
-            <Main />
-          </PromosProvider>
-        </Route>
+
         <Route path='/promo/edit/:id' exact>
           <PromosProvider>
             <UpdatePromo />
@@ -60,8 +56,10 @@ const Routes = () => {
             <News />
           </PromosProvider>
         </Route>
-        <Route exact path='/'>
-          <Redirect to='/promo' />
+        <Route path='/' exact>
+          <PromosProvider>
+            <Main />
+          </PromosProvider>
         </Route>
       </Switch>
     );
@@ -81,18 +79,15 @@ const Routes = () => {
             <Editions />
           </ComicsProvider>
         </Route>
-        <Route path='/promo' exact>
-          <PromosProvider>
-            <Main />
-          </PromosProvider>
-        </Route>
         <Route path='/news' exact>
           <PromosProvider>
             <News />
           </PromosProvider>
         </Route>
-        <Route exact path='/'>
-          <Redirect to='/promo' />
+        <Route path='/' exact>
+          <PromosProvider>
+            <Main />
+          </PromosProvider>
         </Route>
       </Switch>
     );

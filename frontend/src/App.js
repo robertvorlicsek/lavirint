@@ -44,7 +44,7 @@ const App = () => {
           className='main-styles'
           style={{ backgroundImage: `url(${settings.backgroundImg})` }}
         >
-          {(!token && location.pathname === '/promo' && !introDisabled) ||
+          {(!token && location.pathname === '/' && !introDisabled) ||
           (!token && !introDisabled) ? (
             <motion.div
               style={{ originX: 0.5 }}

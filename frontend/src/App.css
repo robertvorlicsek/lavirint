@@ -33,13 +33,13 @@ body {
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
   /* background-position: bottom 50% right 50%; */
-  position: fixed;
+  /* position: fixed;
   top: 0;
-  left: 0;
+  left: 0; */
   background-position: center;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  /* height: 100vh; */
   overflow-x: hidden;
 }
 
