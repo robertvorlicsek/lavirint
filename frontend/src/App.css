@@ -28,6 +28,11 @@ body {
   min-height: 100vh;
 }
 
+#outer-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 .main-styles {
   display: flex;
   flex-direction: column;
