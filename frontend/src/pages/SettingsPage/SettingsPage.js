@@ -101,7 +101,8 @@ const SettingsPage = () => {
           <button
             // disabled={!formState.isDirty || !formState.isValid}
             disabled={
-              newNrOfPromos > promosList.length || newNrOfPromos < 1
+              newNrOfPromos &&
+              (newNrOfPromos > promosList.length || newNrOfPromos < 1)
                 ? true
                 : false
             }
