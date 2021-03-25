@@ -29,6 +29,7 @@ body {
 }
 
 .main-styles {
+  position: fixed;
   display: flex;
   flex-direction: column;
   background-color: black;
@@ -38,6 +39,9 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  height: 100vh;
+  top: 0;
+  left: 0;
 }
 
 .app-loader-container {
