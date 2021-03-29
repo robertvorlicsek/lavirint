@@ -7,8 +7,8 @@ import {
   useCallback,
 } from 'react';
 import { authReducer, authInitialState } from './authReducer';
-
 import { useHistory } from 'react-router-dom';
+
 const AuthContext = createContext();
 export const useAuthContext = () => useContext(AuthContext);
 

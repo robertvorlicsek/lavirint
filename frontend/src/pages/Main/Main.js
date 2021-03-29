@@ -8,7 +8,7 @@ import { useAuthContext } from '../../contexts/auth/authContext';
 
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
-import { getFormatedDate } from '../../hooks/useFormatDate';
+import { getFormatedDate } from '../../helpers/formatDate';
 import './Main.css';
 
 const splitText = text => {

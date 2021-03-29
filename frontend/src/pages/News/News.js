@@ -3,7 +3,7 @@ import parse from 'html-react-parser';
 import { useHistory } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/auth/authContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
-import { getFormatedDate } from '../../hooks/useFormatDate';
+import { getFormatedDate } from '../../helpers/formatDate';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import Image from '../../components/Image/Image';
 import './News.css';
@@ -44,6 +44,7 @@ const News = () => {
       clearTimeout(timeout);
     };
   }, [getPromos, message, errorMessage, emptyMessages, promosList]);
+
   return (
     <Fragment>
       {isMessage && (
