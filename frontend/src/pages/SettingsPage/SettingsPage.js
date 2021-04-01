@@ -115,6 +115,12 @@ const SettingsPage = () => {
             Lista sačuvanih menu-backgroud-ova:
             <div className='settings-old-menu-backgrounds-container'>
               {settings.menuBackgroundImgs &&
+                settings.menuBackgroundImgs.length === 0 && (
+                  <div className='settings-menu-background-info'>
+                    Još ne postoji ni jedna menu background slika!
+                  </div>
+                )}
+              {settings.menuBackgroundImgs &&
                 settings.menuBackgroundImgs.map((url, i) => (
                   <div
                     key={i}

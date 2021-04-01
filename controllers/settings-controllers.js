@@ -71,6 +71,8 @@ const updateSettings = async (req, res, next) => {
   let newBackgroundImg;
   let newCloudinaryMenuBackgroundImgId;
   let newMenuBackgroundImg;
+  let deletedMenuBackground;
+  let deletedCloudinaryMenuBackgroundId;
 
   if (req.body.backgroundImg) {
     newBackgroundImg = req.body.backgroundImg;
@@ -198,10 +200,14 @@ const updateSettings = async (req, res, next) => {
   settings.nrOfPromos = nrOfPromos;
   settings.backgroundImg = newBackgroundImg;
   settings.cloudinaryBackgroundImgId = newCloudinaryBackgroundImgId;
-  settings.menuBackgroundImgs.unshift(newMenuBackgroundImg);
-  settings.cloudinaryMenuBackgroundImgIds.unshift(
-    newCloudinaryMenuBackgroundImgId
-  );
+  if (deletedMenuBackground !== newMenuBackgroundImg) {
+    settings.menuBackgroundImgs.unshift(newMenuBackgroundImg);
+  }
+  if (deletedCloudinaryMenuBackgroundId !== newCloudinaryMenuBackgroundImgId) {
+    settings.cloudinaryMenuBackgroundImgIds.unshift(
+      newCloudinaryMenuBackgroundImgId
+    );
+  }
 
   console.log(settings);
 
