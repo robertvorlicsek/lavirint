@@ -90,6 +90,16 @@ export const SettingsProvider = ({ children }) => {
       } else {
         formData.append('menuBackgroundImg', newEntry.menuBackgroundImg);
       }
+      if (newEntry.removedMenuBackground) {
+        formData.append(
+          'removedMenuBackground',
+          newEntry.removedMenuBackground
+        );
+        formData.append(
+          'removedCloudinaryMenuBackgroundId',
+          newEntry.removedCloudinaryMenuBackgroundId
+        );
+      }
 
       const sendSettings = async () => {
         const httpAbortCtrl = new AbortController();

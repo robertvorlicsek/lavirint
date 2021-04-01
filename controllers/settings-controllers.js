@@ -146,16 +146,51 @@ const updateSettings = async (req, res, next) => {
   console.log(settings);
 
   if (
+    req.body.removedCloudinaryMenuBackgroundId &&
+    req.body.removedMenuBackground
+  ) {
+    deletedMenuBackground = req.body.removedMenuBackground;
+    deletedCloudinaryMenuBackgroundId =
+      req.body.removedCloudinaryMenuBackgroundId;
+    console.log('url: ', deletedMenuBackground);
+    console.log('id: ', deletedCloudinaryMenuBackgroundId);
+    try {
+      await cloudinaryUtil.cloudinaryDelete(deletedCloudinaryMenuBackgroundId);
+      settings.menuBackgroundImgs = settings.menuBackgroundImgs.filter(
+        url => url !== deletedMenuBackground
+      );
+      settings.cloudinaryMenuBackgroundImgIds = settings.cloudinaryMenuBackgroundImgIds.filter(
+        id => id !== deletedCloudinaryMenuBackgroundId
+      );
+    } catch (err) {
+      const error = new HttpError(
+        'Odabrani Menu Background nije obrisan, probaj kasnije ponovo!',
+        500
+      );
+      return next(error);
+    }
+  }
+
+  if (
     settings.cloudinaryMenuBackgroundImgIds.includes(
       newCloudinaryMenuBackgroundImgId
     )
   ) {
+    // try {
+    //   await cloudinaryUtil.cloudinaryDelete(newCloudinaryMenuBackgroundImgId);
     settings.menuBackgroundImgs = settings.menuBackgroundImgs.filter(
       url => url !== newMenuBackgroundImg
     );
     settings.cloudinaryMenuBackgroundImgIds = settings.cloudinaryMenuBackgroundImgIds.filter(
       id => id !== newCloudinaryMenuBackgroundImgId
     );
+    // } catch (err) {
+    //   const error = new HttpError(
+    //     'Stari background nije obrisan, probaj kasnije ponovo!',
+    //     500
+    //   );
+    //   return next(error);
+    // }
   }
 
   console.log('images array: ', settings.menuBackgroundImgs);

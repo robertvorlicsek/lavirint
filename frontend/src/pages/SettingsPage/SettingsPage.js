@@ -28,6 +28,7 @@ const SettingsPage = () => {
   const { promosList, getPromos } = usePromosContext();
   const [backgroundPicture, setBackgroundPicture] = useState([]);
   const [menuBackgroundPicture, setMenuBackgroundPicture] = useState([]);
+  const [removedMenuBackground, setRemovedMenuBackground] = useState(null);
   const [newNrOfPromos, setNewNrOfPromos] = useState('');
   const [currentMenuBackground, setCurrentMenuBackground] = useState(null);
   const [isMessage, setIsMessage] = useState(false);
@@ -59,6 +60,11 @@ const SettingsPage = () => {
       } else {
         data.menuBackgroundImg = currentMenuBackground.url;
       }
+      if (removedMenuBackground) {
+        data.removedMenuBackground = removedMenuBackground.url;
+        data.removedCloudinaryMenuBackgroundId =
+          settings.cloudinaryMenuBackgroundImgIds[removedMenuBackground.index];
+      }
       data.cloudinaryBackgroundImgId = settings.cloudinaryBackgroundImgId;
       data.cloudinaryMenuBackgroundImgId =
         settings.cloudinaryMenuBackgroundImgIds[currentMenuBackground.index];
@@ -67,6 +73,12 @@ const SettingsPage = () => {
         console.log(data);
       }
     }
+  };
+
+  const deleteMenuBackground = (url, i) => {
+    setRemovedMenuBackground(el =>
+      el && el.url === url ? null : { url, index: i }
+    );
   };
 
   return (
@@ -137,8 +149,21 @@ const SettingsPage = () => {
                         'Postavi'
                       )}
                     </button>
-                    <button className='red-button settings-delete-menu-background-button'>
-                      Obriši
+                    <button
+                      onClick={() => deleteMenuBackground(url, i)}
+                      className={`red-button settings-delete-menu-background-button ${
+                        removedMenuBackground &&
+                        removedMenuBackground.url === url
+                          ? 'settings-selected-to-delete-background-button'
+                          : null
+                      }`}
+                    >
+                      {removedMenuBackground &&
+                      removedMenuBackground.url === url ? (
+                        <span>&#10008;</span>
+                      ) : (
+                        'Obriši'
+                      )}
                     </button>
                   </div>
                 ))}

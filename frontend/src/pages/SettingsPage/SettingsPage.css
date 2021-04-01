@@ -89,6 +89,10 @@
   margin-bottom: 0.5rem !important;
 }
 
+.settings-selected-to-delete-background-button {
+  background-color: rgb(192, 29, 0) !important;
+}
+
 .settings-old-background {
   border: white 1px solid;
   margin-top: 0.5rem;
