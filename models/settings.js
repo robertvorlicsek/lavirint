@@ -16,6 +16,12 @@ const settingsSchema = new Schema({
   cloudinaryBackgroundImgId: {
     type: String,
   },
+  menuBackgroundImgs: {
+    type: Array,
+  },
+  cloudinaryMenuBackgroundImgIds: {
+    type: Array,
+  },
 });
 
 // comicSchema.plugin(uniqueValidator);

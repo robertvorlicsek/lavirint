@@ -33,6 +33,62 @@
   padding: 0.5rem 1rem 2rem 1rem;
 }
 
+.settings-old-menu-backgrounds-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.4rem;
+  align-items: flex-start;
+  margin-top: 0.3rem;
+  border-radius: 10px;
+}
+
+.settings-old-menu-backgrounds-element {
+  width: 30%;
+  margin: 0.5rem;
+}
+
+.settings-old-menu-pic {
+  border: white 1px solid;
+  width: 100%;
+}
+
+.settings-apply-background-button {
+  border: 1px solid var(--bc, var(--border));
+  border-radius: 1rem;
+  cursor: pointer;
+  width: 100%;
+  min-height: 2rem;
+  align-self: center;
+  margin: 0.2rem 0;
+  color: white;
+  background-color: black;
+}
+
+.settings-apply-background-button:hover {
+  /* color: white; */
+  background-color: rgb(60, 60, 60);
+}
+
+.settings-apply-background-button:disabled,
+.settings-apply-background-button[disabled] {
+  border: 1px solid #999999;
+  background-color: #8a8a8a;
+  color: #666666;
+  cursor: initial;
+}
+
+.settings-selected-background-button:disabled,
+.settings-selected-background-button[disabled] {
+  background-color: rgb(13, 85, 0);
+  color: white;
+}
+
+.settings-delete-menu-background-button {
+  margin-bottom: 0.5rem !important;
+}
+
 .settings-old-background {
   border: white 1px solid;
   margin-top: 0.5rem;

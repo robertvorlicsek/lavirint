@@ -27,13 +27,24 @@ const SettingsPage = () => {
   const { token } = useAuthContext();
   const { promosList, getPromos } = usePromosContext();
   const [backgroundPicture, setBackgroundPicture] = useState([]);
+  const [menuBackgroundPicture, setMenuBackgroundPicture] = useState([]);
   const [newNrOfPromos, setNewNrOfPromos] = useState('');
+  const [currentMenuBackground, setCurrentMenuBackground] = useState(null);
   const [isMessage, setIsMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [submitNow, setSubmitNow] = useState(false);
+
   useEffect(() => {
     getPromos();
   }, [getPromos]);
+
+  useEffect(() => {
+    settings.menuBackgroundImgs &&
+      setCurrentMenuBackground({
+        url: settings.menuBackgroundImgs[0],
+        index: 0,
+      });
+  }, [settings]);
 
   const onSubmit = data => {
     if (submitNow) {
@@ -43,9 +54,17 @@ const SettingsPage = () => {
       } else {
         data.backgroundImg = settings.backgroundImg;
       }
+      if (menuBackgroundPicture.length === 1) {
+        data.menuBackgroundImg = menuBackgroundPicture[0];
+      } else {
+        data.menuBackgroundImg = currentMenuBackground.url;
+      }
       data.cloudinaryBackgroundImgId = settings.cloudinaryBackgroundImgId;
+      data.cloudinaryMenuBackgroundImgId =
+        settings.cloudinaryMenuBackgroundImgIds[currentMenuBackground.index];
       if (data.backgroundImg) {
         updateSettings(data, token);
+        console.log(data);
       }
     }
   };
@@ -78,6 +97,59 @@ const SettingsPage = () => {
               ref={register({
                 required: true,
               })}
+            />
+          </label>
+          <div className='settings-label'>
+            Lista sačuvanih menu-backgroud-ova:
+            <div className='settings-old-menu-backgrounds-container'>
+              {settings.menuBackgroundImgs &&
+                settings.menuBackgroundImgs.map((url, i) => (
+                  <div
+                    key={i}
+                    className='settings-old-menu-backgrounds-element'
+                  >
+                    <Image
+                      src={url}
+                      alt='old background'
+                      className='settings-old-menu-pic'
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
+                    />
+                    <button
+                      onClick={() =>
+                        setCurrentMenuBackground({ url: url, index: i })
+                      }
+                      disabled={
+                        currentMenuBackground &&
+                        currentMenuBackground.url === url
+                      }
+                      className={`settings-apply-background-button ${
+                        currentMenuBackground &&
+                        currentMenuBackground.url === url
+                          ? 'settings-selected-background-button'
+                          : null
+                      }`}
+                    >
+                      {currentMenuBackground &&
+                      currentMenuBackground.url === url ? (
+                        <span>&#10004;</span>
+                      ) : (
+                        'Postavi'
+                      )}
+                    </button>
+                    <button className='red-button settings-delete-menu-background-button'>
+                      Obriši
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </div>
+          <label className='new-promo-label'>
+            Novi Menu Background:
+            <ImageUploader
+              setMenuBackgroundPicture={setMenuBackgroundPicture}
+              name='menuBackgroundImg'
+              register={register}
             />
           </label>
           <label className='settings-label'>

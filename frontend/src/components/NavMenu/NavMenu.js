@@ -2,11 +2,13 @@ import { useState, Fragment } from 'react';
 import { reveal as Menu } from 'react-burger-menu';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/auth/authContext';
+import { useSettingsContext } from '../../contexts/settings/settingsContext';
 
 import './NavMenu.css';
 
 const NavMenu = ({ pageWrapId, outerContainerId }) => {
   const { token } = useAuthContext();
+  const { settings } = useSettingsContext();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeMenu = () => {
@@ -14,6 +16,16 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
   };
 
   const stateChangeHandler = newState => setMenuOpen(newState.isOpen);
+
+  var styles = {
+    bmMenu: {
+      background: '#000',
+      padding: '2.5em 1.5em 0',
+      fontSize: '1.6rem',
+      backgroundImage:
+        settings.menuBackgroundImgs && `url(${settings.menuBackgroundImgs[0]})`,
+    },
+  };
 
   let links;
 
@@ -24,6 +36,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
         outerContainerId={outerContainerId}
         isOpen={menuOpen}
         onStateChange={state => stateChangeHandler(state)}
+        styles={styles}
       >
         <Link onClick={closeMenu} id='promo' className='menu-item' to='/'>
           Početna
@@ -72,6 +85,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
         outerContainerId={outerContainerId}
         isOpen={menuOpen}
         onStateChange={state => stateChangeHandler(state)}
+        styles={styles}
       >
         <Link onClick={closeMenu} id='promo' className='menu-item' to=''>
           Početna

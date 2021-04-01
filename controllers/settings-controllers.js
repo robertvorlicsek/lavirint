@@ -62,9 +62,15 @@ const createSettings = async (req, res, next) => {
 };
 
 const updateSettings = async (req, res, next) => {
-  const { nrOfPromos, cloudinaryBackgroundImgId } = req.body;
+  const {
+    nrOfPromos,
+    cloudinaryBackgroundImgId,
+    cloudinaryMenuBackgroundImgId,
+  } = req.body;
   let newCloudinaryBackgroundImgId;
   let newBackgroundImg;
+  let newCloudinaryMenuBackgroundImgId;
+  let newMenuBackgroundImg;
 
   if (req.body.backgroundImg) {
     newBackgroundImg = req.body.backgroundImg;
@@ -95,6 +101,35 @@ const updateSettings = async (req, res, next) => {
       }
     }
   }
+  if (req.body.menuBackgroundImg) {
+    newMenuBackgroundImg = req.body.menuBackgroundImg;
+    newCloudinaryMenuBackgroundImgId = cloudinaryMenuBackgroundImgId;
+  } else if (req.files) {
+    try {
+      newMenuBackImg = await cloudinaryUtil.cloudinaryUpload(
+        req.files['menuBackgroundImg'][0].path
+      );
+      newMenuBackgroundImg = await newMenuBackImg.secure_url;
+      newCloudinaryMenuBackgroundImgId = await newMenuBackImg.public_id;
+    } catch (err) {
+      const error = new HttpError(
+        'Upload novog menu-background-a nije uspeo, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
+    // if (newMenuCloudinaryBackgroundImgId !== cloudinaryMenuBackgroundImgIds) {
+    //   try {
+    //     await cloudinaryUtil.cloudinaryDelete(cloudinaryMenuBackgroundImgIds);
+    //   } catch (err) {
+    //     const error = new HttpError(
+    //       'Stari background nije obrisan, probaj kasnije ponovo!',
+    //       500
+    //     );
+    //     return next(error);
+    //   }
+    // }
+  }
 
   let settings;
   try {
@@ -108,9 +143,32 @@ const updateSettings = async (req, res, next) => {
     return next(error);
   }
 
+  console.log(settings);
+
+  if (
+    settings.cloudinaryMenuBackgroundImgIds.includes(
+      newCloudinaryMenuBackgroundImgId
+    )
+  ) {
+    settings.menuBackgroundImgs = settings.menuBackgroundImgs.filter(
+      url => url !== newMenuBackgroundImg
+    );
+    settings.cloudinaryMenuBackgroundImgIds = settings.cloudinaryMenuBackgroundImgIds.filter(
+      id => id !== newCloudinaryMenuBackgroundImgId
+    );
+  }
+
+  console.log('images array: ', settings.menuBackgroundImgs);
+
   settings.nrOfPromos = nrOfPromos;
   settings.backgroundImg = newBackgroundImg;
   settings.cloudinaryBackgroundImgId = newCloudinaryBackgroundImgId;
+  settings.menuBackgroundImgs.unshift(newMenuBackgroundImg);
+  settings.cloudinaryMenuBackgroundImgIds.unshift(
+    newCloudinaryMenuBackgroundImgId
+  );
+
+  console.log(settings);
 
   try {
     await settings.save();

@@ -7,6 +7,7 @@ const ImageUploader = ({
   setLogo,
   setPromoPicture,
   setBackgroundPicture,
+  setMenuBackgroundPicture,
   register,
   name,
   radioInput,
@@ -26,8 +27,18 @@ const ImageUploader = ({
       setPromoPicture(image);
     } else if (name === 'backgroundImg') {
       setBackgroundPicture(image);
+    } else if (name === 'menuBackgroundImg') {
+      setMenuBackgroundPicture(image);
     }
-  }, [image, name, setPicture, setLogo, setPromoPicture, setBackgroundPicture]);
+  }, [
+    image,
+    name,
+    setPicture,
+    setLogo,
+    setPromoPicture,
+    setBackgroundPicture,
+    setMenuBackgroundPicture,
+  ]);
 
   return (
     <div>

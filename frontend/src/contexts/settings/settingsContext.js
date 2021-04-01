@@ -76,10 +76,19 @@ export const SettingsProvider = ({ children }) => {
         'cloudinaryBackgroundImgId',
         newEntry.cloudinaryBackgroundImgId
       );
+      formData.append(
+        'cloudinaryMenuBackgroundImgId',
+        newEntry.cloudinaryMenuBackgroundImgId
+      );
       if (newEntry.backgroundImg.file) {
         formData.append('backgroundImg', newEntry.backgroundImg.file);
       } else {
         formData.append('backgroundImg', newEntry.backgroundImg);
+      }
+      if (newEntry.menuBackgroundImg.file) {
+        formData.append('menuBackgroundImg', newEntry.menuBackgroundImg.file);
+      } else {
+        formData.append('menuBackgroundImg', newEntry.menuBackgroundImg);
       }
 
       const sendSettings = async () => {
