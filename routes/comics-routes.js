@@ -8,6 +8,7 @@ const checkAuth = require('../middleware/check-auth');
 
 router.get('/', comicsControllers.getAllComics);
 router.get('/editions/:editionId', comicsControllers.getComicsByEditionId);
+router.get('/:comicId', comicsControllers.getComicByComicId);
 
 // router.use(checkAuth);
 

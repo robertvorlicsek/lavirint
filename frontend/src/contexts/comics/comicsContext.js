@@ -64,6 +64,33 @@ export const ComicsProvider = ({ children }) => {
     [state.editionId]
   );
 
+  const getComicByComicId = useCallback(
+    paramCId => {
+      const fetchEditions = async () => {
+        const httpAbortCtrl = new AbortController();
+        activeHttpRequests.current.push(httpAbortCtrl);
+        try {
+          const response = await fetch(`/api/comics/${paramCId}`);
+          const responseData = await response.json();
+          activeHttpRequests.current = activeHttpRequests.current.filter(
+            reqCtrl => reqCtrl !== httpAbortCtrl
+          );
+          if (!response.ok) {
+            throw new Error(responseData.message);
+          }
+          dispatch({
+            type: 'GET_COMIC_BY_COMIC_ID',
+            payload: responseData.comic,
+          });
+        } catch (err) {
+          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+        }
+      };
+      fetchEditions();
+    },
+    [state.comic]
+  );
+
   const getEditionId = editionId =>
     dispatch({ type: 'GET_EDITION_ID', payload: editionId });
 
@@ -177,10 +204,12 @@ export const ComicsProvider = ({ children }) => {
     <ComicsContext.Provider
       value={{
         getComics,
+        getComicByComicId,
         getEditionId,
         addComic,
         removeComic,
         getComicsByEditionId,
+        comic: state.comic,
         comicsList: state.comicsList,
         editionId: state.editionId,
         editionList: state.editionList,

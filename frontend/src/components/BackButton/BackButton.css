@@ -1,0 +1,31 @@
+.back-button-container {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.back-button {
+  border: 1px solid var(--bc, var(--border));
+  border-radius: 1rem;
+  cursor: pointer;
+  width: 8rem;
+  height: 2rem;
+  align-self: center;
+  margin: 0 1% 1rem 1%;
+  color: white;
+  background-color: black;
+}
+
+.back-button:hover {
+  color: white;
+  background-color: rgb(60, 60, 60);
+}
+
+.back-button:disabled,
+.back-button[disabled] {
+  border: 1px solid #999999;
+  background-color: #8a8a8a;
+  color: #666666;
+  cursor: initial;
+}

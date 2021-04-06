@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/auth/authContext';
 import { useComicsContext } from '../../contexts/comics/comicsContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
+import BackButton from '../../components/BackButton/BackButton';
 import Image from '../../components/Image/Image';
 import './Titles.css';
 
@@ -12,6 +13,7 @@ const Editions = () => {
   const {
     removeComic,
     getComicsByEditionId,
+    getComicByComicId,
     message,
     emptyMessages,
     errorMessage,
@@ -19,6 +21,7 @@ const Editions = () => {
   } = useComicsContext();
   const { token } = useAuthContext();
   const parEditionId = useParams().editionId;
+  const history = useHistory();
 
   useEffect(() => {
     let time;
@@ -40,29 +43,38 @@ const Editions = () => {
     parEditionId,
   ]);
 
+  const getComic = id => {
+    console.log(id);
+    getComicByComicId(id);
+    history.push(`/comics/${id}`);
+  };
+
   return (
     <Fragment>
       {isMessage && (
         <LoadingOverlay message={message} errorMessage={errorMessage} />
       )}
       <div
-        className='comics-container opacity'
+        className='titles-container opacity'
         style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
       >
+        <BackButton />
+
         {!editionList && <div>Još nema nijednog stripa!</div>}
         {editionList &&
           editionList.map((comic, i) => (
-            <div className='comic-container' key={i}>
-              <div className='comic-image-container'>
+            <div className='title-container' key={i}>
+              <div className='title-image-container'>
                 <Image
                   src={comic.img}
                   alt={comic.title}
-                  className='comic-image'
+                  className='title-image'
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
+                  onClick={() => getComic(comic.id)}
                 />
               </div>
-              <div className='comic-image-description'>
+              <div className='title-image-description'>
                 {comic.title} {comic.nr}
               </div>
               {!!token && (

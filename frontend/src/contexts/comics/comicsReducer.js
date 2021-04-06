@@ -1,6 +1,7 @@
 export const comicsInitialState = {
   comicsList: [],
   editionId: '',
+  comic: {},
   editionList: [],
   errorMessage: '',
   message: '',
@@ -17,6 +18,11 @@ export const comicsReducer = (state, { type, payload }) => {
       return {
         ...state,
         editionId: payload,
+      };
+    case 'GET_COMIC_BY_COMIC_ID':
+      return {
+        ...state,
+        comic: payload,
       };
     case 'GET_COMICS_BY_EDITION_ID':
       return {

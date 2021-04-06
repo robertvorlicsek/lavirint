@@ -242,7 +242,7 @@ const SettingsPage = () => {
                     </button>
                     <button
                       onClick={() => deleteBackground(url, i)}
-                      className={`red-button settings-delete-menu-background-button ${
+                      className={`red-button settings-delete-background-button ${
                         removedBackground && removedBackground.url === url
                           ? 'settings-selected-to-delete-background-button'
                           : null

@@ -27,6 +27,26 @@ const getAllComics = async (req, res, next) => {
   });
 };
 
+const getComicByComicId = async (req, res, next) => {
+  const comicId = req.params.comicId;
+  let comic;
+  try {
+    comic = await Comic.findById(comicId);
+  } catch (err) {
+    const error = new HttpError('Ovaj strip nije pronađen!', 500);
+    return next(error);
+  }
+
+  if (!comic) {
+    const error = new HttpError('Ova strip ne postoji!', 404);
+    return next(error);
+  }
+
+  res.json({
+    comic: comic.toObject({ getters: true }),
+  });
+};
+
 const getComicsByEditionId = async (req, res, next) => {
   const editionId = req.params.editionId;
   let edition;
@@ -172,5 +192,6 @@ const deleteComic = async (req, res, next) => {
 
 exports.getAllComics = getAllComics;
 exports.getComicsByEditionId = getComicsByEditionId;
+exports.getComicByComicId = getComicByComicId;
 exports.createComic = createComic;
 exports.deleteComic = deleteComic;
