@@ -42,7 +42,11 @@ const App = () => {
         <main
           id='page-wrap'
           className='main-styles'
-          style={{ backgroundImage: `url(${settings.backgroundImg})` }}
+          style={
+            settings.backgroundImgs && {
+              backgroundImage: `url(${settings.backgroundImgs[0]})`,
+            }
+          }
         >
           {(!token && location.pathname === '/' && !introDisabled) ||
           (!token && !introDisabled) ? (

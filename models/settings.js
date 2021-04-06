@@ -8,13 +8,11 @@ const settingsSchema = new Schema({
     type: Number,
     required: true,
   },
-
-  backgroundImg: {
-    type: String,
-    required: true,
+  backgroundImgs: {
+    type: Array,
   },
-  cloudinaryBackgroundImgId: {
-    type: String,
+  cloudinaryBackgroundImgIds: {
+    type: Array,
   },
   menuBackgroundImgs: {
     type: Array,

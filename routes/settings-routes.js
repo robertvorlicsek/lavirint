@@ -10,16 +10,16 @@ router.get('/', settingsControllers.getSettings);
 
 // router.use(checkAuth);
 
-router.post(
-  '/newsettings',
-  // fileUpload.single('img'),
-  fileUpload.fields([
-    { name: 'backgroundImg', maxCount: 1 },
-    { name: 'menuBackgroundImg', maxCount: 1 },
-  ]),
-  [check('nrOfPromos').not().isEmpty()],
-  settingsControllers.createSettings
-);
+// router.post(
+//   '/newsettings',
+//   // fileUpload.single('img'),
+//   fileUpload.fields([
+//     { name: 'backgroundImg', maxCount: 1 },
+//     { name: 'menuBackgroundImg', maxCount: 1 },
+//   ]),
+//   [check('nrOfPromos').not().isEmpty()],
+//   settingsControllers.createSettings
+// );
 
 router.patch(
   '/',

@@ -27,9 +27,11 @@ const SettingsPage = () => {
   const { token } = useAuthContext();
   const { promosList, getPromos } = usePromosContext();
   const [backgroundPicture, setBackgroundPicture] = useState([]);
+  const [removedBackground, setRemovedBackground] = useState(null);
   const [menuBackgroundPicture, setMenuBackgroundPicture] = useState([]);
   const [removedMenuBackground, setRemovedMenuBackground] = useState(null);
   const [newNrOfPromos, setNewNrOfPromos] = useState('');
+  const [currentBackground, setCurrentBackground] = useState(null);
   const [currentMenuBackground, setCurrentMenuBackground] = useState(null);
   const [isMessage, setIsMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +42,11 @@ const SettingsPage = () => {
   }, [getPromos]);
 
   useEffect(() => {
+    settings.backgroundImgs &&
+      setCurrentBackground({
+        url: settings.backgroundImgs[0],
+        index: 0,
+      });
     settings.menuBackgroundImgs &&
       setCurrentMenuBackground({
         url: settings.menuBackgroundImgs[0],
@@ -53,19 +60,25 @@ const SettingsPage = () => {
       if (backgroundPicture.length === 1) {
         data.backgroundImg = backgroundPicture[0];
       } else {
-        data.backgroundImg = settings.backgroundImg;
+        data.backgroundImg = currentBackground.url;
       }
       if (menuBackgroundPicture.length === 1) {
         data.menuBackgroundImg = menuBackgroundPicture[0];
       } else {
         data.menuBackgroundImg = currentMenuBackground.url;
       }
+      if (removedBackground) {
+        data.removedBackground = removedBackground.url;
+        data.removedCloudinaryBackgroundId =
+          settings.cloudinaryBackgroundImgIds[removedBackground.index];
+      }
       if (removedMenuBackground) {
         data.removedMenuBackground = removedMenuBackground.url;
         data.removedCloudinaryMenuBackgroundId =
           settings.cloudinaryMenuBackgroundImgIds[removedMenuBackground.index];
       }
-      data.cloudinaryBackgroundImgId = settings.cloudinaryBackgroundImgId;
+      data.cloudinaryBackgroundImgId =
+        settings.cloudinaryBackgroundImgIds[currentBackground.index];
       data.cloudinaryMenuBackgroundImgId =
         settings.cloudinaryMenuBackgroundImgIds[currentMenuBackground.index];
       if (data.backgroundImg) {
@@ -77,6 +90,11 @@ const SettingsPage = () => {
 
   const deleteMenuBackground = (url, i) => {
     setRemovedMenuBackground(el =>
+      el && el.url === url ? null : { url, index: i }
+    );
+  };
+  const deleteBackground = (url, i) => {
+    setRemovedBackground(el =>
       el && el.url === url ? null : { url, index: i }
     );
   };
@@ -113,10 +131,10 @@ const SettingsPage = () => {
           </label>
           <div className='settings-label'>
             Lista sačuvanih menu-backgroud-ova:
-            <div className='settings-old-menu-backgrounds-container'>
+            <div className='settings-old-backgrounds-container'>
               {settings.menuBackgroundImgs &&
                 settings.menuBackgroundImgs.length === 0 && (
-                  <div className='settings-menu-background-info'>
+                  <div className='settings-background-info'>
                     Još ne postoji ni jedna menu background slika!
                   </div>
                 )}
@@ -128,8 +146,8 @@ const SettingsPage = () => {
                   >
                     <Image
                       src={url}
-                      alt='old background'
-                      className='settings-old-menu-pic'
+                      alt='old menu background'
+                      className='settings-old-pic'
                       isLoading={isLoading}
                       setIsLoading={setIsLoading}
                     />
@@ -157,7 +175,7 @@ const SettingsPage = () => {
                     </button>
                     <button
                       onClick={() => deleteMenuBackground(url, i)}
-                      className={`red-button settings-delete-menu-background-button ${
+                      className={`red-button settings-delete-background-button ${
                         removedMenuBackground &&
                         removedMenuBackground.url === url
                           ? 'settings-selected-to-delete-background-button'
@@ -183,16 +201,63 @@ const SettingsPage = () => {
               register={register}
             />
           </label>
-          <label className='settings-label'>
-            Stari background:
-            <Image
-              src={settings.backgroundImg}
-              alt='old background'
-              className='settings-old-background'
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-            />
-          </label>
+
+          <div className='settings-label'>
+            Lista sačuvanih backgroud-ova:
+            <div className='settings-old-backgrounds-container'>
+              {settings.backgroundImgs &&
+                settings.backgroundImgs.length === 0 && (
+                  <div className='settings-background-info'>
+                    Još ne postoji ni jedna menu background slika!
+                  </div>
+                )}
+              {settings.backgroundImgs &&
+                settings.backgroundImgs.map((url, i) => (
+                  <div key={i} className='settings-old-backgrounds-element'>
+                    <Image
+                      src={url}
+                      alt='old background'
+                      className='settings-old-pic'
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
+                    />
+                    <button
+                      onClick={() =>
+                        setCurrentBackground({ url: url, index: i })
+                      }
+                      disabled={
+                        currentBackground && currentBackground.url === url
+                      }
+                      className={`settings-apply-background-button ${
+                        currentBackground && currentBackground.url === url
+                          ? 'settings-selected-background-button'
+                          : null
+                      }`}
+                    >
+                      {currentBackground && currentBackground.url === url ? (
+                        <span>&#10004;</span>
+                      ) : (
+                        'Postavi'
+                      )}
+                    </button>
+                    <button
+                      onClick={() => deleteBackground(url, i)}
+                      className={`red-button settings-delete-menu-background-button ${
+                        removedBackground && removedBackground.url === url
+                          ? 'settings-selected-to-delete-background-button'
+                          : null
+                      }`}
+                    >
+                      {removedBackground && removedBackground.url === url ? (
+                        <span>&#10008;</span>
+                      ) : (
+                        'Obriši'
+                      )}
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </div>
           <label className='new-promo-label'>
             Novi Background:
             <ImageUploader

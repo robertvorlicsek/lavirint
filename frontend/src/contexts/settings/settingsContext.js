@@ -90,6 +90,13 @@ export const SettingsProvider = ({ children }) => {
       } else {
         formData.append('menuBackgroundImg', newEntry.menuBackgroundImg);
       }
+      if (newEntry.removedBackground) {
+        formData.append('removedBackground', newEntry.removedBackground);
+        formData.append(
+          'removedCloudinaryBackgroundId',
+          newEntry.removedCloudinaryBackgroundId
+        );
+      }
       if (newEntry.removedMenuBackground) {
         formData.append(
           'removedMenuBackground',

@@ -33,7 +33,7 @@
   padding: 0.5rem 1rem 2rem 1rem;
 }
 
-.settings-old-menu-backgrounds-container {
+.settings-old-backgrounds-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -44,7 +44,7 @@
   border-radius: 10px;
 }
 
-.settings-menu-background-info {
+.settings-background-info {
   padding-left: 2rem;
   color: black;
 }
@@ -54,7 +54,17 @@
   margin: 0.4rem;
 }
 
-.settings-old-menu-pic {
+.settings-old-pic {
+  border: white 1px solid;
+  width: 100%;
+}
+
+.settings-old-backgrounds-element {
+  width: 46%;
+  margin: 0.4rem;
+}
+
+.settings-old-pic {
   border: white 1px solid;
   width: 100%;
 }
@@ -90,17 +100,12 @@
   color: white;
 }
 
-.settings-delete-menu-background-button {
+.settings-delete-background-button {
   margin-bottom: 0.5rem !important;
 }
 
 .settings-selected-to-delete-background-button {
   background-color: rgb(192, 29, 0) !important;
-}
-
-.settings-old-background {
-  border: white 1px solid;
-  margin-top: 0.5rem;
 }
 
 .settings-label {
