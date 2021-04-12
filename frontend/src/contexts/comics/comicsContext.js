@@ -33,6 +33,7 @@ export const ComicsProvider = ({ children }) => {
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
       );
+      console.log(data);
       dispatch({ type: 'GET', payload: data });
     } catch (err) {
       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
@@ -64,32 +65,29 @@ export const ComicsProvider = ({ children }) => {
     [state.editionId]
   );
 
-  const getComicByComicId = useCallback(
-    paramCId => {
-      const fetchEditions = async () => {
-        const httpAbortCtrl = new AbortController();
-        activeHttpRequests.current.push(httpAbortCtrl);
-        try {
-          const response = await fetch(`/api/comics/${paramCId}`);
-          const responseData = await response.json();
-          activeHttpRequests.current = activeHttpRequests.current.filter(
-            reqCtrl => reqCtrl !== httpAbortCtrl
-          );
-          if (!response.ok) {
-            throw new Error(responseData.message);
-          }
-          dispatch({
-            type: 'GET_COMIC_BY_COMIC_ID',
-            payload: responseData.comic,
-          });
-        } catch (err) {
-          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+  const getComicByComicId = useCallback(paramCId => {
+    const fetchEditions = async () => {
+      const httpAbortCtrl = new AbortController();
+      activeHttpRequests.current.push(httpAbortCtrl);
+      try {
+        const response = await fetch(`/api/comics/${paramCId}`);
+        const responseData = await response.json();
+        activeHttpRequests.current = activeHttpRequests.current.filter(
+          reqCtrl => reqCtrl !== httpAbortCtrl
+        );
+        if (!response.ok) {
+          throw new Error(responseData.message);
         }
-      };
-      fetchEditions();
-    },
-    [state.comic]
-  );
+        dispatch({
+          type: 'GET_COMIC_BY_COMIC_ID',
+          payload: responseData.comic,
+        });
+      } catch (err) {
+        dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      }
+    };
+    fetchEditions();
+  }, []);
 
   const getEditionId = editionId =>
     dispatch({ type: 'GET_EDITION_ID', payload: editionId });

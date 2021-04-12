@@ -74,23 +74,34 @@ const createComic = async (req, res, next) => {
 
   console.log('req.body: ', req.body);
 
-  let newImg;
+  let newImgArr;
+  let url0;
+  let url1;
+  let url2;
+
   try {
-    newImg = await cloudinaryUtil.cloudinaryUpload(req.files['img'][0].path);
+    url0 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][0].path);
+    url1 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][1].path);
+    url2 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][2].path);
   } catch (err) {
-    const error = new HttpError('Upload slike nije uspeo, probaj ponovo!', 500);
+    const error = new HttpError(
+      'Upload strana nije uspeo, probaj ponovo!',
+      500
+    );
     return next(error);
   }
+
+  if (url0 && url1 && url2) newImgArr = [url0, url1, url2];
 
   const newComic = new Comic({
     editionId: editionId || newEditionId,
     title,
     nr,
-    img: await newImg.secure_url,
-    cloudinaryImgId: await newImg.public_id,
+    imgs: newImgArr.map(img => img.secure_url),
+    cloudinaryImgIds: newImgArr.map(img => img.public_id),
   });
 
-  console.log('newComic: ', newComic);
+  // console.log('newComic: ', newComic);
 
   if (req.body.logo) {
     newComic.logo = req.body.logo;
@@ -113,9 +124,9 @@ const createComic = async (req, res, next) => {
     newComic.cloudinaryLogoId = await newLogo.public_id;
   }
 
-  console.log('newComic with cloudinary: ', newComic);
+  // console.log('newComic with cloudinary: ', newComic);
 
-  if (newComic.img && newComic.logo) {
+  if (newComic.imgs && newComic.logo) {
     try {
       await newComic.save();
     } catch (err) {

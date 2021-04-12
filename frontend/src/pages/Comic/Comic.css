@@ -1,10 +1,159 @@
-.main-comic-container {
+.comic-main-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: flex-start;
   align-content: flex-start;
+  justify-items: center;
   width: 100%;
   height: 100vh;
   padding: 13vh 5% 5% 5%;
+}
+
+.comic-container {
+  display: flex;
+  /* flex-wrap: wrap; */
+  /* width: 100%; */
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.comic-name {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.first-comic-image {
+  width: 100%;
+}
+
+.comic-image {
+  width: 100%;
+  background-color: black;
+  transition: all 0.2s;
+}
+.comic-image:hover {
+  opacity: 0.6;
+}
+
+.comic-images-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+  width: 60%;
+  flex-direction: row;
+  max-width: 800px;
+}
+
+.first-comic-image-container {
+  width: 100%;
+  margin: 0.5rem 0;
+  align-self: center;
+}
+
+.second-and-third-images-container {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-around;
+  width: 100%;
+  max-width: 100%;
+  margin: 1rem;
+  align-self: auto;
+}
+
+.second-comic-image-container {
+  width: 50%;
+
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.second-comic-image-container:hover {
+  background: black;
+}
+
+.third-comic-image-container {
+  width: 50%;
+  /* max-height: 40%; */
+
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.third-comic-image-container:hover {
+  background: black;
+}
+
+.comic-description-container {
+  width: 30%;
+}
+
+.comic-description {
+  padding-left: 10%;
+}
+
+.fadeIn {
+  animation: fade-in 0.8s forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 710px) {
+  .comic-container {
+    flex-direction: column;
+  }
+  .comic-images-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row;
+    align-self: center;
+  }
+  .first-comic-image-container {
+    width: 100%;
+  }
+  .second-and-third-images-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    /* margin-top: 1rem; */
+  }
+
+  .second-comic-image-container {
+    margin-right: 0.1rem;
+  }
+
+  .third-comic-image-container {
+    margin-left: 0.1rem;
+  }
+  .comic-description-container {
+    width: 100%;
+  }
+  .comic-description {
+    padding-left: 10%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .comic-name {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
 }

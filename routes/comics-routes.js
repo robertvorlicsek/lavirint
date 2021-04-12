@@ -16,7 +16,7 @@ router.post(
   '/newcomic',
   // fileUpload.single('img'),
   fileUpload.fields([
-    { name: 'img', maxCount: 1 },
+    { name: 'imgs', maxCount: 3 },
     { name: 'logo', maxCount: 1 },
   ]),
   [check('title').not().isEmpty(), check('nr').not().isEmpty()],

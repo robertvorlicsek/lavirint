@@ -66,7 +66,7 @@ const Editions = () => {
             <div className='title-container' key={i}>
               <div className='title-image-container'>
                 <Image
-                  src={comic.img}
+                  src={comic.imgs[0]}
                   alt={comic.title}
                   className='title-image'
                   isLoading={isLoading}
