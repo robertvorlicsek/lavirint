@@ -30,7 +30,7 @@ export const comicsReducer = (state, { type, payload }) => {
         editionList: payload.editions,
       };
     case 'ADD':
-      if (state.comicsList.length === 0) {
+      if (state.comicsList && state.comicsList.length === 0) {
         return {
           ...state,
           comicsList: [payload],
