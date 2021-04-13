@@ -88,9 +88,7 @@ const createComic = async (req, res, next) => {
     info = JSON.parse(req.body.info);
     // info = req.body.info;
   }
-
   if (req.files) {
-    console.log(req.files);
     try {
       url0 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][0].path);
       url1 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][1].path);
@@ -138,7 +136,7 @@ const createComic = async (req, res, next) => {
     newComic.cloudinaryLogoId = await newLogo.public_id;
   }
 
-  // console.log('newComic with cloudinary: ', newComic);
+  console.log('138 - newComic with cloudinary: ', newComic);
 
   if (newComic.imgs && newComic.logo) {
     try {

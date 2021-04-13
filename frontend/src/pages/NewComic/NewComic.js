@@ -43,7 +43,7 @@ const NewComic = () => {
         const existingTitle = comicsList.filter(
           c => c.editionId === data.editionId
         );
-        data.img = pictures;
+        data.imgs = pictures;
         data.title = existingTitle[0].title;
         data.logo = existingTitle[0].logo;
         data.cloudinaryLogoId = existingTitle[0].cloudinaryLogoId;

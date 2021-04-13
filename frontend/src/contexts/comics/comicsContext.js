@@ -134,13 +134,13 @@ export const ComicsProvider = ({ children }) => {
         })
       );
 
-      // const image = formData.get('img');
-      // const editionId = formData.get('editionId');
-      // const nr = formData.get('nr');
-      // const logo = formData.get('logo');
-      // const title = formData.get('title');
+      const images = formData.get('imgs');
+      const editionId = formData.get('editionId');
+      const nr = formData.get('nr');
+      const logo = formData.get('logo');
+      const title = formData.get('title');
       const info = formData.get('info');
-      console.log(info);
+      console.log(info, images, editionId, nr, logo, title);
 
       const sendComic = async () => {
         const httpAbortCtrl = new AbortController();
