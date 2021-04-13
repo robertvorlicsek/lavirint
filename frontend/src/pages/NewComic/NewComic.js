@@ -27,30 +27,34 @@ const NewComic = () => {
   const [nr, setNr] = useState(undefined);
   const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
   const [radioInput, setRadioInput] = useState(false);
-  const [picture, setPicture] = useState([]);
+  const [pictures, setPictures] = useState([]);
   const [logo, setLogo] = useState([]);
   const [isMessage, setIsMessage] = useState(false);
+  const [submit, setSubmit] = useState(false);
 
   const handleInputOption = e => {
     setLabel(e.target.value);
   };
 
   const onSubmit = data => {
-    setIsMessage(true);
-    if (logo.length === 0 && data.editionId && picture.length === 1) {
-      const existingTitle = comicsList.filter(
-        c => c.editionId === data.editionId
-      );
-      data.img = picture[0];
-      data.title = existingTitle[0].title;
-      data.logo = existingTitle[0].logo;
-      data.cloudinaryLogoId = existingTitle[0].cloudinaryLogoId;
-    } else if (picture.length === 1 && logo.length === 1) {
-      data.img = picture[0];
-      data.logo = logo[0];
-    }
-    if (data.logo) {
-      addComic(data, token);
+    if (submit) {
+      setIsMessage(true);
+      if (logo.length === 0 && data.editionId && pictures.length === 3) {
+        const existingTitle = comicsList.filter(
+          c => c.editionId === data.editionId
+        );
+        data.img = pictures;
+        data.title = existingTitle[0].title;
+        data.logo = existingTitle[0].logo;
+        data.cloudinaryLogoId = existingTitle[0].cloudinaryLogoId;
+      } else if (pictures.length === 3 && logo.length === 1) {
+        data.imgs = pictures;
+        data.logo = logo[0];
+      }
+      if (data.logo) {
+        addComic(data, token);
+        console.log(data);
+      }
     }
   };
 
@@ -144,26 +148,135 @@ const NewComic = () => {
               })}
             />
           </label>
+          <label className='new-comic-label'>
+            Godina Izdanja:
+            <input
+              type='text'
+              name='comicYear'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Serijal:
+            <input
+              type='text'
+              name='comicSeries'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Scenario:
+            <input
+              type='text'
+              name='comicWriter'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Crtež:
+            <input
+              type='text'
+              name='comicArtist'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Naslovna strana:
+            <input
+              type='text'
+              name='comicTitleArtist'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Originalni naslov:
+            <input
+              type='text'
+              name='comicOriginalTitle'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Broj originalne edicije:
+            <input
+              type='text'
+              name='comicOriginalNr'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Zemlja:
+            <input
+              type='text'
+              name='comicOriginCountry'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Format:
+            <input
+              type='text'
+              name='comicDimensions'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Povez:
+            <input
+              type='text'
+              name='comicFinish'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Broj strana:
+            <input
+              type='text'
+              name='comicPageNr'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
+          <label className='new-comic-label'>
+            Boja:
+            <input
+              type='text'
+              name='comicColor'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            />
+          </label>
 
           <label className='new-comic-label pic'>
-            Upload naslovnice:
+            Upload naslovnice + 2 unutrašnje strane:
             <ImageUploader
               register={register}
-              setPicture={setPicture}
-              picture={picture}
-              name='img'
+              setPictures={setPictures}
+              picture={pictures}
+              name='imgs'
             />
           </label>
           <button
             disabled={
               formState.isSubmitting ||
               (radioInput && logo.length === 0) ||
-              picture.length === 0 ||
+              pictures.length < 3 ||
               !nr
             }
             type='submit'
             value='Submit'
             className='new-comic-submit'
+            onClick={() => setSubmit(true)}
           >
             Submit
           </button>

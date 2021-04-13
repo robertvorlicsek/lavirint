@@ -72,7 +72,7 @@ const createComic = async (req, res, next) => {
 
   const newEditionId = uuid();
 
-  console.log('req.body: ', req.body);
+  // console.log('images: ', req.files['imgs'][0]);
 
   let newImgArr;
   let url0;
@@ -81,19 +81,27 @@ const createComic = async (req, res, next) => {
   let info;
 
   if (req.body.info) {
-    info = req.body.info;
+    console.log(
+      '🚀 ~ file: comics-controllers.js ~ line 84 ~ createComic ~ req.body.info',
+      req.body.info
+    );
+    info = JSON.parse(req.body.info);
+    // info = req.body.info;
   }
 
-  try {
-    url0 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][0].path);
-    url1 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][1].path);
-    url2 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][2].path);
-  } catch (err) {
-    const error = new HttpError(
-      'Upload strana nije uspeo, probaj ponovo!',
-      500
-    );
-    return next(error);
+  if (req.files) {
+    console.log(req.files);
+    try {
+      url0 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][0].path);
+      url1 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][1].path);
+      url2 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][2].path);
+    } catch (err) {
+      const error = new HttpError(
+        'Upload strana nije uspeo, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
   }
 
   if (url0 && url1 && url2) newImgArr = [url0, url1, url2];

@@ -3,7 +3,7 @@ import ImageUploading from 'react-images-uploading';
 import './ImageUploader.css';
 
 const ImageUploader = ({
-  setPicture,
+  setPictures,
   setLogo,
   setPromoPicture,
   setBackgroundPicture,
@@ -12,28 +12,28 @@ const ImageUploader = ({
   name,
   radioInput,
 }) => {
-  const [image, setImage] = useState([]);
-  const maxNumber = 1;
+  const [images, setImage] = useState([]);
+  const maxNumber = name === 'imgs' ? 3 : 1;
   const onChange = (imageList, addUpdateIndex) => {
     setImage(imageList);
   };
 
   useEffect(() => {
-    if (name === 'img') {
-      setPicture(image);
+    if (name === 'imgs') {
+      setPictures(images);
     } else if (name === 'logo') {
-      setLogo(image);
+      setLogo(images);
     } else if (name === 'promoImg') {
-      setPromoPicture(image);
+      setPromoPicture(images);
     } else if (name === 'backgroundImg') {
-      setBackgroundPicture(image);
+      setBackgroundPicture(images);
     } else if (name === 'menuBackgroundImg') {
-      setMenuBackgroundPicture(image);
+      setMenuBackgroundPicture(images);
     }
   }, [
-    image,
+    images,
     name,
-    setPicture,
+    setPictures,
     setLogo,
     setPromoPicture,
     setBackgroundPicture,
@@ -43,7 +43,8 @@ const ImageUploader = ({
   return (
     <div>
       <ImageUploading
-        value={image}
+        multiple
+        value={images}
         onChange={onChange}
         maxNumber={maxNumber}
         dataURLKey='data_url'
@@ -71,7 +72,7 @@ const ImageUploader = ({
               {imageList.length === 0 && (
                 <button
                   ref={
-                    name === 'img' || radioInput
+                    name === 'imgs' || radioInput
                       ? register({ required: true })
                       : register
                   }
@@ -93,10 +94,10 @@ const ImageUploader = ({
                 </button>
               )}
               &nbsp;
-              {imageList.map((image, index) => (
+              {imageList.map((images, index) => (
                 <div key={index} className='image-item'>
                   <img
-                    src={image['data_url']}
+                    src={images['data_url']}
                     alt=''
                     style={
                       name === 'backgroundImg'

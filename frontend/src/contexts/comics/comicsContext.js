@@ -103,8 +103,10 @@ export const ComicsProvider = ({ children }) => {
         formData.append('editionId', newEntry.editionId);
       }
       formData.append('title', newEntry.title);
-      if (newEntry.img) {
-        formData.append('img', newEntry.img.file);
+      if (newEntry.imgs) {
+        formData.append('imgs', newEntry.imgs[0].file);
+        formData.append('imgs', newEntry.imgs[1].file);
+        formData.append('imgs', newEntry.imgs[2].file);
       }
       formData.append('nr', newEntry.nr);
       if (newEntry.logo && newEntry.logo.file) {
@@ -113,12 +115,32 @@ export const ComicsProvider = ({ children }) => {
         formData.append('logo', newEntry.logo);
         formData.append('cloudinaryLogoId', newEntry.cloudinaryLogoId);
       }
-      const image = formData.get('img');
-      const editionId = formData.get('editionId');
-      const nr = formData.get('nr');
-      const logo = formData.get('logo');
-      const title = formData.get('title');
-      console.log(image, editionId, logo, title, nr);
+
+      formData.append(
+        'info',
+        JSON.stringify({
+          comicYear: newEntry.comicYear,
+          comicSeries: newEntry.comicSeries,
+          comicWriter: newEntry.comicWriter,
+          comicArtist: newEntry.comicArtist,
+          comicTitleArtist: newEntry.comicTitleArtist,
+          comicOriginalTitle: newEntry.comicOriginalTitle,
+          comicOriginalNr: newEntry.comicOriginalNr,
+          comicOriginCountry: newEntry.comicOriginCountry,
+          comicDimensions: newEntry.comicDimensions,
+          comicFinish: newEntry.comicFinish,
+          comicPageNr: newEntry.comicPageNr,
+          comicColor: newEntry.comicColor,
+        })
+      );
+
+      // const image = formData.get('img');
+      // const editionId = formData.get('editionId');
+      // const nr = formData.get('nr');
+      // const logo = formData.get('logo');
+      // const title = formData.get('title');
+      const info = formData.get('info');
+      console.log(info);
 
       const sendComic = async () => {
         const httpAbortCtrl = new AbortController();
