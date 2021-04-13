@@ -53,7 +53,6 @@ const NewComic = () => {
       }
       if (data.logo) {
         addComic(data, token);
-        console.log(data);
       }
     }
   };

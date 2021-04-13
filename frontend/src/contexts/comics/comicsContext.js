@@ -33,7 +33,6 @@ export const ComicsProvider = ({ children }) => {
       activeHttpRequests.current = activeHttpRequests.current.filter(
         reqCtrl => reqCtrl !== httpAbortCtrl
       );
-      console.log(data);
       dispatch({ type: 'GET', payload: data });
     } catch (err) {
       dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
@@ -93,10 +92,6 @@ export const ComicsProvider = ({ children }) => {
     dispatch({ type: 'GET_EDITION_ID', payload: editionId });
 
   const addComic = (newEntry, token) => {
-    console.log(
-      '🚀 ~ file: comicsContext.js ~ line 75 ~ ComicsProvider ~ newEntry',
-      newEntry
-    );
     if (newEntry) {
       const formData = new FormData();
       if (newEntry.editionId) {
@@ -134,13 +129,12 @@ export const ComicsProvider = ({ children }) => {
         })
       );
 
-      const images = formData.get('imgs');
-      const editionId = formData.get('editionId');
-      const nr = formData.get('nr');
-      const logo = formData.get('logo');
-      const title = formData.get('title');
-      const info = formData.get('info');
-      console.log(info, images, editionId, nr, logo, title);
+      // const images = formData.get('imgs');
+      // const editionId = formData.get('editionId');
+      // const nr = formData.get('nr');
+      // const logo = formData.get('logo');
+      // const title = formData.get('title');
+      // const info = formData.get('info');
 
       const sendComic = async () => {
         const httpAbortCtrl = new AbortController();
@@ -168,7 +162,6 @@ export const ComicsProvider = ({ children }) => {
             type: 'MESSAGE',
             payload: responseData.message,
           });
-
           dispatch({ type: 'ADD', payload: newEntry });
           newEntry.editionId
             ? history.push(`/editions/${newEntry.editionId}`)
