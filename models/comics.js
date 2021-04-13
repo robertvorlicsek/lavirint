@@ -29,6 +29,44 @@ const comicSchema = new Schema({
   cloudinaryImgIds: {
     type: Array,
   },
+  info: {
+    comicYear: {
+      type: String,
+    },
+    comicSeries: {
+      type: String,
+    },
+    comicWriter: {
+      type: String,
+    },
+    comicArtist: {
+      type: String,
+    },
+    comicTitleArtist: {
+      type: String,
+    },
+    comicOriginalTitle: {
+      type: String,
+    },
+    comicOriginalNr: {
+      type: String,
+    },
+    comicOriginCountry: {
+      type: String,
+    },
+    comicDimensions: {
+      type: String,
+    },
+    comicFinish: {
+      type: String,
+    },
+    comicPageNr: {
+      type: String,
+    },
+    comicColor: {
+      type: String,
+    },
+  },
 });
 
 // comicSchema.plugin(uniqueValidator);

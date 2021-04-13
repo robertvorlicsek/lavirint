@@ -78,6 +78,11 @@ const createComic = async (req, res, next) => {
   let url0;
   let url1;
   let url2;
+  let info;
+
+  if (req.body.info) {
+    info = req.body.info;
+  }
 
   try {
     url0 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][0].path);
@@ -99,6 +104,7 @@ const createComic = async (req, res, next) => {
     nr,
     imgs: newImgArr.map(img => img.secure_url),
     cloudinaryImgIds: newImgArr.map(img => img.public_id),
+    info,
   });
 
   // console.log('newComic: ', newComic);
@@ -177,21 +183,25 @@ const deleteComic = async (req, res, next) => {
 
   if (logoDelete.length === 1) {
     try {
-      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[0]);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[1]);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[2]);
       await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryLogoId);
     } catch (err) {
       const error = new HttpError(
-        'Naslovnica ili logo nisu obrisani, probaj ponovo!',
+        'Preview stranice stripa ili logo nisu obrisani, probaj ponovo!',
         500
       );
       return next(error);
     }
   } else {
     try {
-      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgId);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[0]);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[1]);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[2]);
     } catch (err) {
       const error = new HttpError(
-        'Naslovnica nije obrisana, probaj još jednom kasnije!',
+        'Preview stranice stripa nisu obrisane, probaj još jednom kasnije!',
         500
       );
       return next(error);

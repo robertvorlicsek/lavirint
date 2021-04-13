@@ -106,41 +106,70 @@ const Comic = () => {
                   </div>
                 </div>
               </div>
-
-              <div className='comic-description-container'>
-                <p className='comic-year comic-description'>
-                  Godina izdavanja: 2021
-                </p>
-                <p className='comic-series comic-description'>
-                  Serijal: Životinjska karma
-                </p>
-                <p className='comic-writer comic-description'>
-                  Scenario: Frank Cho
-                </p>
-                <p className='comic-artist comic-description'>
-                  Crtež: Frank Cho
-                </p>
-                <p className='comic-title-page-artist comic-description'>
-                  Naslovna strana: Frank Cho
-                </p>
-                <p className='comic-original-title comic-description'>
-                  Originalni naslov: Liberty Meadows
-                </p>
-                <p className='comic-original-nr comic-description'>
-                  Broj originalne edicije: Nepoznato
-                </p>
-                <p className='comic-origin-country comic-description'>
-                  Zemlja: SAD
-                </p>
-                <p className='comic-size comic-description'>Format: A4</p>
-                <p className='comic-finish comic-description'>
-                  Povez: Meki povez
-                </p>
-                <p className='comic-page-nr comic-description'>
-                  Broj strana: 48
-                </p>
-                <p className='comic-color comic-description'>Boja: Crno-belo</p>
-              </div>
+              {comic.info && (
+                <div className='comic-description-container'>
+                  {comic.info.comicYear && (
+                    <p className='comic-year comic-description'>
+                      Godina izdavanja: {comic.info.comicYear}
+                    </p>
+                  )}
+                  {comic.info.comicSeries && (
+                    <p className='comic-series comic-description'>
+                      Serijal: {comic.info.comicSeries}
+                    </p>
+                  )}
+                  {comic.info.comicWriter && (
+                    <p className='comic-writer comic-description'>
+                      Scenario: {comic.info.comicWriter}
+                    </p>
+                  )}
+                  {comic.info.comicArtist && (
+                    <p className='comic-artist comic-description'>
+                      Crtež: {comic.info.comicArtist}
+                    </p>
+                  )}
+                  {comic.info.comicTitleArtist && (
+                    <p className='comic-title-page-artist comic-description'>
+                      Naslovna strana: {comic.info.comicTitleArtist}
+                    </p>
+                  )}
+                  {comic.info.comicOriginalTitle && (
+                    <p className='comic-original-title comic-description'>
+                      Originalni naslov: {comic.info.comicOriginalTitle}
+                    </p>
+                  )}
+                  {comic.info.comicOriginalNr && (
+                    <p className='comic-original-nr comic-description'>
+                      Broj originalne edicije: {comic.info.comicOriginalNr}
+                    </p>
+                  )}
+                  {comic.info.comicOriginCountry && (
+                    <p className='comic-origin-country comic-description'>
+                      Zemlja: {comic.info.comicOriginCountry}
+                    </p>
+                  )}
+                  {comic.info.comicDimensions && (
+                    <p className='comic-dimensions comic-description'>
+                      Format: {comic.info.comicDimensions}
+                    </p>
+                  )}
+                  {comic.info.comicFinish && (
+                    <p className='comic-finish comic-description'>
+                      Povez: {comic.info.comicFinish}
+                    </p>
+                  )}
+                  {comic.info.comicPageNr && (
+                    <p className='comic-page-nr comic-description'>
+                      Broj strana: {comic.info.comicPageNr}
+                    </p>
+                  )}
+                  {comic.info.comicColor && (
+                    <p className='comic-color comic-description'>
+                      Boja: {comic.info.comicColor}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {/* {!!token && (
               <button
