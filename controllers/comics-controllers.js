@@ -85,8 +85,8 @@ const createComic = async (req, res, next) => {
       '🚀 ~ file: comics-controllers.js ~ line 84 ~ createComic ~ req.body.info',
       req.body.info
     );
-    info = JSON.parse(req.body.info);
-    // info = req.body.info;
+    // info = JSON.parse(req.body.info);
+    info = req.body.info;
   }
   if (req.files) {
     try {
@@ -144,6 +144,145 @@ const createComic = async (req, res, next) => {
     } catch (err) {
       const error = new HttpError(
         'Postavljanje stripa nije uspelo, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
+
+    res.status(201).json({ message: 'Strip je postavljen!' });
+  }
+};
+
+const updateComic = async (req, res, next) => {
+  const { editionId, title, nr, cloudinaryImgIds } = req.body;
+  const comicId = req.params.cid;
+
+  const newEditionId = uuid();
+
+  // console.log('images: ', req.files['imgs'][0]);
+
+  let newImgArr;
+  let url0;
+  let url1;
+  let url2;
+  let info;
+  let oldImgs;
+  let cloudinaryIds;
+  let newLogo;
+
+  let comic;
+
+  try {
+    comic = await Comic.findById(comicId);
+  } catch (err) {
+    const error = new HttpError(
+      'Nešto je zapelo, strip koji treba da se update-uje ne postoji!',
+      500
+    );
+    return next(error);
+  }
+
+  if (req.body.info) {
+    // console.log(
+    //   '🚀 ~ file: comics-controllers.js ~ line 84 ~ createComic ~ req.body.info',
+    //   req.body.info
+    // );
+    // info = JSON.parse(req.body.info);
+    info = req.body.info;
+  }
+
+  console.log(comic);
+
+  if (req.files['imgs'] && !req.body.imgs) {
+    try {
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[0]);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[1]);
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryImgIds[2]);
+    } catch (err) {
+      const error = new HttpError(
+        'Stare strane stripa nisu obrisane, probaj još jednom kasnije!',
+        500
+      );
+      return next(error);
+    }
+    try {
+      url0 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][0].path);
+      url1 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][1].path);
+      url2 = await cloudinaryUtil.cloudinaryUpload(req.files['imgs'][2].path);
+    } catch (err) {
+      const error = new HttpError(
+        'Upload strana nije uspeo, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
+  } else if (req.body.imgs && req.body.cloudinaryImgIds) {
+    oldImgs = req.body.imgs;
+    cloudinaryIds = req.body.cloudinaryImgIds;
+  }
+
+  if (url0 && url1 && url2) newImgArr = [url0, url1, url2];
+
+  comic.editionId = editionId || newEditionId;
+  comic.title = title;
+  comic.nr = nr;
+  comic.imgs = newImgArr ? newImgArr.map(img => img.secure_url) : oldImgs;
+  comic.cloudinaryImgIds = newImgArr
+    ? newImgArr.map(img => img.public_id)
+    : cloudinaryIds;
+  comic.info = info;
+
+  // console.log('newComic: ', newComic);
+
+  if (req.body.logo) {
+    comic.logo = req.body.logo;
+    comic.cloudinaryLogoId = req.body.cloudinaryLogoId;
+  } else if (req.files && req.files['logo']) {
+    try {
+      newLogo = await cloudinaryUtil.cloudinaryUpload(
+        req.files['logo'][0].path
+      );
+    } catch (err) {
+      const error = new HttpError(
+        'Upload slike nije uspeo, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
+
+    let logoDelete;
+    try {
+      logoDelete = await Comic.find({ logo: comic.logo });
+    } catch (err) {
+      const error = new HttpError(
+        'Nešto je zapelo, stari logo nije nađen, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
+    if (logoDelete.length === 1) {
+      try {
+        await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryLogoId);
+      } catch (err) {
+        const error = new HttpError(
+          'Stari logo nije obrisan, probaj ponovo!',
+          500
+        );
+        return next(error);
+      }
+    }
+    comic.logo = await newLogo.secure_url;
+    comic.cloudinaryLogoId = await newLogo.public_id;
+  }
+
+  // console.log('275 - comic update with cloudinary: ', comic);
+
+  if (comic.imgs && comic.logo) {
+    try {
+      await comic.save();
+    } catch (err) {
+      const error = new HttpError(
+        'Update stripa nije uspeo, probaj ponovo!',
         500
       );
       return next(error);
@@ -221,4 +360,5 @@ exports.getAllComics = getAllComics;
 exports.getComicsByEditionId = getComicsByEditionId;
 exports.getComicByComicId = getComicByComicId;
 exports.createComic = createComic;
+exports.updateComic = updateComic;
 exports.deleteComic = deleteComic;

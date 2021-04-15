@@ -22,6 +22,17 @@ router.post(
   [check('title').not().isEmpty(), check('nr').not().isEmpty()],
   comicsControllers.createComic
 );
+router.patch(
+  '/:cid',
+  // fileUpload.single('img'),
+  fileUpload.fields([
+    { name: 'imgs', maxCount: 3 },
+    { name: 'logo', maxCount: 1 },
+  ]),
+  [check('title').not().isEmpty(), check('nr').not().isEmpty()],
+  comicsControllers.updateComic
+);
+
 router.delete('/:id', comicsControllers.deleteComic);
 
 module.exports = router;
