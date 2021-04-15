@@ -72,8 +72,6 @@ const createComic = async (req, res, next) => {
 
   const newEditionId = uuid();
 
-  // console.log('images: ', req.files['imgs'][0]);
-
   let newImgArr;
   let url0;
   let url1;
@@ -85,8 +83,8 @@ const createComic = async (req, res, next) => {
       '🚀 ~ file: comics-controllers.js ~ line 84 ~ createComic ~ req.body.info',
       req.body.info
     );
-    // info = JSON.parse(req.body.info);
-    info = req.body.info;
+    info = JSON.parse(req.body.info);
+    // info = req.body.info;
   }
   if (req.files) {
     try {
@@ -112,8 +110,6 @@ const createComic = async (req, res, next) => {
     cloudinaryImgIds: newImgArr.map(img => img.public_id),
     info,
   });
-
-  // console.log('newComic: ', newComic);
 
   if (req.body.logo) {
     newComic.logo = req.body.logo;
@@ -158,8 +154,6 @@ const updateComic = async (req, res, next) => {
   const comicId = req.params.cid;
 
   const newEditionId = uuid();
-
-  // console.log('images: ', req.files['imgs'][0]);
 
   let newImgArr;
   let url0;
@@ -231,8 +225,6 @@ const updateComic = async (req, res, next) => {
     ? newImgArr.map(img => img.public_id)
     : cloudinaryIds;
   comic.info = info;
-
-  // console.log('newComic: ', newComic);
 
   if (req.body.logo) {
     comic.logo = req.body.logo;
