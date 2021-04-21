@@ -11,6 +11,8 @@ const ImageUploader = ({
   register,
   name,
   radioInput,
+  text,
+  edit,
 }) => {
   const [images, setImage] = useState([]);
   const maxNumber = name === 'imgs' ? 3 : 1;
@@ -72,7 +74,7 @@ const ImageUploader = ({
               {imageList.length === 0 && (
                 <button
                   ref={
-                    name === 'imgs' || radioInput
+                    (name === 'imgs' && !edit) || radioInput
                       ? register({ required: true })
                       : register
                   }
@@ -90,7 +92,7 @@ const ImageUploader = ({
                   onClick={onImageUpload}
                   {...dragProps}
                 >
-                  Navuci sliku ili klikni ovde!
+                  {text || `Navuci sliku ili klikni ovde!`}
                 </button>
               )}
               &nbsp;

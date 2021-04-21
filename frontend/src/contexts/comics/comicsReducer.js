@@ -41,6 +41,14 @@ export const comicsReducer = (state, { type, payload }) => {
           comicsList: [payload],
         };
       }
+    case 'UPDATE':
+      const newComicList = (state.comicsList[
+        state.comicsList.findIndex(el => el.id === payload.id)
+      ] = payload);
+      return {
+        ...state,
+        comicsList: newComicList,
+      };
 
     case 'REMOVE':
       const indexInComic = state.comicsList.findIndex(c => c.id === payload);

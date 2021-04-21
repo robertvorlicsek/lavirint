@@ -150,10 +150,13 @@ const createComic = async (req, res, next) => {
 };
 
 const updateComic = async (req, res, next) => {
-  const { editionId, title, nr, cloudinaryImgIds } = req.body;
+  const { editionId, title, nr } = req.body;
   const comicId = req.params.cid;
 
   const newEditionId = uuid();
+
+  let reqBody = req.body;
+  console.log(reqBody);
 
   let newImgArr;
   let url0;
@@ -181,11 +184,9 @@ const updateComic = async (req, res, next) => {
     //   '🚀 ~ file: comics-controllers.js ~ line 84 ~ createComic ~ req.body.info',
     //   req.body.info
     // );
-    // info = JSON.parse(req.body.info);
-    info = req.body.info;
+    info = JSON.parse(req.body.info);
+    // info = req.body.info;
   }
-
-  console.log(comic);
 
   if (req.files['imgs'] && !req.body.imgs) {
     try {
@@ -217,6 +218,32 @@ const updateComic = async (req, res, next) => {
 
   if (url0 && url1 && url2) newImgArr = [url0, url1, url2];
 
+  let logoDelete;
+  try {
+    logoDelete = await Comic.find({ logo: comic.logo });
+  } catch (err) {
+    const error = new HttpError(
+      'Nešto je zapelo, stari logo nije nađen, probaj ponovo!',
+      500
+    );
+    return next(error);
+  }
+  console.log(
+    '🚀 ~ file: comics-controllers.js ~ line 249 ~ updateComic ~ logoDelete',
+    logoDelete.length
+  );
+  if (logoDelete.length === 1 && comic.editionId !== editionId) {
+    try {
+      await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryLogoId);
+    } catch (err) {
+      const error = new HttpError(
+        'Stari logo nije obrisan, probaj ponovo!',
+        500
+      );
+      return next(error);
+    }
+  }
+
   comic.editionId = editionId || newEditionId;
   comic.title = title;
   comic.nr = nr;
@@ -241,33 +268,9 @@ const updateComic = async (req, res, next) => {
       );
       return next(error);
     }
-
-    let logoDelete;
-    try {
-      logoDelete = await Comic.find({ logo: comic.logo });
-    } catch (err) {
-      const error = new HttpError(
-        'Nešto je zapelo, stari logo nije nađen, probaj ponovo!',
-        500
-      );
-      return next(error);
-    }
-    if (logoDelete.length === 1) {
-      try {
-        await cloudinaryUtil.cloudinaryDelete(comic.cloudinaryLogoId);
-      } catch (err) {
-        const error = new HttpError(
-          'Stari logo nije obrisan, probaj ponovo!',
-          500
-        );
-        return next(error);
-      }
-    }
     comic.logo = await newLogo.secure_url;
     comic.cloudinaryLogoId = await newLogo.public_id;
   }
-
-  // console.log('275 - comic update with cloudinary: ', comic);
 
   if (comic.imgs && comic.logo) {
     try {

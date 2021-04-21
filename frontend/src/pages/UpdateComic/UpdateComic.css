@@ -1,0 +1,142 @@
+.comic-form-hover:hover {
+  background-color: rgb(200, 220, 220);
+  /* border: none; */
+}
+
+.update-comic-form-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+  height: 100vh;
+  padding: 10vh 5% 5% 5%;
+}
+
+.update-comic-form-title {
+  margin: 0;
+  padding: 0;
+  width: 80%;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.update-comic-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 80%;
+  max-width: 50rem;
+  min-height: 40vh;
+  padding: 0.5rem 1rem 2rem 1rem;
+}
+
+.update-comic-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.update-comic-label.pic {
+  line-height: 0.8;
+}
+
+.update-comic-input {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  margin-top: 0.5rem;
+  border: 1px solid var(--bc, var(--border));
+  border-radius: 1rem;
+  padding: 0 1rem 0 1rem;
+  height: 2rem;
+}
+
+select {
+  line-height: 1;
+  border: 0;
+  border-radius: 5px;
+  height: 34px;
+  -webkit-appearance: none;
+  background-position-x: 244px;
+  cursor: pointer;
+}
+
+.update-comic-input[type='file'] {
+  border-radius: 0;
+  padding: 0;
+}
+
+.update-comic-input[type='radio'] {
+  margin: 0.2rem 0 0 0.5rem;
+  cursor: pointer;
+}
+
+option.update-comic-input {
+  margin: 3rem;
+}
+
+.radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.comic-old-logo-element {
+  width: 50%;
+  display: flex;
+  align-self: center;
+}
+
+.comic-old-logo {
+  width: 100%;
+}
+
+.old-preview-pics-element,
+.old-logo-element {
+  display: flex;
+  flex-direction: column;
+}
+
+.comic-old-preview-pics--container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.comic-old-preview-pic-element {
+  width: 30%;
+}
+
+.comic-old-preview {
+  width: 100%;
+}
+
+.update-comic-submit {
+  border: 1px solid var(--bc, var(--border));
+  border-radius: 1rem;
+  cursor: pointer;
+  width: 100%;
+  height: 2rem;
+  align-self: center;
+  margin-bottom: 1rem;
+  color: white;
+  background-color: black;
+}
+
+.update-comic-submit:hover {
+  color: white;
+  background-color: rgb(60, 60, 60);
+}
+
+.update-comic-submit:disabled,
+.update-comic-submit[disabled] {
+  border: 1px solid #999999;
+  background-color: #8a8a8a;
+  color: #666666;
+  cursor: initial;
+}

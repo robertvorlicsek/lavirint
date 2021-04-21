@@ -175,6 +175,97 @@ export const ComicsProvider = ({ children }) => {
     }
   };
 
+  const updateComic = (modifiedEntry, token) => {
+    if (modifiedEntry) {
+      const formData = new FormData();
+      if (modifiedEntry.editionId) {
+        formData.append('editionId', modifiedEntry.editionId);
+      }
+      formData.append('title', modifiedEntry.title);
+      if (modifiedEntry.imgs && modifiedEntry.imgs[0].file) {
+        formData.append('imgs', modifiedEntry.imgs[0].file);
+        formData.append('imgs', modifiedEntry.imgs[1].file);
+        formData.append('imgs', modifiedEntry.imgs[2].file);
+      } else if (modifiedEntry.imgs && !modifiedEntry.imgs[0].file) {
+        formData.append('imgs', modifiedEntry.imgs[0]);
+        formData.append('imgs', modifiedEntry.imgs[1]);
+        formData.append('imgs', modifiedEntry.imgs[2]);
+      }
+      formData.append('cloudinaryImgIds', modifiedEntry.cloudinaryImgIds[0]);
+      formData.append('cloudinaryImgIds', modifiedEntry.cloudinaryImgIds[1]);
+      formData.append('cloudinaryImgIds', modifiedEntry.cloudinaryImgIds[2]);
+      formData.append('nr', modifiedEntry.nr);
+      if (modifiedEntry.logo && modifiedEntry.logo.file) {
+        formData.append('logo', modifiedEntry.logo.file);
+      } else if (!modifiedEntry.logo.file) {
+        formData.append('logo', modifiedEntry.logo);
+        formData.append('cloudinaryLogoId', modifiedEntry.cloudinaryLogoId);
+      }
+
+      formData.append(
+        'info',
+        JSON.stringify({
+          comicYear: modifiedEntry.comicYear,
+          comicSeries: modifiedEntry.comicSeries,
+          comicWriter: modifiedEntry.comicWriter,
+          comicArtist: modifiedEntry.comicArtist,
+          comicTitleArtist: modifiedEntry.comicTitleArtist,
+          comicOriginalTitle: modifiedEntry.comicOriginalTitle,
+          comicOriginalNr: modifiedEntry.comicOriginalNr,
+          comicOriginCountry: modifiedEntry.comicOriginCountry,
+          comicDimensions: modifiedEntry.comicDimensions,
+          comicFinish: modifiedEntry.comicFinish,
+          comicPageNr: modifiedEntry.comicPageNr,
+          comicColor: modifiedEntry.comicColor,
+        })
+      );
+
+      // const images = formData.get('imgs');
+      // const editionId = formData.get('editionId');
+      // const nr = formData.get('nr');
+      // const logo = formData.get('logo');
+      // const title = formData.get('title');
+      // const info = formData.get('info');
+
+      // console.log('imgs: ', images, 'editionId: ', editionId, 'info: ', info);
+
+      const updateComic = async () => {
+        const httpAbortCtrl = new AbortController();
+        activeHttpRequests.current.push(httpAbortCtrl);
+        try {
+          const response = await fetch(`/api/comics/${modifiedEntry.cid}`, {
+            method: 'PATCH',
+            body: formData,
+            headers: { Authorization: 'Bearer ' + token },
+            signal: httpAbortCtrl.signal,
+          });
+          const responseData = await response.json();
+
+          activeHttpRequests.current = activeHttpRequests.current.filter(
+            reqCtrl => reqCtrl !== httpAbortCtrl
+          );
+
+          if (!response.ok) {
+            throw new Error(responseData.message);
+          }
+
+          console.log(`strip je uspešno apdejtovan`);
+
+          dispatch({
+            type: 'MESSAGE',
+            payload: responseData.message,
+          });
+          dispatch({ type: 'UPDATE', payload: modifiedEntry });
+          history.push(`/comics/${modifiedEntry.cid}`);
+        } catch (err) {
+          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+          console.log(err);
+        }
+      };
+      updateComic();
+    }
+  };
+
   const removeComic = async (id, token) => {
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
@@ -220,6 +311,7 @@ export const ComicsProvider = ({ children }) => {
         getComicByComicId,
         getEditionId,
         addComic,
+        updateComic,
         removeComic,
         getComicsByEditionId,
         comic: state.comic,
