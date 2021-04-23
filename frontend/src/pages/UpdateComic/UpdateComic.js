@@ -64,7 +64,6 @@ const UpdateComic = () => {
       data.cloudinaryImgIds = comic.cloudinaryImgIds;
 
       if (data.logo) {
-        console.log(data);
         updateComic(data, token);
       }
     }
@@ -78,12 +77,20 @@ const UpdateComic = () => {
       emptyMessages();
       setIsMessage(false);
     }, time);
-    getComicByComicId(cid);
     getComics();
+    getComicByComicId(cid);
     return () => {
       clearTimeout(timeout);
     };
-  }, [emptyMessages, errorMessage, message, getComicByComicId, getComics, cid]);
+  }, [
+    comic,
+    emptyMessages,
+    errorMessage,
+    message,
+    getComicByComicId,
+    getComics,
+    cid,
+  ]);
 
   useEffect(() => {
     if (comicsList.length > 0) {
@@ -104,7 +111,7 @@ const UpdateComic = () => {
         style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
       >
         <h1 className='update-comic-form-title'>Edit stripa</h1>
-        {comic.info && (
+        {comic.info && comic.id === cid && (
           <form className='update-comic-form' onSubmit={handleSubmit(onSubmit)}>
             <label className='update-comic-label radio'>
               U pitanju je nova edicija:

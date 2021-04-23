@@ -65,7 +65,7 @@ export const ComicsProvider = ({ children }) => {
   );
 
   const getComicByComicId = useCallback(paramCId => {
-    const fetchEditions = async () => {
+    const fetchComic = async () => {
       const httpAbortCtrl = new AbortController();
       activeHttpRequests.current.push(httpAbortCtrl);
       try {
@@ -85,7 +85,7 @@ export const ComicsProvider = ({ children }) => {
         dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
       }
     };
-    fetchEditions();
+    fetchComic();
   }, []);
 
   const getEditionId = editionId =>

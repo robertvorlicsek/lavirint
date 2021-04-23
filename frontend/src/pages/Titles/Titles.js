@@ -63,14 +63,16 @@ const Editions = () => {
         {editionList &&
           editionList.map((comic, i) => (
             <div className='title-container' key={i}>
-              <div className='title-image-container'>
+              <div
+                className='title-image-container'
+                onClick={() => getComic(comic.id)}
+              >
                 <Image
                   src={comic.imgs[0]}
                   alt={comic.title}
                   className='title-image'
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
-                  onClick={() => getComic(comic.id)}
                 />
               </div>
               <div className='title-image-description'>
