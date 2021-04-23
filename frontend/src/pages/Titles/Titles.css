@@ -10,6 +10,7 @@
 }
 
 .title-container {
+  position: relative;
   flex-direction: column;
   margin: 0.5rem;
 }

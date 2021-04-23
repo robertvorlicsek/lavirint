@@ -1,3 +1,8 @@
+.upload__image-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .image-item {
   display: flex;
   flex-direction: column;
@@ -19,6 +24,7 @@
 
 .upload__image-button:hover {
   background-color: rgb(200, 220, 220);
+  cursor: pointer;
 }
 
 .image-item__btn-wrapper {
@@ -30,10 +36,16 @@
 }
 
 .upload__image-button.update {
-  padding: 0.5rem;
+  padding: 0.5rem 1rem 0.5rem 0.9rem;
+  width: fit-content;
 }
 
 .upload__image-button_field {
   width: 100%;
   height: 4rem;
+}
+
+.upload__image-button.delete-all-images {
+  width: fit-content;
+  align-self: center;
 }

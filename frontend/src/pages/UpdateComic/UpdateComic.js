@@ -70,12 +70,6 @@ const UpdateComic = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log('formState: ', formState);
-  // }, [formState]);
-
-  console.log(uniqueEditionIds);
-
   useEffect(() => {
     let time;
     message || errorMessage ? (time = 3000) : (time = 300);

@@ -55,6 +55,7 @@ const ImageUploader = ({
           imageList,
           onImageUpload,
           onImageRemove,
+          onImageRemoveAll,
           isDragging,
           dragProps,
           errors,
@@ -107,16 +108,27 @@ const ImageUploader = ({
                         : null
                     }
                   />
+
                   <div className='image-item__btn-wrapper'>
-                    <button
-                      className='upload__image-button update'
-                      onClick={() => onImageRemove(index)}
-                    >
-                      Remove
-                    </button>
+                    {name !== 'imgs' && (
+                      <button
+                        className='upload__image-button update'
+                        onClick={() => onImageRemove(index)}
+                      >
+                        Zameni ili obriši sliku
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
+              {images.length === 3 && (
+                <button
+                  onClick={onImageRemoveAll}
+                  className='upload__image-button delete-all-images'
+                >
+                  Zameni ili obriši slike
+                </button>
+              )}
             </div>
           );
         }}

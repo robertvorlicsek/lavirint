@@ -77,12 +77,20 @@ const Editions = () => {
                 {comic.title} {comic.nr}
               </div>
               {!!token && (
-                <button
-                  onClick={() => removeComic(comic.id, token)}
-                  className='red-button'
-                >
-                  obriši strip
-                </button>
+                <Fragment>
+                  <button
+                    onClick={() => history.push(`/comics/edit/${comic.id}`)}
+                    className='yellow-button'
+                  >
+                    Edit stripa
+                  </button>
+                  <button
+                    onClick={() => removeComic(comic.id, token)}
+                    className='red-button circle-top'
+                  >
+                    X
+                  </button>
+                </Fragment>
               )}
             </div>
           ))}

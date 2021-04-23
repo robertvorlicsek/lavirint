@@ -81,17 +81,17 @@ const News = () => {
                       <Fragment>
                         <button
                           onClick={() => history.push(`/promo/edit/${p.id}`)}
-                          className='red-button news-item-edit-button'
+                          className='yellow-button news-item-edit-button'
                           disabled={promosList.length === 1}
                         >
                           Edituj
                         </button>
                         <button
                           onClick={() => deletePromo(p.id, token)}
-                          className='red-button news-item-delete-button'
+                          className='red-button circle-top news-item-delete-button'
                           disabled={promosList.length === 1}
                         >
-                          Obriši
+                          X
                         </button>
                       </Fragment>
                     )}
