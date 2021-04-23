@@ -10,7 +10,7 @@ router.get('/', comicsControllers.getAllComics);
 router.get('/editions/:editionId', comicsControllers.getComicsByEditionId);
 router.get('/:comicId', comicsControllers.getComicByComicId);
 
-// router.use(checkAuth);
+router.use(checkAuth);
 
 router.post(
   '/newcomic',

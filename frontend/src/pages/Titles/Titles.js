@@ -13,7 +13,6 @@ const Editions = () => {
   const {
     removeComic,
     getComicsByEditionId,
-    getComicByComicId,
     message,
     emptyMessages,
     errorMessage,
