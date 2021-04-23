@@ -283,7 +283,7 @@ const updateComic = async (req, res, next) => {
       return next(error);
     }
 
-    res.status(201).json({ message: 'Strip je postavljen!' });
+    res.status(201).json({ message: 'Strip je apdejtovan!' });
   }
 };
 

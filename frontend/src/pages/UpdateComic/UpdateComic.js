@@ -5,6 +5,7 @@ import { useAuthContext } from '../../contexts/auth/authContext';
 import { useComicsContext } from '../../contexts/comics/comicsContext';
 import ImageUploader from '../../components/ImageUploader/ImageUploader';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
+import BackButton from '../../components/BackButton/BackButton';
 import Image from '../../components/Image/Image';
 
 import './UpdateComic.css';
@@ -110,6 +111,7 @@ const UpdateComic = () => {
         className='update-comic-form-container opacity'
         style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
       >
+        <BackButton />
         <h1 className='update-comic-form-title'>Edit stripa</h1>
         {comic.info && comic.id === cid && (
           <form className='update-comic-form' onSubmit={handleSubmit(onSubmit)}>

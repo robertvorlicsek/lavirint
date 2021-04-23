@@ -44,7 +44,6 @@ const Editions = () => {
   ]);
 
   const getComic = id => {
-    getComicByComicId(id);
     history.push(`/comics/${id}`);
   };
 
