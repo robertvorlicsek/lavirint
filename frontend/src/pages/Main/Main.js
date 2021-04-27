@@ -24,6 +24,7 @@ const Main = () => {
   const { token } = useAuthContext();
   let history = useHistory();
   const {
+    getPromos,
     promosList,
     setPromoAsFirst,
     message,
@@ -46,6 +47,7 @@ const Main = () => {
       emptyMessages();
       setIsMessage(false);
     }, time);
+    getPromos();
     return () => {
       clearTimeout(timeout);
     };

@@ -83,11 +83,6 @@ const UpdatePromo = () => {
     }
   }, [promosList, editItem]);
 
-  //   useEffect(() => {
-  //       if()
-  //    setMainTitle()
-  //   }, [promosList]);
-
   return (
     <Fragment>
       {isMessage && (

@@ -39,10 +39,6 @@ export const PromosProvider = ({ children }) => {
     }
   }, []);
 
-  useEffect(() => {
-    getPromos();
-  }, [getPromos]);
-
   const addPromo = (newEntry, token) => {
     if (newEntry) {
       const formData = new FormData();
