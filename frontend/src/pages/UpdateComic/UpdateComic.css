@@ -40,8 +40,8 @@
   margin-bottom: 1rem;
 }
 
-.update-comic-label.pic {
-  line-height: 0.8;
+.update-comic-label.pic p {
+  margin: 0;
 }
 
 .update-comic-input {

@@ -139,7 +139,15 @@ const UpdateComic = () => {
                 >
                   {uniqueEditionIds.map((c, i) => {
                     return (
-                      <option key={i} id={i} value={c.editionId} name={c.title}>
+                      <option
+                        key={i}
+                        id={i}
+                        selected={
+                          comic.editionId === c.editionId && comic.editionId
+                        }
+                        value={c.editionId}
+                        name={c.title}
+                      >
                         {c.title}
                       </option>
                     );

@@ -8,6 +8,34 @@ const settingsSchema = new Schema({
     type: Number,
     required: true,
   },
+  textColor: {
+    r: {
+      type: Number,
+    },
+    g: {
+      type: Number,
+    },
+    b: {
+      type: Number,
+    },
+    a: {
+      type: Number,
+    },
+  },
+  backgroundColor: {
+    r: {
+      type: Number,
+    },
+    g: {
+      type: Number,
+    },
+    b: {
+      type: Number,
+    },
+    a: {
+      type: Number,
+    },
+  },
   backgroundImgs: {
     type: Array,
   },

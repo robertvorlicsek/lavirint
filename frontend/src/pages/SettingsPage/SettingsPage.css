@@ -33,6 +33,29 @@
   padding: 0.5rem 1rem 2rem 1rem;
 }
 
+.settings-color-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.settings-color-preview-container {
+  width: 100%;
+}
+
+.settings-preview-text-color {
+  text-shadow: 2px 2px 1px black;
+}
+
+.settings-preview-frame-color {
+  margin-top: 0.5rem;
+  display: flex;
+  width: 100%;
+  border-radius: 5px;
+  height: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
 .settings-old-backgrounds-container {
   display: flex;
   flex-wrap: wrap;

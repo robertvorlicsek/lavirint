@@ -77,25 +77,25 @@ const News = () => {
                       <br /> <br />
                       {parse(replaceText(p.promoText))}
                     </div>
-                    {!!token && (
-                      <Fragment>
-                        <button
-                          onClick={() => history.push(`/promo/edit/${p.id}`)}
-                          className='yellow-button news-item-edit-button'
-                          disabled={promosList.length === 1}
-                        >
-                          Edituj
-                        </button>
-                        <button
-                          onClick={() => deletePromo(p.id, token)}
-                          className='red-button circle-top news-item-delete-button'
-                          disabled={promosList.length === 1}
-                        >
-                          X
-                        </button>
-                      </Fragment>
-                    )}
                   </div>
+                  {!!token && (
+                    <Fragment>
+                      <button
+                        onClick={() => history.push(`/promo/edit/${p.id}`)}
+                        className='yellow-button news-item-edit-button'
+                        disabled={promosList.length === 1}
+                      >
+                        Edituj
+                      </button>
+                      <button
+                        onClick={() => deletePromo(p.id, token)}
+                        className='red-button circle-top news-item-delete-button'
+                        disabled={promosList.length === 1}
+                      >
+                        X
+                      </button>
+                    </Fragment>
+                  )}
                 </div>
               );
             })}

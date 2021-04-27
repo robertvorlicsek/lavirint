@@ -80,6 +80,11 @@ export const SettingsProvider = ({ children }) => {
         'cloudinaryMenuBackgroundImgId',
         newEntry.cloudinaryMenuBackgroundImgId
       );
+      formData.append('textColor', JSON.stringify(newEntry.textColor));
+      formData.append(
+        'backgroundColor',
+        JSON.stringify(newEntry.backgroundColor)
+      );
       if (newEntry.backgroundImg.file) {
         formData.append('backgroundImg', newEntry.backgroundImg.file);
       } else {

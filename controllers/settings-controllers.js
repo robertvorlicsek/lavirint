@@ -75,6 +75,15 @@ const updateSettings = async (req, res, next) => {
   let deletedCloudinaryMenuBackgroundId;
   let deletedBackground;
   let deletedCloudinaryBackgroundId;
+  let textColor;
+  let backgroundColor;
+
+  if (req.body.textColor) {
+    textColor = JSON.parse(req.body.textColor);
+  }
+  if (req.body.backgroundColor) {
+    backgroundColor = JSON.parse(req.body.backgroundColor);
+  }
 
   if (req.body.backgroundImg) {
     newBackgroundImg = req.body.backgroundImg;
@@ -226,6 +235,8 @@ const updateSettings = async (req, res, next) => {
   console.log('images array: ', settings.menuBackgroundImgs);
 
   settings.nrOfPromos = nrOfPromos;
+  settings.textColor = textColor;
+  settings.backgroundColor = backgroundColor;
 
   if (deletedBackground !== newBackgroundImg) {
     settings.backgroundImgs.unshift(newBackgroundImg);

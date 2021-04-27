@@ -37,14 +37,6 @@ const Main = () => {
   const [opacity, setOpacity] = useState(0);
   const [promoInd, setPromoInd] = useState(0);
   const [introLoaded, setintroLoaded] = useState(false);
-  // const [disableIntro, setDisableIntro] = useState(false);
-
-  // useEffect(() => {
-  //   const intro = JSON.parse(sessionStorage.getItem('intro'));
-  //   if (intro && intro.disableIntro) {
-  //     setDisableIntro(true);
-  //   }
-  // }, []);
 
   useEffect(() => {
     let time;
@@ -170,17 +162,35 @@ const Main = () => {
                   className='main-promo-pic'
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
+                  style={{
+                    background: `rgba(${settings.backgroundColor.r}, ${settings.backgroundColor.g}, ${settings.backgroundColor.b}, ${settings.backgroundColor.a})`,
+                  }}
                 />
               </div>
 
               <div className='main-promo-text-container'>
-                <div className='main-promo-date'>
+                <div
+                  className='main-promo-date'
+                  style={{
+                    color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
+                  }}
+                >
                   {getFormatedDate(promosList[promoInd].promoDate)}
                 </div>
-                <div className='main-promo-title'>
+                <div
+                  className='main-promo-title'
+                  style={{
+                    color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
+                  }}
+                >
                   {parse(promosList[promoInd].promoTitle)}
                 </div>
-                <div className='main-promo-text'>
+                <div
+                  className='main-promo-text'
+                  style={{
+                    color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
+                  }}
+                >
                   {parse(splitText(promosList[promoInd].promoText))}
                 </div>
 

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-const Image = ({ src, alt, className, setIsLoading, onClick }) => {
+const Image = ({ src, alt, className, setIsLoading, onClick, style }) => {
   return (
     <Fragment>
       <img
@@ -9,6 +9,7 @@ const Image = ({ src, alt, className, setIsLoading, onClick }) => {
         alt={alt}
         className={className}
         onClick={onClick}
+        style={style}
       />
     </Fragment>
   );

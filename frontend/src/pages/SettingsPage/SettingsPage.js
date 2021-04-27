@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
+import ColorPicker from '../../components/ColorPicker/ColorPicker';
 import { useAuthContext } from '../../contexts/auth/authContext';
 import { useSettingsContext } from '../../contexts/settings/settingsContext';
 import { usePromosContext } from '../../contexts/promos/promosContext';
@@ -36,6 +37,18 @@ const SettingsPage = () => {
   const [isMessage, setIsMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [submitNow, setSubmitNow] = useState(false);
+  const [textColor, setTextColor] = useState({
+    r: '255',
+    g: '255',
+    b: '255',
+    a: '1',
+  });
+  const [backgroundColor, setBackgroundColor] = useState({
+    r: '255',
+    g: '255',
+    b: '255',
+    a: '0.3',
+  });
 
   useEffect(() => {
     getPromos();
@@ -52,6 +65,8 @@ const SettingsPage = () => {
         url: settings.menuBackgroundImgs[0],
         index: 0,
       });
+    settings.textColor && setTextColor(settings.textColor);
+    settings.backgroundColor && setBackgroundColor(settings.backgroundColor);
   }, [settings]);
 
   const onSubmit = data => {
@@ -81,6 +96,8 @@ const SettingsPage = () => {
         settings.cloudinaryBackgroundImgIds[currentBackground.index];
       data.cloudinaryMenuBackgroundImgId =
         settings.cloudinaryMenuBackgroundImgIds[currentMenuBackground.index];
+      data.textColor = textColor;
+      data.backgroundColor = backgroundColor;
       if (data.backgroundImg) {
         updateSettings(data, token);
         console.log(data);
@@ -110,14 +127,13 @@ const SettingsPage = () => {
       >
         <h1 className='settings-title'>Podešavanja</h1>
         <form className='settings-form' onSubmit={handleSubmit(onSubmit)}>
-          <label className='settongs-label'>
+          <label className='settings-label'>
             Broj najava vidljivih na prvoj strani:
             <br />
             <span className='red-warning-text'>
               Broj mora da bude manji od{' '}
               <span className='red-warning-text'>{promosList.length + 1}</span>
             </span>
-            <br />
             <input
               type='number'
               name='nrOfPromos'
@@ -129,6 +145,40 @@ const SettingsPage = () => {
               })}
             />
           </label>
+
+          <div className='settings-color-container'>
+            <label className='settings-label' style={{ textAlign: 'center' }}>
+              Boja okvira najave:
+              <ColorPicker
+                color={backgroundColor}
+                setColor={setBackgroundColor}
+              />
+            </label>
+            <label className='settings-label' style={{ textAlign: 'center' }}>
+              Boja teksta:
+              <ColorPicker color={textColor} setColor={setTextColor} />
+            </label>
+          </div>
+
+          <div className='settings-color-preview-container'>
+            Preview okvira i teksta najave:
+            <div
+              className='settings-preview-frame-color'
+              style={{
+                background: `rgba(${backgroundColor.r}, ${backgroundColor.g}, ${backgroundColor.b}, ${backgroundColor.a})`,
+              }}
+            >
+              <p
+                className='settings-preview-text-color'
+                style={{
+                  color: `rgba(${textColor.r}, ${textColor.g}, ${textColor.b}, ${textColor.a})`,
+                }}
+              >
+                Probni tekst
+              </p>
+            </div>
+          </div>
+
           <div className='settings-label'>
             Lista sačuvanih menu-backgroud-ova:
             <div className='settings-old-backgrounds-container'>
