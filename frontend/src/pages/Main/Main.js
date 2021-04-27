@@ -162,34 +162,42 @@ const Main = () => {
                   className='main-promo-pic'
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
-                  style={{
-                    background: `rgba(${settings.backgroundColor.r}, ${settings.backgroundColor.g}, ${settings.backgroundColor.b}, ${settings.backgroundColor.a})`,
-                  }}
+                  style={
+                    settings.backgroundColor && {
+                      background: `rgba(${settings.backgroundColor.r}, ${settings.backgroundColor.g}, ${settings.backgroundColor.b}, ${settings.backgroundColor.a})`,
+                    }
+                  }
                 />
               </div>
 
               <div className='main-promo-text-container'>
                 <div
                   className='main-promo-date'
-                  style={{
-                    color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
-                  }}
+                  style={
+                    settings.backgroundColor && {
+                      color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
+                    }
+                  }
                 >
                   {getFormatedDate(promosList[promoInd].promoDate)}
                 </div>
                 <div
                   className='main-promo-title'
-                  style={{
-                    color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
-                  }}
+                  style={
+                    settings.backgroundColor && {
+                      color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
+                    }
+                  }
                 >
                   {parse(promosList[promoInd].promoTitle)}
                 </div>
                 <div
                   className='main-promo-text'
-                  style={{
-                    color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
-                  }}
+                  style={
+                    settings.backgroundColor && {
+                      color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
+                    }
+                  }
                 >
                   {parse(splitText(promosList[promoInd].promoText))}
                 </div>

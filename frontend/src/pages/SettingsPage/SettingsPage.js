@@ -137,7 +137,11 @@ const SettingsPage = () => {
             <input
               type='number'
               name='nrOfPromos'
-              defaultValue={settings.nrOfPromos}
+              defaultValue={
+                settings.nrOfPromos > promosList.length
+                  ? promosList.length
+                  : settings.nrOfPromos
+              }
               className='settings-input settings-hover'
               onChange={e => setNewNrOfPromos(e.target.value)}
               ref={register({
