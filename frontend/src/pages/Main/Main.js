@@ -51,7 +51,7 @@ const Main = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [message, errorMessage, emptyMessages]);
+  }, [message, errorMessage, emptyMessages, getPromos]);
 
   useEffect(() => {
     const newPromoNr = promosList.slice(0, settings.nrOfPromos);
@@ -172,7 +172,18 @@ const Main = () => {
                 />
               </div>
 
-              <div className='main-promo-text-container'>
+              <div
+                className='main-promo-text-container'
+                style={
+                  settings.backgroundColor && {
+                    background: `rgba(${settings.backgroundColor.r}, ${
+                      settings.backgroundColor.g
+                    }, ${settings.backgroundColor.b}, ${
+                      settings.backgroundColor.a - 0.1
+                    })`,
+                  }
+                }
+              >
                 <div
                   className='main-promo-date'
                   style={
