@@ -248,7 +248,7 @@ const SettingsPage = () => {
             </div>
           </div>
           <label className='new-promo-label'>
-            Novi Menu Background:
+            Novi Menu Background (300px širine):
             <ImageUploader
               setMenuBackgroundPicture={setMenuBackgroundPicture}
               name='menuBackgroundImg'

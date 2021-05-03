@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useHistory } from 'react-router-dom';
 
 import './Loader.css';
 
@@ -295,6 +296,7 @@ const pathVariants = {
 };
 
 const Loader = ({ scrollTop, setScrollTop }) => {
+  const history = useHistory();
   const [opacity, setOpacity] = useState(1);
 
   useEffect(() => {
@@ -312,7 +314,11 @@ const Loader = ({ scrollTop, setScrollTop }) => {
   }, [scrollTop, setScrollTop]);
 
   return (
-    <div className='animated-logo-container' style={{ opacity }}>
+    <div
+      className='animated-logo-container'
+      onClick={() => history.push('/')}
+      style={{ opacity }}
+    >
       <svg
         xmlns='http://www.w3.org/2000/svg'
         viewBox='0 0 16.6 18.9'

@@ -255,6 +255,24 @@ const NewComic = () => {
               ref={register}
             />
           </label>
+          <label className='new-comic-label'>
+            Preview stripa (tekst + link u formatu:{' '}
+            {'Zavir: <a href="url ovde" style="color: yellow;">Ovde!</a>'}
+            ):
+            {/* <input
+              type='text'
+              name='comicPreview'
+              className='new-comic-input comic-form-hover'
+              ref={register}
+            /> */}
+            <textarea
+              className='new-comic-textarea comic-form-hover'
+              ref={register}
+              name='comicPreview'
+              rows='5'
+              cols='30'
+            ></textarea>
+          </label>
 
           <label className='new-comic-label pic'>
             Upload naslovnice + 2 unutrašnje strane:

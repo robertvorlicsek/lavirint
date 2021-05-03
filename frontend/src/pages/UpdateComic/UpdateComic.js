@@ -325,6 +325,19 @@ const UpdateComic = () => {
                 ref={register}
               />
             </label>
+            <label className='new-comic-label'>
+              Preview stripa (tekst + link u formatu:{' '}
+              {'Zavir: <a href="url ovde" style="color: yellow;">Ovde!</a>'}
+              ):
+              <textarea
+                defaultValue={comic.info.comicPreview}
+                className='update-comic-textarea comic-form-hover'
+                ref={register}
+                name='comicPreview'
+                rows='5'
+                cols='30'
+              ></textarea>
+            </label>
             <div className='old-preview-pics-element'>
               <p>Stare preview strane:</p>
               <div className='comic-old-preview-pics--container'>
@@ -360,8 +373,9 @@ const UpdateComic = () => {
             </label>
             <button
               disabled={
-                formState.isSubmitting
-                // ||  !nr
+                formState.isSubmitting ||
+                pictures.length === 1 ||
+                pictures.length === 2
               }
               type='submit'
               value='Submit'

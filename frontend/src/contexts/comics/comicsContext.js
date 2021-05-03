@@ -126,6 +126,7 @@ export const ComicsProvider = ({ children }) => {
           comicFinish: newEntry.comicFinish,
           comicPageNr: newEntry.comicPageNr,
           comicColor: newEntry.comicColor,
+          comicPreview: newEntry.comicPreview,
         })
       );
 
@@ -217,6 +218,7 @@ export const ComicsProvider = ({ children }) => {
           comicFinish: modifiedEntry.comicFinish,
           comicPageNr: modifiedEntry.comicPageNr,
           comicColor: modifiedEntry.comicColor,
+          comicPreview: modifiedEntry.comicPreview,
         })
       );
 

@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import parse from 'html-react-parser';
 import { useComicsContext } from '../../contexts/comics/comicsContext';
 import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 import BackButton from '../../components/BackButton/BackButton';
@@ -166,6 +167,11 @@ const Comic = () => {
                   {comic.info.comicColor && (
                     <p className='comic-color comic-description'>
                       Boja: {comic.info.comicColor}
+                    </p>
+                  )}
+                  {comic.info.comicPreview && (
+                    <p className='comic-preview comic-description'>
+                      {parse(comic.info.comicPreview)}
                     </p>
                   )}
                 </div>

@@ -4,6 +4,7 @@
   left: calc(50vw - 6rem);
   width: 12rem;
   height: 1.7976rem;
+  cursor: pointer;
 }
 
 .animated-logo-element {

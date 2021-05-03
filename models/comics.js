@@ -66,6 +66,9 @@ const comicSchema = new Schema({
     comicColor: {
       type: String,
     },
+    comicPreview: {
+      type: String,
+    },
   },
 });
 
