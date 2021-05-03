@@ -43,6 +43,7 @@ const App = () => {
           id='page-wrap'
           className='main-styles'
           style={
+            settings &&
             settings.backgroundImgs && {
               backgroundImage: `url(${settings.backgroundImgs[0]})`,
             }

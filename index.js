@@ -57,7 +57,7 @@ if (process.env.NODE_ENV === 'production') {
 const PORT = 5000;
 mongoose
   .connect(
-    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@lavirintdb.mrfnl.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@lavirint.kuvfz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() =>

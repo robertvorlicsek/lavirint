@@ -23,7 +23,9 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
       padding: '2.5em 1.5em 0',
       fontSize: '1.6rem',
       backgroundImage:
-        settings.menuBackgroundImgs && `url(${settings.menuBackgroundImgs[0]})`,
+        settings &&
+        settings.menuBackgroundImgs &&
+        `url(${settings.menuBackgroundImgs[0]})`,
     },
   };
 

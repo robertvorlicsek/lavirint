@@ -54,9 +54,10 @@ const Main = () => {
   }, [message, errorMessage, emptyMessages, getPromos]);
 
   useEffect(() => {
-    const newPromoNr = promosList.slice(0, settings.nrOfPromos);
+    const newPromoNr =
+      settings && promosList && promosList.slice(0, settings.nrOfPromos);
     setShowPromo(true);
-    if (newPromoNr.length !== 1) {
+    if (newPromoNr && newPromoNr.length !== 1) {
       let animTimeout = setTimeout(() => {
         setShowPromo(false);
         setPromoInd(i => {
@@ -110,7 +111,7 @@ const Main = () => {
           onExitComplete={() => {}}
         >
           {!promosList && <div>Još nema nijedne najave!</div>}
-          {promosList.length !== 0 && showPromo && (
+          {promosList && promosList.length !== 0 && showPromo && (
             <motion.div
               key={promosList[promoInd].id}
               className='main-promo-item '
@@ -165,6 +166,7 @@ const Main = () => {
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
                   style={
+                    settings &&
                     settings.backgroundColor && {
                       background: `rgba(${settings.backgroundColor.r}, ${settings.backgroundColor.g}, ${settings.backgroundColor.b}, ${settings.backgroundColor.a})`,
                     }
@@ -175,6 +177,7 @@ const Main = () => {
               <div
                 className='main-promo-text-container'
                 style={
+                  settings &&
                   settings.backgroundColor && {
                     background: `rgba(${settings.backgroundColor.r}, ${
                       settings.backgroundColor.g
@@ -187,6 +190,7 @@ const Main = () => {
                 <div
                   className='main-promo-date'
                   style={
+                    settings &&
                     settings.backgroundColor && {
                       color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
                     }
@@ -197,6 +201,7 @@ const Main = () => {
                 <div
                   className='main-promo-title'
                   style={
+                    settings &&
                     settings.backgroundColor && {
                       color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
                     }
@@ -207,6 +212,7 @@ const Main = () => {
                 <div
                   className='main-promo-text'
                   style={
+                    settings &&
                     settings.backgroundColor && {
                       color: `rgba(${settings.textColor.r}, ${settings.textColor.g}, ${settings.textColor.b}, ${settings.textColor.a})`,
                     }
