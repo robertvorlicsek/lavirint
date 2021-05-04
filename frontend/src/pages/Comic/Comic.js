@@ -50,8 +50,6 @@ const Comic = () => {
     setImgEffect('fadeIn');
   };
 
-  console.log(isLoading);
-
   return (
     <Fragment>
       {isMessage && (

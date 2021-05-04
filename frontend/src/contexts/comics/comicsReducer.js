@@ -20,7 +20,6 @@ export const comicsReducer = (state, { type, payload }) => {
         editionId: payload,
       };
     case 'GET_COMIC_BY_COMIC_ID':
-      console.log(payload);
       return {
         ...state,
         comic: payload.comic,

@@ -31,7 +31,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
 
   let links;
 
-  if (token) {
+  if (!!token) {
     links = (
       <Menu
         pageWrapId={pageWrapId}
