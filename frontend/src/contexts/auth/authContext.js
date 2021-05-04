@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     ) {
       dispatch({ type: 'AUTH', payload: storedData });
     }
-  }, [isLoading]);
+  }, []);
 
   const signup = async authData => {
     const mode =
@@ -71,10 +71,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, [state.token, logout, state.tokenExpirationDate]);
 
-  const switchToSignup = mode => {
-    dispatch({ type: 'SWITCH_TO_SIGNUP', payload: mode });
-  };
-
   const emptyMessages = useCallback(
     () => dispatch({ type: 'EMPTY_MESSAGES' }),
     []
@@ -86,9 +82,8 @@ export const AuthProvider = ({ children }) => {
         signup,
         token: state.token,
         logout,
-        switchToSignup,
         signupMode: state.signupMode,
-        errorMessage: state.errorMessage,
+        errorMessage: error,
         emptyMessages,
         isLoading,
       }}

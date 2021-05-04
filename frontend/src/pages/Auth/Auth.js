@@ -34,6 +34,7 @@ const Auth = () => {
   useEffect(() => {
     let messageTimeout;
     if (errorMessage) {
+      setIsMessage(true);
       messageTimeout = setTimeout(() => {
         setIsMessage(false);
         emptyMessages();
