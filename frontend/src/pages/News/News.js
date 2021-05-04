@@ -26,9 +26,10 @@ const News = () => {
     message,
     errorMessage,
     emptyMessages,
+    isLoading,
   } = usePromosContext();
   const { token } = useAuthContext();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPicLoading, setIsPicLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
 
   useEffect(() => {
@@ -61,7 +62,11 @@ const News = () => {
                 <div
                   className='news-item opacity'
                   key={p.id}
-                  style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+                  style={
+                    !isLoading && !isPicLoading
+                      ? { opacity: '1' }
+                      : { opacity: '0' }
+                  }
                 >
                   <div className='news-item-text-container'>
                     <h2 className='news-item-title'>{parse(p.promoTitle)}</h2>
@@ -69,8 +74,7 @@ const News = () => {
                       <Image
                         src={p.promoImg}
                         alt={p.promoTitle}
-                        isLoading={isLoading}
-                        setIsLoading={setIsLoading}
+                        setIsPicLoading={setIsPicLoading}
                         className='news-item-pic'
                       />
                       <span>{getFormatedDate(p.promoDate)}</span>

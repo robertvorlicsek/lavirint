@@ -27,7 +27,13 @@ const UpdatePromo = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const { updatePromo, message, errorMessage, promosList } = usePromosContext();
+  const {
+    updatePromo,
+    message,
+    errorMessage,
+    promosList,
+    isLoading,
+  } = usePromosContext();
   const { token } = useAuthContext();
   const [takenNr, setTakenNr] = useState('');
   const [editItem, setEditItem] = useState('');
@@ -37,7 +43,7 @@ const UpdatePromo = () => {
   const [mainTitle, setMainTitle] = useState('');
   const [mainText, setMainText] = useState('');
   const [isMessage, setIsMessage] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPicLoading, setIsPicLoading] = useState(true);
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   const onSubmit = data => {
@@ -90,7 +96,9 @@ const UpdatePromo = () => {
       )}
       <div
         className='update-promo-container opacity'
-        style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+        style={
+          !isLoading && !isPicLoading ? { opacity: '1' } : { opacity: '0' }
+        }
       >
         <h1 className='update-promo-title'>Edit najave</h1>
         <form className='update-promo-form' onSubmit={handleSubmit(onSubmit)}>
@@ -134,8 +142,7 @@ const UpdatePromo = () => {
               src={editItem.promoImg}
               alt='old background'
               className='old-promo-pic'
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
+              setIsPicLoading={setIsPicLoading}
             />
           </label>
           <label className='update-promo-label'>

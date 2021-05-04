@@ -8,7 +8,7 @@ import Image from '../../components/Image/Image';
 import './Titles.css';
 
 const Editions = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPicLoading, setIsPicLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
   const {
     removeComic,
@@ -17,6 +17,7 @@ const Editions = () => {
     emptyMessages,
     errorMessage,
     editionList,
+    isLoading,
   } = useComicsContext();
   const { token } = useAuthContext();
   const parEditionId = useParams().editionId;
@@ -53,7 +54,9 @@ const Editions = () => {
       )}
       <div
         className='titles-container opacity'
-        style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+        style={
+          !isLoading && !isPicLoading ? { opacity: '1' } : { opacity: '0' }
+        }
       >
         <BackButton />
 
@@ -69,8 +72,7 @@ const Editions = () => {
                   src={comic.imgs[0]}
                   alt={comic.title}
                   className='title-image'
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
+                  setIsPicLoading={setIsPicLoading}
                 />
               </div>
               <div className='title-image-description'>

@@ -24,7 +24,14 @@ const NewPromo = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const { addPromo, message, errorMessage, promosList } = usePromosContext();
+  const {
+    getPromos,
+    addPromo,
+    message,
+    errorMessage,
+    promosList,
+    isLoading,
+  } = usePromosContext();
   const { token } = useAuthContext();
   const [takenNr, setTakenNr] = useState('');
   const [notAvailableNr, setNotAvailableNr] = useState(false);
@@ -34,6 +41,8 @@ const NewPromo = () => {
   const [mainText, setMainText] = useState('');
   const [isMessage, setIsMessage] = useState(false);
   const [submit, setSubmit] = useState(false);
+
+  useEffect(() => getPromos(), [getPromos]);
 
   const onSubmit = data => {
     if (submit) {
@@ -69,7 +78,10 @@ const NewPromo = () => {
       {isMessage && (
         <LoadingOverlay message={message} errorMessage={errorMessage} />
       )}
-      <div className='new-promo-container'>
+      <div
+        className='new-promo-container opacity'
+        style={!isLoading && takenNr ? { opacity: '1' } : { opacity: '0' }}
+      >
         <h1 className='new-promo-title'>Upload nove najave</h1>
         <form className='new-promo-form' onSubmit={handleSubmit(onSubmit)}>
           <label className='new-promo-label'>

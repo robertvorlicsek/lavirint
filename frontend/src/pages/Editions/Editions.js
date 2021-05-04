@@ -13,9 +13,10 @@ const Editions = () => {
     message,
     emptyMessages,
     errorMessage,
+    isLoading,
   } = useComicsContext();
   const [uniqueEditions, setUniqueEditions] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPicLoading, setIsPicLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
 
   useEffect(() => {
@@ -44,7 +45,11 @@ const Editions = () => {
   return (
     <div
       className='editions-container opacity'
-      style={!isLoading || !comicsList ? { opacity: '1' } : { opacity: '0' }}
+      style={
+        !isLoading && (!isPicLoading || !comicsList)
+          ? { opacity: '1' }
+          : { opacity: '0' }
+      }
     >
       {isMessage && (
         <LoadingOverlay message={message} errorMessage={errorMessage} />
@@ -68,8 +73,7 @@ const Editions = () => {
                       src={comic.logo}
                       alt={comic.title}
                       className='edition-logo'
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
+                      setIsPicLoading={setIsPicLoading}
                     />
                   </div>
                 </div>

@@ -20,9 +20,10 @@ export const comicsReducer = (state, { type, payload }) => {
         editionId: payload,
       };
     case 'GET_COMIC_BY_COMIC_ID':
+      console.log(payload);
       return {
         ...state,
-        comic: payload,
+        comic: payload.comic,
       };
     case 'GET_COMICS_BY_EDITION_ID':
       return {
@@ -33,17 +34,17 @@ export const comicsReducer = (state, { type, payload }) => {
       if (state.comicsList) {
         return {
           ...state,
-          comicsList: [...state.comicsList, payload],
+          comicsList: [...state.comicsList, payload.newEntry],
         };
       } else {
         return {
           ...state,
-          comicsList: [payload],
+          comicsList: [payload.newEntry],
         };
       }
     case 'UPDATE':
       const newComicList = (state.comicsList[
-        state.comicsList.findIndex(el => el.id === payload.id)
+        state.comicsList.findIndex(el => el.id === payload.modifiedEntry.id)
       ] = payload);
       return {
         ...state,
@@ -61,7 +62,7 @@ export const comicsReducer = (state, { type, payload }) => {
     case 'MESSAGE':
       return {
         ...state,
-        message: payload,
+        message: payload.message,
       };
     case 'EMPTY_MESSAGES':
       return {

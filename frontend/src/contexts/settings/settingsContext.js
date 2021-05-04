@@ -143,6 +143,7 @@ export const SettingsProvider = ({ children }) => {
         errorMessage: state.errorMessage,
         message: state.message,
         emptyMessages,
+        isLoading,
       }}
     >
       {children}

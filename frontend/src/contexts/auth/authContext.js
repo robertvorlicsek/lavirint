@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     ) {
       dispatch({ type: 'AUTH', payload: storedData });
     }
-  }, []);
+  }, [isLoading]);
 
   const signup = async authData => {
     const mode =
@@ -85,6 +85,7 @@ export const AuthProvider = ({ children }) => {
         signupMode: state.signupMode,
         errorMessage: state.errorMessage,
         emptyMessages,
+        isLoading,
       }}
     >
       {children}

@@ -29,7 +29,10 @@ export const ComicsProvider = ({ children }) => {
           const responseData = await sendRequest(
             `/api/comics/editions/${edId}`
           );
-          dispatch({ type: 'GET_COMICS_BY_EDITION_ID', payload: responseData });
+          dispatch({
+            type: 'GET_COMICS_BY_EDITION_ID',
+            payload: responseData,
+          });
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: error });
         }
@@ -40,24 +43,25 @@ export const ComicsProvider = ({ children }) => {
   );
 
   const getComicByComicId = useCallback(
-    paramCId => {
-      const fetchComic = async () => {
-        try {
-          const responseData = await sendRequest(`/api/comics/${paramCId}`);
+    async paramCId => {
+      try {
+        const responseData = await sendRequest(`/api/comics/${paramCId}`);
 
-          dispatch({
-            type: 'GET_COMIC_BY_COMIC_ID',
-            payload: responseData.comic,
-          });
-        } catch (err) {
-          console.log(error);
-          dispatch({ type: 'ERROR_MESSAGE', payload: error });
-          window.history.back();
-        }
-      };
-      fetchComic();
+        dispatch({
+          type: 'GET_COMIC_BY_COMIC_ID',
+          payload: responseData,
+        });
+      } catch (err) {
+        console.log(error);
+        dispatch({ type: 'ERROR_MESSAGE', payload: error });
+        window.history.back();
+      }
     },
-    [sendRequest, error]
+    [
+      sendRequest,
+      error,
+      // isLoading
+    ]
   );
 
   const getEditionId = editionId =>
@@ -211,7 +215,10 @@ export const ComicsProvider = ({ children }) => {
             type: 'MESSAGE',
             payload: responseData.message,
           });
-          dispatch({ type: 'UPDATE', payload: modifiedEntry });
+          dispatch({
+            type: 'UPDATE',
+            payload: modifiedEntry,
+          });
           history.push(`/comics/${modifiedEntry.cid}`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: error });
@@ -233,7 +240,10 @@ export const ComicsProvider = ({ children }) => {
         }
       );
 
-      dispatch({ type: 'MESSAGE', payload: responseData.message });
+      dispatch({
+        type: 'MESSAGE',
+        payload: responseData,
+      });
       // proveriti sta se desi ako nema editionId-a
 
       state.editionList.length === 1
@@ -269,6 +279,7 @@ export const ComicsProvider = ({ children }) => {
         errorMessage: state.errorMessage,
         message: state.message,
         emptyMessages,
+        isLoading,
       }}
     >
       {children}

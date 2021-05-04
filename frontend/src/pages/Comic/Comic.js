@@ -15,8 +15,9 @@ const Comic = () => {
     message,
     emptyMessages,
     errorMessage,
+    isLoading,
   } = useComicsContext();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPicLoading, setIsPicLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
   const [imgsOrder, setImgsOrder] = useState(null);
   const [imgEffect, setImgEffect] = useState('false');
@@ -49,6 +50,8 @@ const Comic = () => {
     setImgEffect('fadeIn');
   };
 
+  console.log(isLoading);
+
   return (
     <Fragment>
       {isMessage && (
@@ -56,7 +59,9 @@ const Comic = () => {
       )}
       <div
         className='comic-main-container opacity'
-        style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+        style={
+          !isLoading && !isPicLoading ? { opacity: '1' } : { opacity: '0' }
+        }
       >
         <BackButton />
 
@@ -73,8 +78,7 @@ const Comic = () => {
                     src={imgsOrder[0]}
                     alt={comic.title}
                     className={`first-comic-image ${imgEffect}`}
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
+                    setIsPicLoading={setIsPicLoading}
                   />
                 </div>
 
@@ -88,8 +92,7 @@ const Comic = () => {
                       src={imgsOrder[1]}
                       alt={comic.title}
                       className={`comic-image ${imgEffect}`}
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
+                      setIsPicLoading={setIsPicLoading}
                     />
                   </div>
                   <div
@@ -101,8 +104,7 @@ const Comic = () => {
                       src={imgsOrder[2]}
                       alt={comic.title}
                       className={`comic-image ${imgEffect}`}
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
+                      setIsPicLoading={setIsPicLoading}
                     />
                   </div>
                 </div>

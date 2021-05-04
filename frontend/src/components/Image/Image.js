@@ -1,10 +1,10 @@
 import { Fragment } from 'react';
 
-const Image = ({ src, alt, className, setIsLoading, onClick, style }) => {
+const Image = ({ src, alt, className, setIsPicLoading, onClick, style }) => {
   return (
     <Fragment>
       <img
-        onLoad={() => setIsLoading(false)}
+        onLoad={() => setIsPicLoading(false)}
         src={src}
         alt={alt}
         className={className}

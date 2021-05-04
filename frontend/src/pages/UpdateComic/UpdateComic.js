@@ -33,7 +33,7 @@ const UpdateComic = () => {
   const [pictures, setPictures] = useState([]);
   const [logo, setLogo] = useState([]);
   const [isMessage, setIsMessage] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPicLoading, setIsPicLoading] = useState(true);
   const [submit, setSubmit] = useState(false);
 
   const handleInputOption = e => {
@@ -109,7 +109,7 @@ const UpdateComic = () => {
       )}
       <div
         className='update-comic-form-container opacity'
-        style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+        style={!isPicLoading ? { opacity: '1' } : { opacity: '0' }}
       >
         <BackButton />
         <h1 className='update-comic-form-title'>Edit stripa</h1>
@@ -175,8 +175,7 @@ const UpdateComic = () => {
                       src={comic.logo}
                       alt='old logo'
                       className='comic-old-logo'
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
+                      setIsPicLoading={setIsPicLoading}
                     />
                   </div>
                 </div>
@@ -348,8 +347,7 @@ const UpdateComic = () => {
                         src={url}
                         alt='old preview picture'
                         className='comic-old-preview'
-                        isLoading={isLoading}
-                        setIsLoading={setIsLoading}
+                        setIsPicLoading={setIsPicLoading}
                       />
                     </div>
                   ))}

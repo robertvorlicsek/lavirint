@@ -32,7 +32,7 @@ const Main = () => {
     emptyMessages,
   } = usePromosContext();
   const { settings, introDisabled } = useSettingsContext();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPicLoading, setIsPicLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
   const [showPromo, setShowPromo] = useState(true);
   const [opacity, setOpacity] = useState(0);
@@ -116,7 +116,7 @@ const Main = () => {
               key={promosList[promoInd].id}
               className='main-promo-item '
               initial={
-                !isLoading && promosList.length > 1
+                !isPicLoading && promosList.length > 1
                   ? {
                       rotateY: '20deg',
                       skewX: 20,
@@ -130,7 +130,7 @@ const Main = () => {
                     }
               }
               animate={
-                !isLoading && promosList.length > 1
+                !isPicLoading && promosList.length > 1
                   ? {
                       skewX: 0,
                       rotateY: '0deg',
@@ -144,7 +144,7 @@ const Main = () => {
                     }
               }
               transition={
-                !isLoading && promosList.length > 1
+                !isPicLoading && promosList.length > 1
                   ? { duration: 0.2 }
                   : { delay: 0.5, duration: 0.5 }
               }
@@ -163,8 +163,7 @@ const Main = () => {
                   src={promosList[promoInd].promoImg}
                   alt={promosList[promoInd].promoTitle}
                   className='main-promo-pic'
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
+                  setIsPicLoading={setIsPicLoading}
                   style={
                     settings &&
                     settings.backgroundColor && {

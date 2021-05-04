@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer, useCallback } from 'react';
 import { promosReducer, promosInitialState } from './promosReducer';
 import { useHttpClient } from '../../hooks/http-hook';
-
 import { useHistory } from 'react-router-dom';
 const PromosContext = createContext();
 export const usePromosContext = () => useContext(PromosContext);
@@ -136,6 +135,7 @@ export const PromosProvider = ({ children }) => {
         errorMessage: state.errorMessage,
         message: state.message,
         emptyMessages,
+        isLoading,
       }}
     >
       {children}

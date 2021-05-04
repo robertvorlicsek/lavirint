@@ -35,7 +35,7 @@ const SettingsPage = () => {
   const [currentBackground, setCurrentBackground] = useState(null);
   const [currentMenuBackground, setCurrentMenuBackground] = useState(null);
   const [isMessage, setIsMessage] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPicLoading, setIsPicLoading] = useState(true);
   const [submitNow, setSubmitNow] = useState(false);
   const [textColor, setTextColor] = useState({
     r: '255',
@@ -123,7 +123,7 @@ const SettingsPage = () => {
       )}
       <div
         className='settings-container opacity'
-        style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+        style={!isPicLoading ? { opacity: '1' } : { opacity: '0' }}
       >
         <h1 className='settings-title'>Podešavanja</h1>
         <form className='settings-form' onSubmit={handleSubmit(onSubmit)}>
@@ -202,8 +202,7 @@ const SettingsPage = () => {
                       src={url}
                       alt='old menu background'
                       className='settings-old-pic'
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
+                      setIsPicLoading={setIsPicLoading}
                     />
                     <button
                       onClick={() =>
@@ -272,8 +271,7 @@ const SettingsPage = () => {
                       src={url}
                       alt='old background'
                       className='settings-old-pic'
-                      isLoading={isLoading}
-                      setIsLoading={setIsLoading}
+                      setIsPicLoading={setIsPicLoading}
                     />
                     <button
                       onClick={() =>

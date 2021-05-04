@@ -21,6 +21,7 @@ const NewComic = () => {
     addComic,
     message,
     errorMessage,
+    isLoading,
   } = useComicsContext();
   const { token } = useAuthContext();
   const [label, setLabel] = useState(undefined);
@@ -75,7 +76,10 @@ const NewComic = () => {
       {isMessage && (
         <LoadingOverlay message={message} errorMessage={errorMessage} />
       )}
-      <div className='new-comic-form-container'>
+      <div
+        className='new-comic-form-container opacity'
+        style={!isLoading ? { opacity: '1' } : { opacity: '0' }}
+      >
         <h1 className='new-comic-form-title'>Upload novog stripa</h1>
         <form className='new-comic-form' onSubmit={handleSubmit(onSubmit)}>
           <label className='new-comic-label radio'>
