@@ -38,7 +38,7 @@ const getComicByComicId = async (req, res, next) => {
   }
 
   if (!comic) {
-    const error = new HttpError('Ova strip ne postoji!', 404);
+    const error = new HttpError('Ovaj strip ne postoji!', 404);
     return next(error);
   }
 

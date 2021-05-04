@@ -1,43 +1,26 @@
-import {
-  createContext,
-  useContext,
-  useReducer,
-  useCallback,
-  useRef,
-  useEffect,
-} from 'react';
+import { createContext, useContext, useReducer, useCallback } from 'react';
 import { promosReducer, promosInitialState } from './promosReducer';
+import { useHttpClient } from '../../hooks/http-hook';
+
 import { useHistory } from 'react-router-dom';
 const PromosContext = createContext();
 export const usePromosContext = () => useContext(PromosContext);
 
 // Comics context for the provider
 export const PromosProvider = ({ children }) => {
-  const activeHttpRequests = useRef([]);
   const [state, dispatch] = useReducer(promosReducer, promosInitialState);
   const history = useHistory();
-
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
-    };
-  }, []);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const getPromos = useCallback(async () => {
-    const httpAbortCtrl = new AbortController();
-    activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`/api`);
-      const data = await response.json();
-      activeHttpRequests.current = activeHttpRequests.current.filter(
-        reqCtrl => reqCtrl !== httpAbortCtrl
-      );
-      dispatch({ type: 'GET', payload: data });
+      const responseData = await sendRequest(`/api`);
+
+      dispatch({ type: 'GET', payload: responseData });
     } catch (err) {
-      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      dispatch({ type: 'ERROR_MESSAGE', payload: error });
     }
-  }, []);
+  }, [sendRequest, error]);
 
   const addPromo = (newEntry, token) => {
     if (newEntry) {
@@ -51,24 +34,15 @@ export const PromosProvider = ({ children }) => {
       }
 
       const sendPromo = async () => {
-        const httpAbortCtrl = new AbortController();
-        activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`/api/newpromo`, {
-            method: 'POST',
-            body: formData,
-            headers: { Authorization: 'Bearer ' + token },
-            signal: httpAbortCtrl.signal,
-          });
-          const responseData = await response.json();
-
-          activeHttpRequests.current = activeHttpRequests.current.filter(
-            reqCtrl => reqCtrl !== httpAbortCtrl
+          const responseData = await sendRequest(
+            `/api/newpromo`,
+            'POST',
+            formData,
+            {
+              Authorization: 'Bearer ' + token,
+            }
           );
-
-          if (!response.ok) {
-            throw new Error(responseData.message);
-          }
 
           dispatch({
             type: 'MESSAGE',
@@ -78,12 +52,13 @@ export const PromosProvider = ({ children }) => {
           dispatch({ type: 'ADD', payload: newEntry });
           history.push(`/`);
         } catch (err) {
-          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+          dispatch({ type: 'ERROR_MESSAGE', payload: error });
         }
       };
       sendPromo();
     }
   };
+
   const updatePromo = (modifiedEntry, token) => {
     if (modifiedEntry) {
       const formData = new FormData();
@@ -102,24 +77,15 @@ export const PromosProvider = ({ children }) => {
       }
 
       const sendPromo = async () => {
-        const httpAbortCtrl = new AbortController();
-        activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`/api/${modifiedEntry.id}`, {
-            method: 'PATCH',
-            body: formData,
-            headers: { Authorization: 'Bearer ' + token },
-            signal: httpAbortCtrl.signal,
-          });
-          const responseData = await response.json();
-
-          activeHttpRequests.current = activeHttpRequests.current.filter(
-            reqCtrl => reqCtrl !== httpAbortCtrl
+          const responseData = await sendRequest(
+            `/api/${modifiedEntry.id}`,
+            'PATCH',
+            formData,
+            {
+              Authorization: 'Bearer ' + token,
+            }
           );
-
-          if (!response.ok) {
-            throw new Error(responseData.message);
-          }
 
           dispatch({
             type: 'MESSAGE',
@@ -129,7 +95,7 @@ export const PromosProvider = ({ children }) => {
           dispatch({ type: 'UPDATE', payload: modifiedEntry });
           history.push(`/`);
         } catch (err) {
-          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+          dispatch({ type: 'ERROR_MESSAGE', payload: error });
         }
       };
       sendPromo();
@@ -141,28 +107,14 @@ export const PromosProvider = ({ children }) => {
   }, []);
 
   const deletePromo = async (id, token) => {
-    const httpAbortCtrl = new AbortController();
-    activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`/api/${id}`, {
-        method: 'DELETE',
-        body: null,
-        headers: { Authorization: 'Bearer ' + token },
-        signal: httpAbortCtrl.signal,
+      const responseData = await sendRequest(`/api/${id}`, 'DELETE', null, {
+        Authorization: 'Bearer ' + token,
       });
-      const resMessage = await response.json();
 
-      activeHttpRequests.current = activeHttpRequests.current.filter(
-        reqCtrl => reqCtrl !== httpAbortCtrl
-      );
-
-      if (!response.ok) {
-        throw new Error(resMessage.message);
-      }
-
-      dispatch({ type: 'MESSAGE', payload: resMessage.message });
+      dispatch({ type: 'MESSAGE', payload: responseData.message });
     } catch (err) {
-      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      dispatch({ type: 'ERROR_MESSAGE', payload: error });
     }
     dispatch({ type: 'REMOVE', payload: id });
   };

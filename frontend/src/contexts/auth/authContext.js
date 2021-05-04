@@ -3,9 +3,9 @@ import {
   createContext,
   useReducer,
   useContext,
-  useRef,
   useCallback,
 } from 'react';
+import { useHttpClient } from '../../hooks/http-hook';
 import { authReducer, authInitialState } from './authReducer';
 import { useHistory } from 'react-router-dom';
 
@@ -14,16 +14,9 @@ export const useAuthContext = () => useContext(AuthContext);
 
 // Auth context for the provider
 export const AuthProvider = ({ children }) => {
-  const activeHttpRequests = useRef([]);
   const [state, dispatch] = useReducer(authReducer, authInitialState);
   const history = useHistory();
-
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
-    };
-  }, []);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
@@ -40,31 +33,20 @@ export const AuthProvider = ({ children }) => {
     const mode =
       // 'signup';
       'login';
-    const httpAbortCtrl = new AbortController();
-    activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`/api/users/${mode}`, {
-        method: 'POST',
-        body: JSON.stringify(authData),
-        headers: {
+      const responseData = await sendRequest(
+        `/api/users/${mode}`,
+        'POST',
+        JSON.stringify(authData),
+        {
           'Content-Type': 'application/json',
-        },
-        signal: httpAbortCtrl.signal,
-      });
-      const responseData = await response.json();
-
-      activeHttpRequests.current = activeHttpRequests.current.filter(
-        reqCtrl => reqCtrl !== httpAbortCtrl
+        }
       );
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
 
       dispatch({ type: 'AUTH', payload: responseData });
       history.push(`/`);
     } catch (err) {
-      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      dispatch({ type: 'ERROR_MESSAGE', payload: error });
     }
   };
 

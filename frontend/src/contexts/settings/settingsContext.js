@@ -3,9 +3,9 @@ import {
   useContext,
   useReducer,
   useCallback,
-  useRef,
   useEffect,
 } from 'react';
+import { useHttpClient } from '../../hooks/http-hook';
 import { settingsReducer, settingsInitialState } from './settingsReducer';
 import { useHistory, useLocation } from 'react-router-dom';
 const SettingsContext = createContext();
@@ -13,32 +13,19 @@ export const useSettingsContext = () => useContext(SettingsContext);
 
 // Comics context for the provider
 export const SettingsProvider = ({ children }) => {
-  const activeHttpRequests = useRef([]);
   const [state, dispatch] = useReducer(settingsReducer, settingsInitialState);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
-    };
-  }, []);
-
   const getSettings = useCallback(async () => {
-    const httpAbortCtrl = new AbortController();
-    activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`/api/settings`);
-      const data = await response.json();
-      activeHttpRequests.current = activeHttpRequests.current.filter(
-        reqCtrl => reqCtrl !== httpAbortCtrl
-      );
-      dispatch({ type: 'GET', payload: data });
+      const responseData = await sendRequest(`/api/settings`);
+      dispatch({ type: 'GET', payload: responseData });
     } catch (err) {
-      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      dispatch({ type: 'ERROR_MESSAGE', payload: error });
     }
-  }, []);
+  }, [sendRequest, error]);
 
   useEffect(() => {
     getSettings();
@@ -114,24 +101,15 @@ export const SettingsProvider = ({ children }) => {
       }
 
       const sendSettings = async () => {
-        const httpAbortCtrl = new AbortController();
-        activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`/api/settings`, {
-            method: 'PATCH',
-            body: formData,
-            headers: { Authorization: 'Bearer ' + token },
-            signal: httpAbortCtrl.signal,
-          });
-          const responseData = await response.json();
-
-          activeHttpRequests.current = activeHttpRequests.current.filter(
-            reqCtrl => reqCtrl !== httpAbortCtrl
+          const responseData = await sendRequest(
+            `/api/settings`,
+            'PATCH',
+            formData,
+            {
+              Authorization: 'Bearer ' + token,
+            }
           );
-
-          if (!response.ok) {
-            throw new Error(responseData.message);
-          }
 
           dispatch({
             type: 'MESSAGE',
@@ -148,36 +126,6 @@ export const SettingsProvider = ({ children }) => {
       sendSettings();
     }
   };
-
-  // const setPromoAsFirst = useCallback(id => {
-  //   dispatch({ type: 'SET_FIRST', payload: id });
-  // }, []);
-
-  // const deletePromo = async id => {
-  //   const httpAbortCtrl = new AbortController();
-  //   activeHttpRequests.current.push(httpAbortCtrl);
-  //   try {
-  //     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/promo/${id}`, {
-  //       method: 'DELETE',
-  //       body: null,
-  //       signal: httpAbortCtrl.signal,
-  //     });
-  //     const resMessage = await response.json();
-
-  //     activeHttpRequests.current = activeHttpRequests.current.filter(
-  //       reqCtrl => reqCtrl !== httpAbortCtrl
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error(resMessage.message);
-  //     }
-
-  //     dispatch({ type: 'MESSAGE', payload: resMessage.message });
-  //   } catch (err) {
-  //     dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-  //   }
-  //   dispatch({ type: 'REMOVE', payload: id });
-  // };
 
   const emptyMessages = useCallback(
     () => dispatch({ type: 'EMPTY_MESSAGES' }),

@@ -1,11 +1,5 @@
-import {
-  createContext,
-  useContext,
-  useReducer,
-  useCallback,
-  useRef,
-  useEffect,
-} from 'react';
+import { createContext, useContext, useReducer, useCallback } from 'react';
+import { useHttpClient } from '../../hooks/http-hook';
 import { comicsReducer, comicsInitialState } from './comicsReducer';
 import { useHistory } from 'react-router-dom';
 const ComicsContext = createContext();
@@ -13,80 +7,58 @@ export const useComicsContext = () => useContext(ComicsContext);
 
 // Comics context for the provider
 export const ComicsProvider = ({ children }) => {
-  const activeHttpRequests = useRef([]);
   const [state, dispatch] = useReducer(comicsReducer, comicsInitialState);
   const history = useHistory();
-
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
-    };
-  }, []);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const getComics = useCallback(async () => {
-    const httpAbortCtrl = new AbortController();
-    activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`/api/comics`);
-      const data = await response.json();
-      activeHttpRequests.current = activeHttpRequests.current.filter(
-        reqCtrl => reqCtrl !== httpAbortCtrl
-      );
-      dispatch({ type: 'GET', payload: data });
+      const responseData = await sendRequest(`/api/comics`);
+
+      dispatch({ type: 'GET', payload: responseData });
     } catch (err) {
-      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      dispatch({ type: 'ERROR_MESSAGE', payload: error });
     }
-  }, []);
+  }, [sendRequest, error]);
 
   const getComicsByEditionId = useCallback(
     paramEdId => {
       let edId = state.editionId || paramEdId;
       const fetchEditions = async () => {
-        const httpAbortCtrl = new AbortController();
-        activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`/api/comics/editions/${edId}`);
-          const responseData = await response.json();
-          activeHttpRequests.current = activeHttpRequests.current.filter(
-            reqCtrl => reqCtrl !== httpAbortCtrl
+          const responseData = await sendRequest(
+            `/api/comics/editions/${edId}`
           );
-          if (!response.ok) {
-            throw new Error(responseData.message);
-          }
           dispatch({ type: 'GET_COMICS_BY_EDITION_ID', payload: responseData });
         } catch (err) {
-          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+          dispatch({ type: 'ERROR_MESSAGE', payload: error });
         }
       };
       fetchEditions();
     },
-    [state.editionId]
+    [state.editionId, sendRequest, error]
   );
 
-  const getComicByComicId = useCallback(paramCId => {
-    const fetchComic = async () => {
-      const httpAbortCtrl = new AbortController();
-      activeHttpRequests.current.push(httpAbortCtrl);
-      try {
-        const response = await fetch(`/api/comics/${paramCId}`);
-        const responseData = await response.json();
-        activeHttpRequests.current = activeHttpRequests.current.filter(
-          reqCtrl => reqCtrl !== httpAbortCtrl
-        );
-        if (!response.ok) {
-          throw new Error(responseData.message);
+  const getComicByComicId = useCallback(
+    paramCId => {
+      const fetchComic = async () => {
+        try {
+          const responseData = await sendRequest(`/api/comics/${paramCId}`);
+
+          dispatch({
+            type: 'GET_COMIC_BY_COMIC_ID',
+            payload: responseData.comic,
+          });
+        } catch (err) {
+          console.log(error);
+          dispatch({ type: 'ERROR_MESSAGE', payload: error });
+          window.history.back();
         }
-        dispatch({
-          type: 'GET_COMIC_BY_COMIC_ID',
-          payload: responseData.comic,
-        });
-      } catch (err) {
-        dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-      }
-    };
-    fetchComic();
-  }, []);
+      };
+      fetchComic();
+    },
+    [sendRequest, error]
+  );
 
   const getEditionId = editionId =>
     dispatch({ type: 'GET_EDITION_ID', payload: editionId });
@@ -138,24 +110,15 @@ export const ComicsProvider = ({ children }) => {
       // const info = formData.get('info');
 
       const sendComic = async () => {
-        const httpAbortCtrl = new AbortController();
-        activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`/api/comics/newcomic`, {
-            method: 'POST',
-            body: formData,
-            headers: { Authorization: 'Bearer ' + token },
-            signal: httpAbortCtrl.signal,
-          });
-          const responseData = await response.json();
-
-          activeHttpRequests.current = activeHttpRequests.current.filter(
-            reqCtrl => reqCtrl !== httpAbortCtrl
+          const responseData = await sendRequest(
+            `/api/comics/newcomic`,
+            'POST',
+            formData,
+            {
+              Authorization: 'Bearer ' + token,
+            }
           );
-
-          if (!response.ok) {
-            throw new Error(responseData.message);
-          }
 
           console.log(`successfully uploaded the comic`);
 
@@ -168,8 +131,8 @@ export const ComicsProvider = ({ children }) => {
             ? history.push(`/editions/${newEntry.editionId}`)
             : history.push(`/editions`);
         } catch (err) {
-          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
-          console.log(err);
+          dispatch({ type: 'ERROR_MESSAGE', payload: error });
+          console.log(error);
         }
       };
       sendComic();
@@ -232,24 +195,15 @@ export const ComicsProvider = ({ children }) => {
       // console.log('imgs: ', images, 'editionId: ', editionId, 'info: ', info);
 
       const updateComic = async () => {
-        const httpAbortCtrl = new AbortController();
-        activeHttpRequests.current.push(httpAbortCtrl);
         try {
-          const response = await fetch(`/api/comics/${modifiedEntry.cid}`, {
-            method: 'PATCH',
-            body: formData,
-            headers: { Authorization: 'Bearer ' + token },
-            signal: httpAbortCtrl.signal,
-          });
-          const responseData = await response.json();
-
-          activeHttpRequests.current = activeHttpRequests.current.filter(
-            reqCtrl => reqCtrl !== httpAbortCtrl
+          const responseData = await sendRequest(
+            `/api/comics/${modifiedEntry.cid}`,
+            'PATCH',
+            formData,
+            {
+              Authorization: 'Bearer ' + token,
+            }
           );
-
-          if (!response.ok) {
-            throw new Error(responseData.message);
-          }
 
           console.log(`strip je uspešno apdejtovan`);
 
@@ -260,7 +214,7 @@ export const ComicsProvider = ({ children }) => {
           dispatch({ type: 'UPDATE', payload: modifiedEntry });
           history.push(`/comics/${modifiedEntry.cid}`);
         } catch (err) {
-          dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+          dispatch({ type: 'ERROR_MESSAGE', payload: error });
           console.log(err);
         }
       };
@@ -269,33 +223,25 @@ export const ComicsProvider = ({ children }) => {
   };
 
   const removeComic = async (id, token) => {
-    const httpAbortCtrl = new AbortController();
-    activeHttpRequests.current.push(httpAbortCtrl);
     try {
-      const response = await fetch(`/api/comics/${id}`, {
-        method: 'DELETE',
-        body: null,
-        headers: { Authorization: 'Bearer ' + token },
-        signal: httpAbortCtrl.signal,
-      });
-      const resMessage = await response.json();
-
-      activeHttpRequests.current = activeHttpRequests.current.filter(
-        reqCtrl => reqCtrl !== httpAbortCtrl
+      const responseData = await sendRequest(
+        `/api/comics/${id}`,
+        'DELETE',
+        null,
+        {
+          Authorization: 'Bearer ' + token,
+        }
       );
 
-      if (!response.ok) {
-        throw new Error(resMessage.message);
-      }
-
-      dispatch({ type: 'MESSAGE', payload: resMessage.message });
+      dispatch({ type: 'MESSAGE', payload: responseData.message });
       // proveriti sta se desi ako nema editionId-a
 
       state.editionList.length === 1
         ? history.push(`/editions`)
         : history.push(`/editions/${state.editionId}`);
     } catch (err) {
-      dispatch({ type: 'ERROR_MESSAGE', payload: err.message });
+      console.log(error);
+      dispatch({ type: 'ERROR_MESSAGE', payload: error });
       history.push(`/editions`);
     }
     dispatch({ type: 'REMOVE', payload: id });
