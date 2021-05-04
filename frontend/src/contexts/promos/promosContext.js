@@ -9,7 +9,12 @@ export const usePromosContext = () => useContext(PromosContext);
 export const PromosProvider = ({ children }) => {
   const [state, dispatch] = useReducer(promosReducer, promosInitialState);
   const history = useHistory();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const {
+    isLoading,
+    error,
+    sendRequest,
+    // clearError
+  } = useHttpClient();
 
   const getPromos = useCallback(async () => {
     try {

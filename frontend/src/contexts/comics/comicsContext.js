@@ -9,7 +9,12 @@ export const useComicsContext = () => useContext(ComicsContext);
 export const ComicsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(comicsReducer, comicsInitialState);
   const history = useHistory();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const {
+    isLoading,
+    error,
+    sendRequest,
+    // clearError
+  } = useHttpClient();
 
   const getComics = useCallback(async () => {
     try {

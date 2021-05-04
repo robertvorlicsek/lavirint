@@ -14,7 +14,12 @@ export const useSettingsContext = () => useContext(SettingsContext);
 // Comics context for the provider
 export const SettingsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(settingsReducer, settingsInitialState);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const {
+    isLoading,
+    error,
+    sendRequest,
+    // clearError
+  } = useHttpClient();
   const history = useHistory();
   const location = useLocation();
 

@@ -16,7 +16,12 @@ export const useAuthContext = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, authInitialState);
   const history = useHistory();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const {
+    isLoading,
+    error,
+    sendRequest,
+    //  clearError
+  } = useHttpClient();
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
