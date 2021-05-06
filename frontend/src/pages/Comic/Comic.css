@@ -67,10 +67,10 @@
 
 .second-comic-image-container {
   width: 50%;
-
   transition: all 0.2s;
   cursor: pointer;
   margin-right: 1rem;
+  margin-bottom: 5rem;
 }
 
 .second-comic-image-container:hover {
@@ -79,11 +79,10 @@
 
 .third-comic-image-container {
   width: 50%;
-  /* max-height: 40%; */
-
   transition: all 0.2s;
   cursor: pointer;
   margin-left: 1rem;
+  margin-bottom: 5rem;
 }
 
 .third-comic-image-container:hover {
@@ -132,18 +131,20 @@
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
-    /* margin-top: 1rem; */
   }
 
   .second-comic-image-container {
     margin-right: 0.1rem;
+    margin-bottom: 0;
   }
 
   .third-comic-image-container {
     margin-left: 0.1rem;
+    margin-bottom: 0;
   }
   .comic-description-container {
     width: 100%;
+    padding-bottom: 5rem;
   }
   .comic-description {
     padding-left: 10%;

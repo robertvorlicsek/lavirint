@@ -61,13 +61,12 @@ const Editions = () => {
         uniqueEditions.map(
           (comic, i) =>
             comic.logo && (
-              <Link
-                key={i}
-                className='edition-link'
-                to={`/editions/${comic.editionId}`}
-                onClick={() => getEditionId(comic.editionId)}
-              >
-                <div className='edition-container '>
+              <div className='edition-container' key={i}>
+                <Link
+                  className='edition-link'
+                  to={`/editions/${comic.editionId}`}
+                  onClick={() => getEditionId(comic.editionId)}
+                >
                   <div className='edition-logo-container'>
                     <Image
                       src={comic.logo}
@@ -75,9 +74,9 @@ const Editions = () => {
                       className='edition-logo'
                       setIsPicLoading={setIsPicLoading}
                     />
-                  </div>
-                </div>
-              </Link>
+                  </div>{' '}
+                </Link>
+              </div>
             )
         )}
     </div>

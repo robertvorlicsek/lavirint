@@ -130,6 +130,7 @@ const UpdateComic = () => {
                 Ako edicija već postoji, odaberi iz padajućeg menija:
                 <select
                   value={label}
+                  defaultValue={comic && comic.editionId}
                   name='editionId'
                   onChange={handleInputOption}
                   className='update-comic-input comic-form-hover update-comic-input-padding'
@@ -139,15 +140,7 @@ const UpdateComic = () => {
                 >
                   {uniqueEditionIds.map((c, i) => {
                     return (
-                      <option
-                        key={i}
-                        id={i}
-                        selected={
-                          comic.editionId === c.editionId && comic.editionId
-                        }
-                        value={c.editionId}
-                        name={c.title}
-                      >
+                      <option key={i} id={i} value={c.editionId} name={c.title}>
                         {c.title}
                       </option>
                     );
@@ -380,7 +373,7 @@ const UpdateComic = () => {
               className='update-comic-submit'
               onClick={() => setSubmit(true)}
             >
-              Submit
+              Pošalji
             </button>
           </form>
         )}

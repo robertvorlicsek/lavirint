@@ -299,7 +299,7 @@ const NewComic = () => {
             className='new-comic-submit'
             onClick={() => setSubmit(true)}
           >
-            Submit
+            Pošalji
           </button>
         </form>
       </div>

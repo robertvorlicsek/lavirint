@@ -67,7 +67,13 @@ const SettingsPage = () => {
       });
     settings.textColor && setTextColor(settings.textColor);
     settings.backgroundColor && setBackgroundColor(settings.backgroundColor);
-  }, [settings]);
+    settings.nrOfPromos &&
+      setNewNrOfPromos(
+        settings.nrOfPromos > promosList.length
+          ? promosList.length
+          : settings.nrOfPromos
+      );
+  }, [settings, promosList]);
 
   const onSubmit = data => {
     if (submitNow) {
@@ -138,9 +144,10 @@ const SettingsPage = () => {
               type='number'
               name='nrOfPromos'
               defaultValue={
-                settings.nrOfPromos > promosList.length
-                  ? promosList.length
-                  : settings.nrOfPromos
+                // settings.nrOfPromos > promosList.length
+                //   ? promosList.length
+                //   : settings.nrOfPromos
+                newNrOfPromos
               }
               className='settings-input settings-hover'
               onChange={e => setNewNrOfPromos(e.target.value)}
@@ -331,7 +338,7 @@ const SettingsPage = () => {
             className='settings-submit'
             onClick={() => setSubmitNow(true)}
           >
-            Submit
+            Pošalji
           </button>
         </form>
       </div>

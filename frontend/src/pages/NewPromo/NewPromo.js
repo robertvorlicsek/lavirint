@@ -185,7 +185,7 @@ const NewPromo = () => {
             className='new-promo-submit'
             onClick={() => setSubmit(true)}
           >
-            Submit
+            Pošalji
           </button>
         </form>
       </div>

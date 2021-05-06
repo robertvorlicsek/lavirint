@@ -6,21 +6,25 @@
   align-content: flex-start;
   width: 100%;
   height: 100vh;
-  padding: 13vh 5% 5% 5%;
-}
-
-.edition-link {
-  text-decoration: none;
+  padding: 14vh 5%;
 }
 
 .edition-container {
   flex-direction: column;
 }
 
+.edition-container:last-child {
+  padding-bottom: 5rem;
+}
+
+.edition-link {
+  text-decoration: none;
+}
+
 .edition-logo-container {
   margin: 1% 1% 0 1%;
   width: 200px;
-  height: 100px;
+  height: auto;
 }
 
 .edition-logo {

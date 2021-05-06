@@ -208,7 +208,7 @@ const UpdatePromo = () => {
             className='update-promo-submit'
             onClick={() => setDisableSubmit(false)}
           >
-            Submit
+            Pošalji
           </button>
         </form>
       </div>
