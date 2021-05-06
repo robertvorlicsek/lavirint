@@ -11,6 +11,11 @@
 
 .edition-container {
   flex-direction: column;
+  transition: all 0.2s;
+}
+
+.edition-container:hover {
+  filter: brightness(0.5);
 }
 
 .edition-container:last-child {

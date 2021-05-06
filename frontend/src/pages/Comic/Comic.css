@@ -36,7 +36,7 @@
   transition: all 0.2s;
 }
 .comic-image:hover {
-  opacity: 0.6;
+  filter: brightness(0.5);
 }
 
 .comic-images-container {
