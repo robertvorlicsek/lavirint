@@ -87,12 +87,7 @@
 }
 
 .news-item-edit-button {
-  width: fit-content;
-  position: absolute;
-  top: 5rem;
-  right: 0;
-  padding: 0 1rem;
-  width: 5rem !important;
+  top: 0.25rem !important;
 }
 
 @media only screen and (max-width: 938px) {

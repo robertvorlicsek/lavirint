@@ -82,9 +82,17 @@ const Editions = () => {
                 <Fragment>
                   <button
                     onClick={() => history.push(`/comics/edit/${comic.id}`)}
-                    className='yellow-button'
+                    className='yellow-button three-dots-top'
                   >
-                    Edit stripa
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '-0.38rem',
+                        left: '0.68rem',
+                      }}
+                    >
+                      &hellip;
+                    </span>
                   </button>
                   <button
                     onClick={() => removeComic(comic.id, token)}

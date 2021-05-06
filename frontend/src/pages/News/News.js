@@ -86,10 +86,18 @@ const News = () => {
                     <Fragment>
                       <button
                         onClick={() => history.push(`/promo/edit/${p.id}`)}
-                        className='yellow-button news-item-edit-button'
+                        className='yellow-button three-dots-top news-item-edit-button'
                         disabled={promosList.length === 1}
                       >
-                        Edituj
+                        <span
+                          style={{
+                            position: 'absolute',
+                            top: '-0.38rem',
+                            left: '0.68rem',
+                          }}
+                        >
+                          &hellip;
+                        </span>
                       </button>
                       <button
                         onClick={() => deletePromo(p.id, token)}
