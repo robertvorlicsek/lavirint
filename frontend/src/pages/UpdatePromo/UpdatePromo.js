@@ -62,6 +62,10 @@ const UpdatePromo = () => {
     }
   };
 
+  const reload = () => {
+    window.location.reload();
+  };
+
   const checkAvailability = e => {
     setNotAvailableNr(
       Array.from(takenNr).includes(e.target.value) &&
@@ -110,7 +114,7 @@ const UpdatePromo = () => {
               {promosList && `Već zauzeti brojevi: ${takenNr}`}
             </span>
             <input
-              defaultValue={editItem.nr}
+              defaultValue={editItem && editItem.nr}
               type='number'
               name='nr'
               onChange={e => checkAvailability(e)}
@@ -129,7 +133,9 @@ const UpdatePromo = () => {
               onChange={e => setTodaysDate(e.target.value)}
               type='date'
               name='promoDate'
-              value={todaysDate || currentDate(editItem.promoDate)}
+              value={
+                todaysDate || (editItem && currentDate(editItem.promoDate))
+              }
               className='update-promo-input promo-form-hover'
               ref={register({
                 required: true,
@@ -139,7 +145,7 @@ const UpdatePromo = () => {
           <label className='settings-label'>
             Stara promo slika:
             <Image
-              src={editItem.promoImg}
+              src={editItem && editItem.promoImg}
               alt='old background'
               className='old-promo-pic'
               setIsPicLoading={setIsPicLoading}
@@ -165,7 +171,7 @@ const UpdatePromo = () => {
             })}
             className='promo-form-hover'
             onChange={e => setMainTitle(e.target.value)}
-            defaultValue={editItem.promoTitle}
+            defaultValue={editItem && editItem.promoTitle}
             name='promoTitle'
             rows='1'
             cols='30'
@@ -180,7 +186,7 @@ const UpdatePromo = () => {
             Ostatak posle toga će se pojaviti samo u "vestima".
           </label>
           <textarea
-            defaultValue={editItem.promoText}
+            defaultValue={editItem && editItem.promoText}
             className='promo-form-hover'
             id='text-editor-text'
             ref={register({

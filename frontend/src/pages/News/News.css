@@ -150,17 +150,8 @@
     text-align: center;
   }
 
-  .news-item-delete-button {
-    top: 0 !important;
-  }
-
+  .news-item-delete-button,
   .news-item-edit-button {
-    width: fit-content;
-    position: absolute;
-    top: auto;
-    bottom: -6rem;
-    right: calc(50% - 2.5rem);
-    padding: 0 1rem;
-    width: 5rem !important;
+    top: 0 !important;
   }
 }

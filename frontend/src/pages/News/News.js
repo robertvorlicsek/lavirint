@@ -93,7 +93,7 @@ const News = () => {
                           style={{
                             position: 'absolute',
                             top: '-0.38rem',
-                            left: '0.68rem',
+                            left: '0.65rem',
                           }}
                         >
                           &hellip;
