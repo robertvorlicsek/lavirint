@@ -62,10 +62,6 @@ const UpdatePromo = () => {
     }
   };
 
-  const reload = () => {
-    window.location.reload();
-  };
-
   const checkAvailability = e => {
     setNotAvailableNr(
       Array.from(takenNr).includes(e.target.value) &&
