@@ -45,7 +45,7 @@ export const SettingsProvider = ({ children }) => {
     if (!!intro) {
       disableIntro(intro.disableIntro);
     }
-    if (location.pathname !== '/') {
+    if (location.pathname !== '/promo') {
       disableIntro(true);
     }
     let disableIntroTimer = setTimeout(() => {

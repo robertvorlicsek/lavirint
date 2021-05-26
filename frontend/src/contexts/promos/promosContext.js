@@ -18,7 +18,7 @@ export const PromosProvider = ({ children }) => {
 
   const getPromos = useCallback(async () => {
     try {
-      const responseData = await sendRequest(`/api`);
+      const responseData = await sendRequest(`/api/promo`);
 
       dispatch({ type: 'GET', payload: responseData });
     } catch (err) {
@@ -40,7 +40,7 @@ export const PromosProvider = ({ children }) => {
       const sendPromo = async () => {
         try {
           const responseData = await sendRequest(
-            `/api/newpromo`,
+            `/api/promo/newpromo`,
             'POST',
             formData,
             {
@@ -54,7 +54,7 @@ export const PromosProvider = ({ children }) => {
           });
 
           dispatch({ type: 'ADD', payload: newEntry });
-          history.push(`/`);
+          history.push(`/promo`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: error });
         }
@@ -83,7 +83,7 @@ export const PromosProvider = ({ children }) => {
       const sendPromo = async () => {
         try {
           const responseData = await sendRequest(
-            `/api/${modifiedEntry.id}`,
+            `/api/promo/${modifiedEntry.id}`,
             'PATCH',
             formData,
             {
@@ -97,7 +97,7 @@ export const PromosProvider = ({ children }) => {
           });
 
           dispatch({ type: 'UPDATE', payload: modifiedEntry });
-          history.push(`/`);
+          history.push(`/promo`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: error });
         }
@@ -112,9 +112,14 @@ export const PromosProvider = ({ children }) => {
 
   const deletePromo = async (id, token) => {
     try {
-      const responseData = await sendRequest(`/api/${id}`, 'DELETE', null, {
-        Authorization: 'Bearer ' + token,
-      });
+      const responseData = await sendRequest(
+        `/api/promo/${id}`,
+        'DELETE',
+        null,
+        {
+          Authorization: 'Bearer ' + token,
+        }
+      );
 
       dispatch({ type: 'MESSAGE', payload: responseData.message });
     } catch (err) {

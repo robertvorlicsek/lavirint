@@ -49,7 +49,7 @@ const App = () => {
             }
           }
         >
-          {(!token && location.pathname === '/' && !introDisabled) ||
+          {(!token && location.pathname === '/promo' && !introDisabled) ||
           (!token && !introDisabled) ? (
             <motion.div
               style={{ originX: 0.5 }}

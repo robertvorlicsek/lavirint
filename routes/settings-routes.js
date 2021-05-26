@@ -8,7 +8,7 @@ const checkAuth = require('../middleware/check-auth');
 
 router.get('/', settingsControllers.getSettings);
 
-// router.use(checkAuth);
+router.use(checkAuth);
 
 // router.post(
 //   '/newsettings',

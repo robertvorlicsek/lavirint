@@ -67,7 +67,7 @@ const Routes = () => {
             <News />
           </PromosProvider>
         </Route>
-        <Route path='/' exact>
+        <Route path='/promo' exact>
           <PromosProvider>
             <Main />
           </PromosProvider>
@@ -100,7 +100,7 @@ const Routes = () => {
             <News />
           </PromosProvider>
         </Route>
-        <Route path='/' exact>
+        <Route path='/promo' exact>
           <PromosProvider>
             <Main />
           </PromosProvider>

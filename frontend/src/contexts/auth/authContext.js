@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
       );
 
       dispatch({ type: 'AUTH', payload: responseData });
-      history.push(`/`);
+      history.push(`/promo`);
     } catch (err) {
       dispatch({ type: 'ERROR_MESSAGE', payload: error });
     }
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(() => {
     dispatch({ type: 'LOGOUT', payload: 'Logout uspešan' });
-    history.push(`/`);
+    history.push(`/promo`);
   }, [history]);
 
   useEffect(() => {
