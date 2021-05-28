@@ -9,19 +9,34 @@ const Editions = () => {
   const {
     comicsList,
     getEditionId,
-    getComics,
+    // getComics,
+    getEditionsByEditionId,
+    editionsList,
     message,
     emptyMessages,
     errorMessage,
     isLoading,
   } = useComicsContext();
-  const [uniqueEditions, setUniqueEditions] = useState([]);
+  // const [uniqueEditions, setUniqueEditions] = useState([]);
   const [isPicLoading, setIsPicLoading] = useState(true);
   const [isMessage, setIsMessage] = useState(false);
 
   useEffect(() => {
-    getComics();
-  }, [getComics]);
+    getEditionsByEditionId();
+  }, [getEditionsByEditionId]);
+
+  // useEffect(() => {
+  //   getComics();
+  // }, [getComics]);
+
+  // useEffect(() => {
+  //   if (comicsList) {
+  //     const filtered = comicsList.filter(
+  //       (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
+  //     );
+  //     setUniqueEditions(filtered);
+  //   }
+  // }, [comicsList]);
 
   useEffect(() => {
     let time;
@@ -31,16 +46,12 @@ const Editions = () => {
       emptyMessages();
       setIsMessage(false);
     }, time);
-    if (comicsList) {
-      const filtered = comicsList.filter(
-        (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
-      );
-      setUniqueEditions(filtered);
-    }
     return () => {
       clearTimeout(timeout);
     };
-  }, [comicsList, message, errorMessage, emptyMessages]);
+  }, [message, errorMessage, emptyMessages]);
+
+  // console.log(uniqueEditions);
 
   return (
     <div
@@ -58,7 +69,7 @@ const Editions = () => {
         <div style={{ opacity: 1 }}>Još nema nijedne edicije!</div>
       )}
       {comicsList &&
-        uniqueEditions.map(
+        editionsList.map(
           (comic, i) =>
             comic.logo && (
               <div className='edition-container' key={i}>

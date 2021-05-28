@@ -3,6 +3,7 @@ export const comicsInitialState = {
   editionId: '',
   comic: {},
   editionList: [],
+  editionsList: [],
   errorMessage: '',
   message: '',
 };
@@ -29,6 +30,11 @@ export const comicsReducer = (state, { type, payload }) => {
         ...state,
         editionList: payload.editions,
       };
+    case 'GET_EDITIONS_BY_EDITION_ID':
+      return {
+        ...state,
+        editionsList: payload.editions,
+      };
     case 'ADD':
       if (state.comicsList) {
         return {
@@ -43,7 +49,7 @@ export const comicsReducer = (state, { type, payload }) => {
       }
     case 'UPDATE':
       const newComicList = (state.comicsList[
-        state.comicsList.findIndex(el => el.id === payload.modifiedEntry.id)
+        state.comicsList.findIndex(el => el.id === payload.id)
       ] = payload);
       return {
         ...state,
@@ -51,12 +57,12 @@ export const comicsReducer = (state, { type, payload }) => {
       };
 
     case 'REMOVE':
-      const indexInComic = state.comicsList.findIndex(c => c.id === payload);
-      const newComicsList = [...state.comicsList];
-      newComicsList.splice(indexInComic, 1);
+      // const indexInComic = state.comicsList.findIndex(c => c.id === payload);
+      // const newComicsList = [...state.comicsList];
+      // newComicsList.splice(indexInComic, 1);
       return {
         ...state,
-        comicsList: newComicsList,
+        // comicsList: newComicsList,
       };
     case 'MESSAGE':
       return {

@@ -15,14 +15,8 @@ const NewComic = () => {
   } = useForm({
     mode: 'onChange',
   });
-  const {
-    getComics,
-    comicsList,
-    addComic,
-    message,
-    errorMessage,
-    isLoading,
-  } = useComicsContext();
+  const { getComics, comicsList, addComic, message, errorMessage, isLoading } =
+    useComicsContext();
   const { token } = useAuthContext();
   const [label, setLabel] = useState(undefined);
   const [nr, setNr] = useState(undefined);
@@ -64,6 +58,7 @@ const NewComic = () => {
 
   useEffect(() => {
     if (comicsList) {
+      console.log('comicsList: ', comicsList);
       const filtered = comicsList.filter(
         (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
       );

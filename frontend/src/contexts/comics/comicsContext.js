@@ -1,4 +1,10 @@
-import { createContext, useContext, useReducer, useCallback } from 'react';
+import {
+  createContext,
+  useContext,
+  useReducer,
+  useCallback,
+  useEffect,
+} from 'react';
 import { useHttpClient } from '../../hooks/http-hook';
 import { comicsReducer, comicsInitialState } from './comicsReducer';
 import { useHistory } from 'react-router-dom';
@@ -25,6 +31,22 @@ export const ComicsProvider = ({ children }) => {
       dispatch({ type: 'ERROR_MESSAGE', payload: error });
     }
   }, [sendRequest, error]);
+
+  useEffect(() => {
+    getComics();
+  }, [getComics]);
+
+  const getEditionsByEditionId = useCallback(async () => {
+    try {
+      const responseData = await sendRequest(`/api/comics/editions`);
+      dispatch({
+        type: 'GET_EDITIONS_BY_EDITION_ID',
+        payload: responseData,
+      });
+    } catch (err) {
+      dispatch({ type: 'ERROR_MESSAGE', payload: error });
+    }
+  }, [error, sendRequest]);
 
   const getComicsByEditionId = useCallback(
     paramEdId => {
@@ -135,10 +157,10 @@ export const ComicsProvider = ({ children }) => {
             type: 'MESSAGE',
             payload: responseData.message,
           });
-          dispatch({ type: 'ADD', payload: newEntry });
           newEntry.editionId
             ? history.push(`/editions/${newEntry.editionId}`)
             : history.push(`/editions`);
+          dispatch({ type: 'ADD', payload: newEntry });
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: error });
           console.log(error);
@@ -214,8 +236,6 @@ export const ComicsProvider = ({ children }) => {
             }
           );
 
-          console.log(`strip je uspešno apdejtovan`);
-
           dispatch({
             type: 'MESSAGE',
             payload: responseData.message,
@@ -251,7 +271,7 @@ export const ComicsProvider = ({ children }) => {
       });
       // proveriti sta se desi ako nema editionId-a
 
-      state.editionList.length === 1
+      state.editionList && state.editionList.length === 1
         ? history.push(`/editions`)
         : history.push(`/editions/${state.editionId}`);
     } catch (err) {
@@ -276,11 +296,13 @@ export const ComicsProvider = ({ children }) => {
         addComic,
         updateComic,
         removeComic,
+        getEditionsByEditionId,
         getComicsByEditionId,
         comic: state.comic,
         comicsList: state.comicsList,
         editionId: state.editionId,
         editionList: state.editionList,
+        editionsList: state.editionsList,
         errorMessage: state.errorMessage,
         message: state.message,
         emptyMessages,

@@ -7,6 +7,7 @@ const fileUpload = require('../middleware/file-upload');
 const checkAuth = require('../middleware/check-auth');
 
 router.get('/', comicsControllers.getAllComics);
+router.get('/editions', comicsControllers.getEditionsByEditionId);
 router.get('/editions/:editionId', comicsControllers.getComicsByEditionId);
 router.get('/:comicId', comicsControllers.getComicByComicId);
 

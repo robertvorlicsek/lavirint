@@ -17,10 +17,12 @@ const UpdateComic = () => {
   });
   const {
     comic,
+    getEditionsByEditionId,
     getComicByComicId,
     getComics,
     updateComic,
-    comicsList,
+    // comicsList,
+    editionsList,
     message,
     errorMessage,
     emptyMessages,
@@ -28,7 +30,7 @@ const UpdateComic = () => {
   const { token } = useAuthContext();
   const [label, setLabel] = useState(undefined);
   // const [nr, setNr] = useState(undefined);
-  const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
+  // const [uniqueEditionIds, setUniqueEditionIds] = useState([]);
   const [radioInput, setRadioInput] = useState(false);
   const [pictures, setPictures] = useState([]);
   const [logo, setLogo] = useState([]);
@@ -40,13 +42,15 @@ const UpdateComic = () => {
     setLabel(e.target.value);
   };
 
+  useEffect(() => {
+    getEditionsByEditionId();
+  }, [getEditionsByEditionId]);
+
   const onSubmit = data => {
     if (submit) {
       setIsMessage(true);
       data.cid = comic.id;
-      const newTitle = uniqueEditionIds.find(
-        id => id.editionId === data.editionId
-      );
+      const newTitle = editionsList.find(id => id.editionId === data.editionId);
       if (logo.length === 0 && data.editionId) {
         data.title = newTitle.title;
         data.logo = newTitle.logo;
@@ -93,14 +97,14 @@ const UpdateComic = () => {
     cid,
   ]);
 
-  useEffect(() => {
-    if (comicsList.length > 0) {
-      const filtered = comicsList.filter(
-        (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
-      );
-      setUniqueEditionIds(filtered);
-    }
-  }, [comicsList]);
+  // useEffect(() => {
+  //   if (comicsList && comicsList.length > 0) {
+  //     const filtered = comicsList.filter(
+  //       (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
+  //     );
+  //     setUniqueEditionIds(filtered);
+  //   }
+  // }, [comicsList]);
 
   return (
     <Fragment>
@@ -138,7 +142,7 @@ const UpdateComic = () => {
                     required: true,
                   })}
                 >
-                  {uniqueEditionIds.map((c, i) => {
+                  {editionsList.map((c, i) => {
                     return (
                       <option key={i} id={i} value={c.editionId} name={c.title}>
                         {c.title}

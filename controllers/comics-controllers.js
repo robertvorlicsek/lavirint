@@ -67,6 +67,31 @@ const getComicsByEditionId = async (req, res, next) => {
   });
 };
 
+const getEditionsByEditionId = async (req, res, next) => {
+  let editions;
+  try {
+    editions = await Comic.find();
+  } catch (err) {
+    const error = new HttpError('Nijedna edicija nije pronađena!', 500);
+    return next(error);
+  }
+
+  if (!editions || editions.length === 0) {
+    const error = new HttpError('Ova edicija (više) ne postoji!', 404);
+    return next(error);
+  }
+
+  editions = editions.filter(
+    (v, i, a) => a.findIndex(t => t.editionId === v.editionId) === i
+  );
+
+  console.log(editions);
+
+  res.json({
+    editions: editions.map(e => e.toObject({ getters: true })),
+  });
+};
+
 const createComic = async (req, res, next) => {
   const { editionId, title, nr } = req.body;
 
@@ -352,6 +377,7 @@ const deleteComic = async (req, res, next) => {
 };
 
 exports.getAllComics = getAllComics;
+exports.getEditionsByEditionId = getEditionsByEditionId;
 exports.getComicsByEditionId = getComicsByEditionId;
 exports.getComicByComicId = getComicByComicId;
 exports.createComic = createComic;
