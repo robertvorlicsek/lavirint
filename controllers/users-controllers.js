@@ -144,6 +144,36 @@ const login = async (req, res, next) => {
   });
 };
 
+// new with token switch
+const getNewToken = async (req, res, next) => {
+  let token;
+  try {
+    token = req.headers.authorization.split(' ')[1];
+    console.log('old token: ', token);
+    if (!token) {
+      throw new Error('Authentication failed!');
+    }
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+    console.log(decodedToken.userId, decodedToken.username);
+    token = jwt.sign(
+      { userId: decodedToken.userId, username: decodedToken.username },
+      process.env.JWT_KEY,
+      { expiresIn: '2h' }
+    );
+    console.log('new token: ', token);
+    res.json({
+      userId: decodedToken.userId,
+      username: decodedToken.username,
+      token: token,
+    });
+  } catch (err) {
+    const error = new HttpError('Header Bearer authentication failed!', 401);
+    return next(error);
+  }
+};
+// new with token switch
+exports.getNewToken = getNewToken;
+
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;

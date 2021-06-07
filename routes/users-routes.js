@@ -1,5 +1,6 @@
 const express = require('express');
 const { check } = require('express-validator');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
@@ -14,5 +15,9 @@ router.post(
 );
 
 router.post('/login', usersControllers.login);
+
+router.use(checkAuth);
+//new with token switch
+router.get('/gettoken', usersControllers.getNewToken);
 
 module.exports = router;

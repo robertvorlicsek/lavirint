@@ -76,6 +76,41 @@ export const AuthProvider = ({ children }) => {
     []
   );
 
+  // new with token switch
+  const fetchNewToken = useCallback(async () => {
+    if (state.token) {
+      console.log(state.token);
+      try {
+        const responseData = await sendRequest(
+          `/api/users/gettoken`,
+          'GET',
+          null,
+          {
+            Authorization: 'Bearer ' + state.token,
+          }
+        );
+        console.log(responseData);
+        dispatch({ type: 'AUTH', payload: responseData });
+      } catch (err) {
+        dispatch({ type: 'ERROR_MESSAGE', payload: error });
+      }
+    }
+  }, [error, sendRequest, state.token]);
+
+  // new with token switch
+  useEffect(() => {
+    let getNewToken = setTimeout(() => {
+      if (state.token) {
+        console.log('counting...');
+        fetchNewToken();
+      }
+    }, 10000);
+
+    return () => {
+      clearTimeout(getNewToken);
+    };
+  }, [fetchNewToken, state.token]);
+
   return (
     <AuthContext.Provider
       value={{
