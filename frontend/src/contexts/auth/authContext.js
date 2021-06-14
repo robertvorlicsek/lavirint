@@ -24,7 +24,8 @@ export const AuthProvider = ({ children }) => {
   } = useHttpClient();
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem('userData'));
+    // const storedData = JSON.parse(localStorage.getItem('userData'));
+    const storedData = JSON.parse(sessionStorage.getItem('userData'));
     if (
       storedData &&
       storedData.token &&
@@ -60,16 +61,17 @@ export const AuthProvider = ({ children }) => {
     history.push(`/promo`);
   }, [history]);
 
-  useEffect(() => {
-    let logoutTimer;
-    if (state.token && state.tokenExpirationDate) {
-      const remainingTime =
-        state.tokenExpirationDate.getTime() - new Date().getTime();
-      logoutTimer = setTimeout(logout, remainingTime);
-    } else {
-      clearTimeout(logoutTimer);
-    }
-  }, [state.token, logout, state.tokenExpirationDate]);
+  // useEffect(() => {
+  //   let logoutTimer;
+  //   // if (state.token && state.tokenExpirationDate) {
+  //   if (state.token) {
+  //     const remainingTime =
+  //       state.tokenExpirationDate.getTime() - new Date().getTime();
+  //     logoutTimer = setTimeout(logout, remainingTime);
+  //   } else {
+  //     clearTimeout(logoutTimer);
+  //   }
+  // }, [state.token, logout, state.tokenExpirationDate]);
 
   const emptyMessages = useCallback(
     () => dispatch({ type: 'EMPTY_MESSAGES' }),
