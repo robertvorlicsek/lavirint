@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
         console.log('counting...');
         fetchNewToken();
       }
-    }, 10000);
+    }, 60000);
 
     return () => {
       clearTimeout(getNewToken);

@@ -76,7 +76,7 @@ const signup = async (req, res, next) => {
     token = jwt.sign(
       { userId: createdUser.id, username: createdUser.username },
       process.env.JWT_KEY,
-      { expiresIn: '1h' }
+      { expiresIn: '70000' }
     );
   } catch (err) {
     const error = new HttpError('Signing up failed, please try again', 500);
@@ -130,7 +130,7 @@ const login = async (req, res, next) => {
     token = jwt.sign(
       { userId: existingUser.id, username: existingUser.username },
       process.env.JWT_KEY,
-      { expiresIn: '2h' }
+      { expiresIn: '70000' }
     );
   } catch (err) {
     const error = new HttpError('Login nije uspeo, pokušaj ponovo!', 500);
@@ -158,7 +158,7 @@ const getNewToken = async (req, res, next) => {
     token = jwt.sign(
       { userId: decodedToken.userId, username: decodedToken.username },
       process.env.JWT_KEY,
-      { expiresIn: '2h' }
+      { expiresIn: '70000' }
     );
     console.log('new token: ', token);
     res.json({
