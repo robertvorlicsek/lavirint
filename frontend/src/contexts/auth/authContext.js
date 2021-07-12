@@ -28,8 +28,8 @@ export const AuthProvider = ({ children }) => {
     const storedData = JSON.parse(sessionStorage.getItem('userData'));
     if (
       storedData &&
-      storedData.token &&
-      new Date(storedData.expiration) > new Date()
+      storedData.token
+      //  && new Date(storedData.expiration) > new Date()
     ) {
       dispatch({ type: 'AUTH', payload: storedData });
     }
