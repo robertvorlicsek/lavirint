@@ -313,7 +313,7 @@ const Loader = ({ scrollTop, setScrollTop }) => {
   }, [scrollTop, setScrollTop]);
 
   return (
-    <Link to='/promo'>
+    <Link to='/'>
       <div className='animated-logo-container' style={{ opacity }}>
         <svg
           xmlns='http://www.w3.org/2000/svg'

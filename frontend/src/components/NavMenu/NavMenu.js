@@ -40,7 +40,7 @@ const NavMenu = ({ pageWrapId, outerContainerId }) => {
         onStateChange={state => stateChangeHandler(state)}
         styles={styles}
       >
-        <Link onClick={closeMenu} id='promo' className='menu-item' to='/promo'>
+        <Link onClick={closeMenu} id='promo' className='menu-item' to='/'>
           Početna
         </Link>
         <Link onClick={closeMenu} id='news' className='menu-item' to='/news'>

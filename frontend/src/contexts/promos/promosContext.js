@@ -54,7 +54,7 @@ export const PromosProvider = ({ children }) => {
           });
 
           dispatch({ type: 'ADD', payload: newEntry });
-          history.push(`/promo`);
+          history.push(`/`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: error });
         }
@@ -97,7 +97,7 @@ export const PromosProvider = ({ children }) => {
           });
 
           dispatch({ type: 'UPDATE', payload: modifiedEntry });
-          history.push(`/promo`);
+          history.push(`/`);
         } catch (err) {
           dispatch({ type: 'ERROR_MESSAGE', payload: error });
         }

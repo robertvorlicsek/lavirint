@@ -1,4 +1,4 @@
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Auth from '../pages/Auth/Auth';
 import Main from '../pages/Main/Main';
 import News from '../pages/News/News';
@@ -67,13 +67,16 @@ const Routes = () => {
             <News />
           </PromosProvider>
         </Route>
-        <Route path='/promo' exact>
+        {/* <Route path='/promo' exact>
           <PromosProvider>
             <Main />
           </PromosProvider>
-        </Route>
+        </Route> */}
         <Route exact path='/'>
-          <Redirect to='/promo' />
+          {/* <Redirect to='/promo' /> */}
+          <PromosProvider>
+            <Main />
+          </PromosProvider>
         </Route>
       </Switch>
     );
@@ -103,13 +106,16 @@ const Routes = () => {
             <News />
           </PromosProvider>
         </Route>
-        <Route path='/promo' exact>
+        {/* <Route path='/promo' exact>
           <PromosProvider>
             <Main />
           </PromosProvider>
-        </Route>
+        </Route> */}
         <Route exact path='/'>
-          <Redirect to='/promo' />
+          {/* <Redirect to='/promo' /> */}
+          <PromosProvider>
+            <Main />
+          </PromosProvider>
         </Route>
       </Switch>
     );

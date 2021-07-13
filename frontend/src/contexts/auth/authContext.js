@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
       );
 
       dispatch({ type: 'AUTH', payload: responseData });
-      history.push(`/promo`);
+      history.push(`/`);
     } catch (err) {
       dispatch({ type: 'ERROR_MESSAGE', payload: error });
     }
