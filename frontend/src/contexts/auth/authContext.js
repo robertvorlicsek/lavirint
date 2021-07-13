@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(() => {
     dispatch({ type: 'LOGOUT', payload: 'Logout uspešan' });
-    history.push(`/promo`);
+    history.push(`/`);
   }, [history]);
 
   // useEffect(() => {
