@@ -157,7 +157,7 @@ const createComic = async (req, res, next) => {
     newComic.cloudinaryLogoId = await newLogo.public_id;
   }
 
-  console.log('138 - newComic with cloudinary: ', newComic);
+  console.log('newComic with cloudinary: ', newComic);
 
   if (newComic.imgs && newComic.logo) {
     try {
