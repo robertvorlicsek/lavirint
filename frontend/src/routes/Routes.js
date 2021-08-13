@@ -10,6 +10,7 @@ import NewPromo from '../pages/NewPromo/NewPromo';
 import UpdatePromo from '../pages/UpdatePromo/UpdatePromo';
 import UpdateComic from '../pages/UpdateComic/UpdateComic';
 import SettingsPage from '../pages/SettingsPage/SettingsPage';
+import PageNotFound from '../pages/PageNotFound/PageNotFound';
 import { ComicsProvider } from '../contexts/comics/comicsContext';
 import { PromosProvider } from '../contexts/promos/promosContext';
 import { useAuthContext } from '../contexts/auth/authContext';
@@ -67,17 +68,12 @@ const Routes = () => {
             <News />
           </PromosProvider>
         </Route>
-        {/* <Route path='/promo' exact>
-          <PromosProvider>
-            <Main />
-          </PromosProvider>
-        </Route> */}
         <Route exact path='/'>
-          {/* <Redirect to='/promo' /> */}
           <PromosProvider>
             <Main />
           </PromosProvider>
         </Route>
+        <Route component={PageNotFound} />
       </Switch>
     );
   } else {
@@ -106,17 +102,13 @@ const Routes = () => {
             <News />
           </PromosProvider>
         </Route>
-        {/* <Route path='/promo' exact>
-          <PromosProvider>
-            <Main />
-          </PromosProvider>
-        </Route> */}
+
         <Route exact path='/'>
-          {/* <Redirect to='/promo' /> */}
           <PromosProvider>
             <Main />
           </PromosProvider>
         </Route>
+        <Route component={PageNotFound} />
       </Switch>
     );
   }

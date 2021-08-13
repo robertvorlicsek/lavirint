@@ -6,6 +6,7 @@
   height: 1.7976rem;
   cursor: pointer;
   transition: all 0.075s ease-in-out;
+  z-index: 10;
 }
 
 /* .animated-logo-container:hover {
